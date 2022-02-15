@@ -1,0 +1,18 @@
+// FONTS LOAD SECTION
+@mixin font($fname, $fstyle, $fweight, $furl)
+	@font-face
+		font-family: $fname
+		font-style: $fstyle
+		font-weight: $fweight
+		src: url($furl) //format('ttf')
+
+@include font('Yanone Kaffeesatz', normal, 300, '../fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-Light.ttf')
+@include font('Yanone Kaffeesatz', bold, 700, '../fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-Bold.ttf')
+@include font('Yanone Kaffeesatz', normal, 400, '../fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-Regular.ttf')
+@include font('Alumni Sans', normal, 400, '../fonts/Alumni_Sans/AlumniSans-Regular.ttf')
+@include font('Alumni Sans', bold, 700, '../fonts/Alumni_Sans/AlumniSans-Bold.ttf')
+
+
+
+$YanoneKaffeesatz: 'Yanone Kaffeesatz', sans-serif;
+$AlumniSans: 'Alumni Sans', sans-serif;

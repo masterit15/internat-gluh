@@ -1,0 +1,267 @@
+.rates
+  &_dd
+    position: relative
+    width: 100%
+    max-width: 331px
+    height: 50px
+    margin-bottom: 40px
+    &_list
+      position: absolute
+      left: 0
+      top: 70px
+      width: 100%
+      height: 0
+      opacity: 0
+      overflow: hidden
+      padding: 0
+      list-style: none
+      margin: 0
+      background-color: #fff
+      border: 2px solid rgba(0, 0, 0, 0.1)
+      box-shadow: 0px 22px 38px -8px rgba(36, 29, 25, 0.21)
+      z-index: 999
+      li
+        cursor: pointer
+        padding: 5px 15px
+        &:hover
+          background-color: #F4AE86
+  &_list
+    display: flex
+    justify-content: center
+    align-items: flex-end
+    gap: 40px
+    list-style: none
+    margin-bottom: 37px
+    padding: 0
+    &_item
+      position: relative
+      display: flex
+      flex-direction: column
+      justify-content: flex-start
+      align-items: center
+      width: 300px
+      height: 470px
+      background: #FFFFFF
+      // padding: 0 30px
+      transition: all .2s ease
+      &:nth-child(1)
+        .ag-speedometer_needle
+          transform: rotate(9deg)
+          animation: .2s infinite one
+      &:nth-child(2)
+        .ag-speedometer_needle
+          transform: rotate(50deg)
+          animation: .2s infinite two 
+      &:nth-child(3)
+        .ag-speedometer_needle
+          transform: rotate(105deg)
+          animation: .2s infinite three
+      &:nth-child(4)
+        .ag-speedometer_needle
+          transform: rotate(160deg)
+          animation: .2s infinite four
+      &:nth-child(5)
+        .ag-speedometer_needle
+          animation: .2s infinite five
+      .speed_arrow
+        transition: all 0.5s ease-in-out;
+        // transform: rotate(210deg)
+        transform-origin: 44px 46.4px!important
+        &.ag-speedometer_needle
+          transition: all 0.5s ease-in-out;
+
+      &:before
+        content: ''
+        position: absolute
+        right: -20px
+        bottom: 0
+        height: 470px
+        background-color: #241D19
+        width: 2px
+        opacity: 0.1
+      &:hover
+        box-shadow: 0px 7px 38px rgba(26, 23, 18, 0.14)
+        transition: all .2s ease
+      &:last-child
+        &:before
+          display: none
+      &.popular
+        height: 500px
+        box-shadow: 0 0 0px 2px $yellow
+      &_title
+        font-family: $AlumniSans
+        font-style: normal
+        font-weight: bold
+        font-size: 36px
+        line-height: 43px
+        color: #241D19
+        margin-top: 20px
+        margin-bottom: 20px
+      &_speed
+        width: 100%
+        max-width: 240px
+        padding: 0
+        list-style: none
+        margin-bottom: 20px
+        li
+          display: flex
+          justify-content: space-between
+          align-items: center
+          span
+            font-family: $AlumniSans
+            font-style: normal
+            font-weight: 600
+            font-size: 24px
+            line-height: 29px
+            letter-spacing: 0.01em
+            color: #000000
+          & strong
+            font-family: Alumni Sans
+            font-style: normal
+            font-weight: bold
+            font-size: 22px
+            line-height: 26px
+            color: #000000
+          &.boost
+            span
+              font-family: $AlumniSans
+              font-style: normal
+              font-weight: normal
+              font-size: 24px
+              line-height: 29px
+              color: #000000
+              sup
+                font-size: 12px
+      &_price
+        width: 71px
+        height: 65px
+        display: flex
+        flex-direction: column
+        position: relative
+        margin-bottom: 11px
+        &_rub
+          position: absolute
+          left: 0
+          top: 0
+          font-family: $AlumniSans
+          font-style: normal
+          font-weight: 500
+          font-size: 24px
+          line-height: 29px
+          color: #000000 
+        &_text
+          font-family: $AlumniSans
+          font-style: normal
+          font-weight: bold
+          font-size: 48px
+          line-height: 58px
+          color: #000000
+          margin: 0px 0px 0px 15px
+          height: 43px
+        &_month
+          align-self: center
+          font-family: $AlumniSans
+          font-style: normal
+          font-weight: normal
+          font-size: 18px
+          line-height: 22px
+          display: flex
+          align-items: center
+          color: #000000
+        &_down
+          display: flex
+          justify-content: space-between
+          width: 94px
+          opacity: 0.45
+          gap: 25px
+          &_item
+            display: flex
+            justify-content: flex-start
+            flex-direction: column
+            align-items: center
+            width: 36px
+            height: 54px
+            & .rates_list_item_price
+              height: 22px
+              width: 100%
+            & .rates_list_item_price_rub
+              font-size: 12px
+              position: absolute
+            & .rates_list_item_price_text
+              font-size: 18px
+              margin: 0px 0px 0px 7px
+              line-height: 38px
+      &_btn
+        border: none
+        cursor: pointer
+        width: 193px
+        height: 48px
+        background: #F4AE86
+        box-shadow: 0px 25px 24px -15px rgba(0, 0, 0, 0.2)
+        font-family: $YanoneKaffeesatz
+        font-style: normal
+        font-weight: bold
+        font-size: 24px
+        line-height: 100%
+        color: #000000
+        margin-bottom: 20px
+  
+.popular
+  &_text
+    display: flex
+    justify-content: flex-start
+    align-items: flex-start
+    align-self: flex-start
+    // position: absolute
+    // left: 13px
+    // top: 10px
+    width: 145px
+    height: 22px
+    color: $accent
+    font-family: $YanoneKaffeesatz
+    font-style: normal
+    font-weight: bold
+    font-size: 18px
+    line-height: 21px
+    letter-spacing: 0.02em
+    gap: 5px
+    margin-top: 10px
+    margin-left: 13px
+
+
+
+@keyframes one
+  0%, 100%, 80%
+    transform: rotate(12deg)
+  50%
+    transform: rotate(8deg)
+  100%
+    transform: rotate(12deg)
+@keyframes two
+  0%, 100%, 80%
+    transform: rotate(54deg)
+  50%
+    transform: rotate(50deg)
+  100%
+    transform: rotate(54deg)
+@keyframes three
+  0%, 100%, 80%
+    transform: rotate(108deg)
+  50%
+    transform: rotate(111deg)
+  100%
+    transform: rotate(108deg)
+@keyframes four
+  0%, 100%, 80%
+    transform: rotate(168deg)
+  50%
+    transform: rotate(165deg)
+  100%
+    transform: rotate(168deg)
+@keyframes five
+  0%, 100%, 80%
+    transform: rotate(209deg)
+  50%
+    transform: rotate(204deg)
+  100%
+    transform: rotate(209deg)

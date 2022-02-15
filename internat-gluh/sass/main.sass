@@ -1,0 +1,186 @@
+@import 'utils/config'
+@import 'header'
+@import 'nav'
+@import 'footer'
+
+.wrapper
+  position: relative
+  
+
+.container
+  margin: 0 auto
+  width: 100%
+  max-width: 1720px
+.row
+  display: flex
+.maps
+  display: block
+  margin: auto
+  width: 1327px
+  height: 779px
+.page
+  &_title
+    margin-bottom: 30px
+.content
+  width: 100%
+  font-family: $AlumniSans
+  font-style: normal
+  font-weight: 400
+  font-size: 24px
+  line-height: 24px
+  letter-spacing: 0.03em
+  color: #241D19
+  &_wrap
+    width: 100%
+    margin: 0 auto
+    display: flex
+    justify-content: flex-start
+    gap: 20px
+    margin-bottom: 50px
+    & video
+      margin-top: 50px
+.btn
+  position: relative
+  border: none
+  width: 231px
+  height: 58px
+  background: #241D19
+  box-shadow: 8px 10px 0px #F4AE86
+  // font
+  font-family: $YanoneKaffeesatz
+  font-style: normal
+  font-weight: bold
+  font-size: 28px
+  line-height: 100%
+  color: #F4AE86
+video
+  width: 843px
+section
+  .section
+    &_title
+      font-family: $AlumniSans
+      font-style: normal
+      font-weight: bold
+      font-size: 48px
+      line-height: 58px
+      color: #241D19
+      margin-bottom: 90px
+  &.hero
+    width: 100%
+    height: 720px
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    position: relative
+    & .down_text
+      position: absolute
+      display: flex
+      justify-content: flex-start
+      align-items: center
+      left: -24px
+      bottom: 0
+      font-family: $AlumniSans
+      font-style: normal
+      font-weight: normal
+      font-size: 24px
+      line-height: 29px
+      color: rgba(36, 29, 25, 0.5)
+  &.rates
+    padding: 100px 0
+    .down_text
+      font-family: $AlumniSans
+      position: relative
+      font-style: normal
+      font-weight: normal
+      font-size: 18px
+      line-height: 22px
+      letter-spacing: 0.02em
+      color: #000000
+      margin-left: 30px
+  &.advantages
+    padding: 100px 0
+.logo
+  position: relative
+  display: block
+  z-index: 20
+.title
+  & span
+    background-color: $accent
+    padding: 5px 3px
+.social
+  position: fixed
+  right: 75px
+  top: 0
+  bottom: 0
+  margin: auto
+  padding: 0
+  display: flex
+  flex-direction: column
+  gap: 15px
+  height: 195px
+  list-style: none
+  z-index: 999
+  li
+    a
+      display: flex
+      justify-content: center
+      align-items: center
+      width: 51px
+      height: 51px
+      border-radius: 100%
+      border: 2px solid #241D19
+      transition: all .2s ease
+      &:hover
+        background-color: #241D19
+        transition: all .2s ease
+        svg
+          fill: #F4AE86
+          transition: all .2s ease
+      svg
+        fill: #241D19
+        transition: all .2s ease
+.elips-small-light,.elips-small-red
+  position: absolute
+  width: 1028px
+  height: 1028px
+  filter: blur(50px)
+  border-radius: 100%
+  z-index: -1
+.elips-small-light
+  left: -268px
+  top: 890px
+  background: #FCB750
+  opacity: 0.08
+.elips-small-red
+  left: 1238px
+  top: 1616px
+  background: #AE3B35
+  opacity: 0.06
+.elips-big,.elips-big-light
+  position: absolute
+  width: 1418px
+  height: 1418px
+  filter: blur(50px)
+  border-radius: 100%
+  z-index: -1
+.elips-big
+  right: -870px
+  top: -516px
+  background: rgba(240, 176, 79, 0.16)
+.elips-big-light
+  left: 261px
+  top: -880px
+  background: rgba(240, 205, 79, 0.07)
+#y_maps
+  display: block
+  margin: auto
+  width: 1327px
+  height: 779px
+
+@import 'offer'
+@import 'form'
+@import 'rates'
+@import 'accardeon'
+@import 'advantages'
+
+  
