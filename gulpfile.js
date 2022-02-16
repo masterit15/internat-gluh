@@ -44,18 +44,18 @@ function browsersync() {
     })
   }
 }
-// function assets() {
-// 	return src([ // Берём файлы из источников
-// 		'node_modules/jquery/dist/jquery.slim.min.js',
-// 		])
-// 		.pipe(newer(`${baseDir}/assets/js/libs.min.js`))
-// 		.pipe(concat('libs.min.js')) // Конкатенируем в один файл
-// 		.pipe(uglify()) // Сжимаем JavaScript
-// 		// .pipe(babel({presets: ["@babel/preset-env"]}))
-// 		.pipe(terser())
-// 		.pipe(dest(`${baseDir}/assets/js/`)) // Выгружаем готовый файл в папку назначения
-// 		.pipe(browserSync.stream()) // Триггерим Browsersync для обновления страницы
-// }
+function assets() {
+	return src([ // Берём файлы из источников
+		'node_modules/jquery/dist/jquery.min.js',
+		'node_modules/owl.carousel/dist/owl.carousel.min.js',
+		])
+		.pipe(newer(`${baseDir}/assets/js/libs.min.js`))
+		.pipe(uglify()) // Сжимаем JavaScript
+		.pipe(concat('libs.min.js')) // Конкатенируем в один файл
+		.pipe(terser())
+		.pipe(dest(`${baseDir}/assets/js/`)) // Выгружаем готовый файл в папку назначения
+		.pipe(browserSync.stream()) // Триггерим Browsersync для обновления страницы
+}
 function scripts() {
 	return src([`${baseDir}/js/*.js`, `!${baseDir}/js/*.min.js`])
 		.pipe(webpack({
@@ -151,9 +151,9 @@ function startwatch() {
 
 exports.scripts = scripts
 exports.styles  = styles
-// exports.assets  = assets
+exports.assets  = assets
 exports.images  = images
 exports.deploy  = deploy
-// exports.assets  = series(scripts, styles, images)
-exports.build   = series(cleandist, scripts, styles, images, buildcopy, buildhtml)
-exports.default = series(scripts, styles, images, parallel(browsersync, startwatch))
+exports.assets  = series(scripts, styles, images)
+exports.build   = series(cleandist,assets, scripts, styles, images, buildcopy, buildhtml)
+exports.default = series(assets, scripts, styles, images, parallel(browsersync, startwatch))

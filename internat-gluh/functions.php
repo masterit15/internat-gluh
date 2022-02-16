@@ -131,6 +131,17 @@ function internat_gluh_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Specvarsion', 'internat-gluh' ),
+			'id'            => 'specvarsion-1',
+			'description'   => esc_html__( 'Add widgets here.', 'internat-gluh' ),
+			'before_widget' => '',
+			'after_widget'  => '',
+			'before_title'  => '',
+			'after_title'   => '',
+		)
+	);
 }
 add_action( 'widgets_init', 'internat_gluh_widgets_init' );
 
@@ -139,9 +150,12 @@ add_action( 'widgets_init', 'internat_gluh_widgets_init' );
  */
 function internat_gluh_scripts() {
 	wp_enqueue_style( 'internat-gluh-style', get_stylesheet_uri(), array(), _S_VERSION );
+	wp_enqueue_style( 'internat-gluh-main', get_template_directory_uri() .'/css/main.min.css');
 	wp_style_add_data( 'internat-gluh-style', 'rtl', 'replace' );
 
 	wp_enqueue_script( 'internat-gluh-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'internat-gluh-libs', get_template_directory_uri() . '/assets/js/libs.min.js');
+	wp_enqueue_script( 'internat-gluh-main', get_template_directory_uri() . '/js/index.min.js');
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );

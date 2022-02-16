@@ -8,6 +8,7 @@ $fontsize: 16px // Body Font Size
 $lineheight: 1.65 // Document Line Height
 $systemfont: -apple-system, BlinkMacSystemFont, Arial, sans-serif // System Font Family
 
+@import '../../../node_modules/owl.carousel/dist/assets/owl.carousel.min'
 // GENERAL DOCUMENT STYLES
 ::placeholder
 	color: #666
@@ -25,10 +26,11 @@ input, textarea
 *
 	box-sizing: border-box
 body
-	font-family: $AlumniSans
+	font-family: $Roboto
 	font-size: $fontsize
 	line-height: $lineheight
 	color: $textcolor
+	background-color: $bgcolor!important
 	min-width: 320px
 	position: relative
 	overflow-x: hidden

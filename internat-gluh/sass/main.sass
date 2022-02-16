@@ -2,15 +2,26 @@
 @import 'header'
 @import 'nav'
 @import 'footer'
-
+.page
+  
 .wrapper
   position: relative
-  
-
+  background-color: #fff
+  box-shadow: $bsh
+  h1, h2, h3, h4, h5, h6
+    margin: 0
+    padding: 0
 .container
   margin: 0 auto
   width: 100%
-  max-width: 1720px
+  max-width: 1400px
+#sidebar
+  background-color: #fff
+  border-radius: 20px
+  box-shadow: $bsh
+  margin: 20px -30px
+  max-width: 320px
+  padding: 20px
 .row
   display: flex
 .maps
@@ -23,7 +34,7 @@
     margin-bottom: 30px
 .content
   width: 100%
-  font-family: $AlumniSans
+  font-family: $Roboto
   font-style: normal
   font-weight: 400
   font-size: 24px
@@ -47,7 +58,7 @@
   background: #241D19
   box-shadow: 8px 10px 0px #F4AE86
   // font
-  font-family: $YanoneKaffeesatz
+  font-family: $Roboto
   font-style: normal
   font-weight: bold
   font-size: 28px
@@ -58,7 +69,7 @@ video
 section
   .section
     &_title
-      font-family: $AlumniSans
+      font-family: $Roboto
       font-style: normal
       font-weight: bold
       font-size: 48px
@@ -67,7 +78,7 @@ section
       margin-bottom: 90px
   &.hero
     width: 100%
-    height: 720px
+    height: 500px
     display: flex
     justify-content: flex-start
     align-items: center
@@ -79,7 +90,7 @@ section
       align-items: center
       left: -24px
       bottom: 0
-      font-family: $AlumniSans
+      font-family: $Roboto
       font-style: normal
       font-weight: normal
       font-size: 24px
@@ -88,7 +99,7 @@ section
   &.rates
     padding: 100px 0
     .down_text
-      font-family: $AlumniSans
+      font-family: $Roboto
       position: relative
       font-style: normal
       font-weight: normal
@@ -176,9 +187,13 @@ section
   margin: auto
   width: 1327px
   height: 779px
-
+.specversion
+  float: right
+  #bt_widget-vi-on a
+    box-shadow: none
 @import 'offer'
 @import 'form'
+@import 'slider'
 @import 'rates'
 @import 'accardeon'
 @import 'advantages'
