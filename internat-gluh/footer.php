@@ -11,7 +11,7 @@
 
 ?>
 
-	<footer id="colophon" class="site-footer">
+	<footer id="footer">
 
 	</footer><!-- #colophon -->
 
