@@ -10,7 +10,20 @@ window.onload = ()=>{
     items:1,
     autoplay: true
   })
+  $('.menu-item-has-children > a').attr('href', '#group')
+  // $('.sub-menu').slideUp()
+  $('.menu-item-has-children > a').on('click', function(){
+    if(!$(this).parent().hasClass('active')){
+      // $('.menu-item-has-children').removeClass('active')
+      $(this).parent().addClass('active')
+      $(this).parent().children('.sub-menu').show(200)
+    }else{
+      $(this).parent().removeClass('active')
+      $(this).parent().children('.sub-menu').slideUp(200)
+    }
+  })
 }
+
 
 
 // форматируем номера телефонов на всем сайте

@@ -46,7 +46,7 @@ function browsersync() {
 }
 function assets() {
 	return src([ // Берём файлы из источников
-		'node_modules/jquery/dist/jquery.min.js',
+		'./internat-gluh/libs/jquery/jquery.min.js',
 		'node_modules/owl.carousel/dist/owl.carousel.min.js',
 		])
 		.pipe(newer(`${baseDir}/assets/js/libs.min.js`))

@@ -1,36 +1,50 @@
 .menu
+  display: flex
+  justify-content: center
+  // align-items: center
+  flex-direction: column
+  list-style: none
+  gap: 15px
+  margin: 20px 0
+  padding: 0
   width: 100%
-  ul
-    display: flex
-    justify-content: center
-    // align-items: center
-    flex-direction: column
-    list-style: none
-    gap: 15px
-    margin: 0
-    padding: 0
+  li
     width: 100%
-    li
-      width: 100%
-      position: relative
-      &:hover, &.current_page_item
-        &:before
-          width: 100%
+    position: relative
+    &.menu-item-has-children
       &:before
-        content: ''
-        position: absolute
-        bottom: 0
-        left: 0
-        height: 2px
-        width: 0
-        background-color: $accent
-      a
-        text-decoration: none
-        font-family: $Roboto
-        font-weight: 700
-        font-size: 16px
-        line-height: 100%
-        color: #241D19
         display: block
-        width: 100%
-        padding: 5px 10px
+    &.active
+      &:before
+        transform: rotate(180deg)
+    .sub-menu
+      list-style: none
+      display: none
+      margin-left: 12px
+      padding: 0
+      overflow: hidden
+      border-left: 1px dashed $borderColor
+    &.current_page_item
+      // background-color: rgba($accent, 0.1)
+    &:before
+      content: '\f078'
+      position: absolute
+      font-family: 'FontAwesome'
+      right: 10px
+      display: none
+      height: 25px
+      width: 15px
+    a
+      text-decoration: none
+      font-family: $Roboto
+      font-weight: 700
+      font-size: 16px
+      line-height: 22px
+      color: #241D19
+      display: block
+      width: 100%
+      padding: 5px 15px
+      &:active, &:focus
+        outline: none
+      &:hover
+        background-color: rgba($accent, 0.1)

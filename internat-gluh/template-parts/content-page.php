@@ -9,13 +9,6 @@
 
 ?>
 <div class="content_wrap" id="post-<?php the_ID(); ?>">
-
-  <video width="674" height="674" class="video" loop="loop" autoplay="" muted="">
-    <source src="#" type="video/mp4" />
-    <source src="#" type="video/ogv" />
-    <source src="<?=TURI?>video/STelecomComposed_final_alpha.webm" type="video/webm" />
-  </video>
-
   <main class="content">
 	<?php the_title( '<h2 class="page_title title">', '</h2>' ); ?>
 	<?php
