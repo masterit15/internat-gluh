@@ -5,6 +5,7 @@ const title = document.querySelectorAll('.title')
 window.onload = ()=>{
   $('.owl-carousel').owlCarousel({
     loop:true,
+    dots: true,
     margin:0,
     nav:false,
     items:1,

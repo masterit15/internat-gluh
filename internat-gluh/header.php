@@ -26,7 +26,7 @@
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<div id="page" class="site">
+<div id="page" class="site" style="background-image: url(<?=TURI?>/images/dist/bg_patern.svg);">
 	<div class="container">
 		<div class="wrapper">
 			<div class="top">

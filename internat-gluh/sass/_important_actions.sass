@@ -1,0 +1,51 @@
+.important_actions
+  padding: 30px
+  &_list
+    display: flex
+    justify-content: center
+    align-items: center
+    list-style: none
+    margin: 0
+    padding: 0
+    // gap: 15px
+    &_item
+      position: relative
+      background-color: #fff
+      width: 222px
+      height: 240px
+      border-radius: 20px
+      transition: all .3s ease
+      &:hover
+        box-shadow: 0 10px 30px rgba($textcolor, .2)
+        transition: all .3s ease
+        z-index: 10
+      &:last-child
+        &::before
+          display: none
+      // &::before
+      //   content: ''
+      //   position: absolute
+      //   right: 0
+      //   top: 0
+      //   width: 2px
+      //   height: 100%
+      //   background-color: $borderColor
+      a
+        display: flex
+        justify-content: center
+        align-items: flex-end
+        width: 100%
+        height: 100%
+        color: $textcolor
+        text-decoration: none
+        padding: 10px
+        text-align: center
+        &:active, &:visited
+          outline: none
+          color: $textcolor
+      &_title
+        display: flex
+        justify-content: center
+        align-items: center
+        height: 50px
+      &_icon
