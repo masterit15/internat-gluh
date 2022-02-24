@@ -6,7 +6,25 @@
  *
  * @package internat-gluh
  */
-
+// функция отладки
+function PR($var, $all = false, $die = false) {
+	$bt = debug_backtrace();
+	$bt = $bt[0];
+	$dRoot = $_SERVER["DOCUMENT_ROOT"];
+	$dRoot = str_replace("/", "\\", $dRoot);
+	$bt["file"] = str_replace($dRoot, "", $bt["file"]);
+	$dRoot = str_replace("\\", "/", $dRoot);
+	$bt["file"] = str_replace($dRoot, "", $bt["file"]);
+	?>
+		<div style='font-size:9pt; color:#000; background:#fff; border:1px dashed #000;z-index: 999'>
+		<div style='padding:3px 5px; background:#99CCFF; font-weight:bold;'>File: <?=$bt["file"]?> [<?=$bt["line"]?>]</div>
+		<pre style='padding:10px;'><?print_r($var)?></pre>
+		</div>
+		<?
+	if ($die) {
+		die;
+	}
+}
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
 	define( '_S_VERSION', '1.0.0' );
@@ -185,6 +203,8 @@ require get_template_directory() . '/inc/customizer.php';
 
 
 require get_template_directory() . '/inc/useful_links.php';
+require get_template_directory() . '/inc/contact_data.php';
+require get_template_directory() . '/inc/documents.php';
 /**
  * Load Jetpack compatibility file.
  */

@@ -1,85 +1,155 @@
 $(function() {
-    // function initMoreImages() {
-    //     if ($('input.field').val()) {}
-    //     let result = [...$('input.field').val()?.split(',').map(Number)]
-    //     console.log(result);
-    //     $('.edition-selected').text('Выбрано: ' + result.length);
-    //     $('.frame label').on('click', function(e) {
-    //         $(this).toggleClass('checked')
-    //         if ($(this).hasClass('checked')) {
-    //             result.push(Number($(this).find('input:not(:checked)').val()))
-    //         } else {
-    //             result = result.filter(id => Number(id) !== Number($(this).children('input').val()))
-    //         }
-    //         result = result.filter(id => Number(id) !== 0)
-    //         $('.field').val(result.join(','));
-    //         $('.edition-selected').text('Выбрано: ' + result.length);
-    //         return false
-    //     })
-
-    // }
-    // $('.load_more').on('click', function() {
-    //     loadMoreImages($(this).data('url'))
-    // })
-    // let selectcount = $('.load_more').data('selectcount')
-    // let ppp = selectcount > 10 ? selectcount : 10; // Post per page
-    // let pageNumber = 1;
-    // loadMoreImages($('.load_more').data('url'))
-
-    // function loadMoreImages(url) {
-    //     $.ajax({
-    //         type: "POST",
-    //         url: url,
-    //         data: { action: 'moreimage', pageNumber, ppp, post: $('.load_more').data('post') },
-    //         beforeSend: function() {},
-    //         success: function(res) {
-    //             $('.frame').append(res)
-    //         },
-    //         complete: function() {
-    //             initMoreImages()
-    //             pageNumber++
-    //         },
-    //         error: function(err) {
-    //             console.error('success', err);
-    //         }
-    //     })
-    // }
-
-$('.delete').one('click', function(){
-    let vId = $(this).data('video-id')
-    let videos = $('input[name="videos"]').val() != '' ? $('input[name="videos"]').val().split(',') : []
-    console.log('bef', vId);
-    videos = videos.filter(vd=>vd != vId)
-    console.log('aff', videos);
-    $('input[name="videos"]').val(videos.join(','))
-    $(`.video[data-video-id="${vId}"]`).remove()
-})
-    $('.video_input input').on('change', function(){
-        let that = $(this)
-        let value = $(this).val()
-        let coint = $(this).parent('.fields').children().length
-        // <iframe src="https://www.youtube.com/embed/${value}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        if(value.length > 0){
-            $('.add_video').addClass('enable')
-            $('.add_video.enable').one('click', function(){
-                let videos = $('input[name="videos"]').val() != '' ? $('input[name="videos"]').val().split(',') : []
-                videos.push(value)
-                console.log(videos.join(','));
-                $('input[name="videos"]').val(videos.join(','))
-                $('.two_colimn').append(`<div class="video">
-                <div class="video_input">
-                <input type="text" value="${value}" name="video-${coint++}"/>
-                </div>
-                <div class="video_frame">
-                <img src="https://img.youtube.com/vi/${value}/0.jpg"/>
-                </div><span class="delete" data-videoId="${value}">Удалить</span></div>`)
-                $(that).val('')
-                $('.add_video').removeClass('enable')
+    if ($('.add_photo-item').length > 0) {
+        // fileupload 
+        function uploaderImg(addButton, addInput, imgList, reset = false, edit = false) {
+            $(addButton).on('click', function() {
+                $(addInput).trigger('click');
             })
-        }else{
-            $('.add_video').removeClass('enable')
-        }
-        
-    })
+            var maxFileSize = 5 * 1024 * 1024; // (байт) Максимальный размер файла (2мб)
+            var queue = {};
+            var imagesList = $(imgList);
+            var filelist = $('.file_list').children().length;
+            // 'detach' подобно 'clone + remove'
+            var itemPreviewTemplate = imagesList.find('.item').detach();
+            var fileLimit = 5
+            var fileTypeArr = [
+                'jpeg',
+                'jpg',
+                'png',
+                'pdf',
+                'doc',
+                'docx',
+                'xls',
+                'xlsx',
+                'zip',
+                'rar',
+            ];
+            // Вычисление лимита
+            function limitUpload() {
+                if (filelist > 0 || edit) {
+                    return fileLimit - filelist;
+                } else if (filelist == 0 || !edit) {
+                    return fileLimit - imagesList.children().length;
+                }
+            }
+            // Отображение лимита
+            function limitDisplay() {
+                let sTxt;
+                switch (limitUpload()) {
+                    case fileLimit:
+                        sTxt = '<span class="text">Прикрепить ' + limitUpload() + ' файлов</span>';
+                        break;
+                    case 0:
+                        sTxt = 'Достигнут лимит';
+                        break;
+                    default:
+                        sTxt = 'можно добавить ещё ' + limitUpload();
+                }
+                $(addButton).html(sTxt);
+            }
 
+            function limitSize() {
+                $(addInput).bind('change', function() {
+                    var total = 0;
+                    for (var i = 0; i < this.files.length; i++) {
+                        total = total + this.files[i].size;
+                    }
+                    return total;
+                });
+            }
+            limitSize();
+            $(addInput).on('change', function() {
+                var files = this.files;
+                // Перебор файлов до лимита
+                for (var i = 0; i < limitUpload(); i++) {
+                    let file = files[i];
+                    let fileType = ''
+                    if (file !== undefined) {
+                        fileType = file.name.split('.').pop()
+                        if ($.inArray(fileType, fileTypeArr) < 0) {
+                            $(".errormassege").text('')
+                            $(".errormassege").append('Файлы должны быть в формате jpg, jpeg, png, zip, doc, docx, xls, xlsx, pdf');
+                            continue;
+                        }
+                        if (file.size > maxFileSize) {
+                            $(".errormassege").append("Размер файла не должен превышать 2 Мб")
+                            continue;
+                        }
+                        $(".errormassege").html('');
+                        preview(file, fileType);
+                    }
+                }
+                this.value = '';
+            });
+
+            function preview(file, fileType) {
+                var reader = new FileReader();
+                reader.addEventListener('load', function(event) {
+                    if (fileType == 'jpeg' || fileType == 'jpg' || fileType == 'png') {
+                        var img = document.createElement('img');
+                        var itemPreview = itemPreviewTemplate.clone();
+                        itemPreview.find('.img-wrap img').attr('src', event.target.result);
+                        itemPreview.data('id', file.name);
+                        imagesList.append(itemPreview);
+                    } else {
+                        var itemPreview = itemPreviewTemplate.clone();
+                        $(itemPreview).find('.img-wrap').remove();
+                        let icon = 'fa-file'
+                        switch (fileType) {
+                            case 'xls':
+                                icon = 'fa-file-excel-o'
+                                break;
+                            case 'xlsx':
+                                icon = 'fa-file-excel-o'
+                                break;
+                            case 'rar':
+                                icon = 'fa-file-archive-o'
+                                break;
+                            case 'zip':
+                                icon = 'fa-solid fa-file-zipper'
+                                break;
+                            case 'docx':
+                                icon = 'fa-file-word-o'
+                                break;
+                            case 'doc':
+                                icon = 'fa-file-word-o'
+                                break;
+                            case 'pdf':
+                                icon = 'fa-file-pdf-o'
+                                break;
+                            default:
+                                icon = 'fa-solid fa-file'
+                                break;
+                        }
+                        itemPreview.find('.icon-wrap i').addClass(icon);
+                        itemPreview.data('id', file.name);
+                        imagesList.append(itemPreview);
+                    }
+                    // Обработчик удаления
+                    itemPreview.on('click', function() {
+                        delete queue[file.name];
+                        $(this).remove();
+                        limitDisplay();
+                    });
+                    queue[file.name] = file;
+                    // Отображение лимита при добавлении
+                    limitDisplay();
+                });
+                reader.readAsDataURL(file);
+            }
+            // Очистить все файлы
+            function resetFiles() {
+                $(addInput)[0].value = "";
+                limitDisplay();
+            }
+            if (reset) {
+                resetFiles();
+            }
+            // Отображение лимита при запуске
+            limitDisplay();
+            return queue
+        }
+        var filesArr = uploaderImg('.add_photo-item', '#js-photo-upload', '#uploadImagesList', false, false);
+        console.log(filesArr);
+    }
 })

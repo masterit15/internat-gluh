@@ -1,27 +1,3 @@
-.pets {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-}
-
-.pets_fields {
-    /* display: none; */
-    width: 60%;
-}
-
-.pets_images {
-    /* display: none; */
-    width: 100%;
-}
-
-.pets_images .img {
-    width: 60px;
-    height: 60px;
-    background-position: 50% 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
 .group {
     display: flex;
     justify-content: flex-start;
@@ -44,164 +20,148 @@
     max-width: 280px;
 }
 
-#my-images .inside {
-    padding: 0px !important;
-    margin: 0px !important;
-}
-
-.frame {
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+.form_row__photo-previews {
     width: 100%;
-    height: 320px;
-    overflow: auto;
-    padding-bottom: 10px;
-}
-
-.field {
-    width: 800px;
-}
-
-#results {
-    width: 100%;
-    overflow: auto;
-    background: #e5e5e5;
-    padding: 0px 0px 10px 0px;
-    margin: 0px 0px 0px 0px;
-}
-
-
-/* #results img {
-    border: solid 5px #FDD153;
-    margin: 10px 0px 0px 10px;
-} */
-
-.load_more {
-    cursor: pointer;
-    width: 120px;
-    height: 35px;
-    line-height: 35px;
+    min-height: 80px;
     text-align: center;
-    font-weight: bold;
-    border: 1px solid #8c8f94;
-    z-index: 30;
+    padding: 30px 0;
+    position: relative
 }
 
-.load_more:hover {
-    color: #fff;
-    background-color: #8c8f94;
-}
-
-.frame label {
-    margin: 10px 0px 0px 10px;
-    padding: 5px;
-    background: #fff;
-    -moz-border-radius: 3px;
-    border: solid 1px #B5B5B5;
-    height: 60px;
-    display: block;
-    float: left;
-    overflow: hidden;
-}
-
-.frame label:hover {
-    background: #74D3F2;
-}
-
-.frame label.checked {
-    background: #6ad4ac !important;
-}
-
-.frame label input {
-    opacity: 0.0;
+.form_row__photo-previews #js-photo-upload {
     position: absolute;
-    top: -20px;
-}
-
-.images_edition {
-    padding-top: 10px;
-    font-size: 10px;
-    color: #666;
-    border-top: solid 1px #ccc;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-}
-
-.selected_title {
-    border-top: solid 1px #ccc;
-}
-#adminmenu .wp-menu-image img{
-    max-width: 20px;
-}
-#adminmenu, #adminmenu .wp-submenu, #adminmenuback, #adminmenuwrap{
-    width: 220px;
-}
-#wpcontent, #wpfooter{
-    margin-left: 220px
-}
-#adminmenu .wp-submenu{
-    left: 220px
-}
-.field_wrap{
-    display: flex;
-    justify-content: flex-start;
     width: 100%;
     height: 100%;
+    left: 0;
+    top: 0;
+    display: none
 }
-.one_colimn{
+
+.form_row__photo-previews .add_photo-content {
     width: 100%;
+    height: auto
 }
-.two_colimn{
+
+.form_row__photo-previews .add_photo-item {
+    min-height: 80px;
+    line-height: 80px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border: 1px solid rgba(38, 59, 94, .1);
+    border-radius: 5px;
+    margin-bottom: 20px;
+    color: #00c99c;
+    font-weight: 700;
+    font-size: 1.4rem;
+    background-color: rgba(0, 201, 156, .2);
+    -webkit-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease
+}
+
+.form_row__photo-previews .add_photo-item:hover {
+    -webkit-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    background-color: rgba(0, 201, 156, .4)
+}
+
+.form_row__photo-previews #uploadImagesList {
+    padding: 0;
+    margin: 0;
     width: 100%;
-}
-.fields{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center
 }
-.fields .video{
-    margin-bottom: 15px;
-}
-.video{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-}
-.video_frame{
-    position: relative;
-    width: 80px;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.form_row__photo-previews #uploadImagesList .item {
+    width: 130px;
+    min-height: 100px;
+    margin-left: 5px;
+    border: 2px dashed rgba(38, 59, 94, .3);
+    padding: 0;
+    border-radius: 4px;
     overflow: hidden;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    position: relative
 }
-.video_frame img{
+
+.form_row__photo-previews #uploadImagesList .item::after {
+    content: '';
+    position: absolute;
     width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    background-color: rgba(0, 201, 156, .6)
+}
+
+.form_row__photo-previews #uploadImagesList .item .icon-wrap,
+.form_row__photo-previews #uploadImagesList .item .img-wrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden
+}
+
+.form_row__photo-previews #uploadImagesList .item .icon-wrap img,
+.form_row__photo-previews #uploadImagesList .item .img-wrap img {
     height: auto;
+    width: 150px
 }
-.add_video{
-    margin-top: 20px;
-    width: 80px;
-    height: 32px;
-    background-color: #eee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
+
+.form_row__photo-previews #uploadImagesList .item .icon-wrap {
+    text-align: center;
+    line-height: 130px
 }
-.add_video.enable{
+
+.form_row__photo-previews #uploadImagesList .item .icon-wrap .fa {
+    font-size: 4rem
+}
+
+.form_row__photo-previews #uploadImagesList .item:hover {
+    -webkit-box-shadow: none;
+    box-shadow: none
+}
+
+.form_row__photo-previews #uploadImagesList .item:hover::after {
+    opacity: 1
+}
+
+.form_row__photo-previews #uploadImagesList .item:hover .delete-link {
+    display: block
+}
+
+.form_row__photo-previews #uploadImagesList .item .delete-link {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
     cursor: pointer;
-    background-color: #f5b74f;
-    color: #fff;
-}
-.delete{
-    cursor: pointer;
-    width: 80px;
-    height: 32px;
-    background-color: #f3757a;
-    display: flex;
-    color: #fff;
-    justify-content: center;
-    align-items: center;
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+    background-color: #fff;
     border-radius: 5px;
+    background-color: #fb7077;
+    color: #fff;
+    z-index: 20;
+    text-align: center;
+    font-size: 1.5rem;
+    display: none
+}
+
+.form_row__photo-previews #uploadImagesList .item .delete-link .fa {
+    display: block
 }
