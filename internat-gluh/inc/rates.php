@@ -24,7 +24,7 @@ function my_custom_rates() {
 
 		),
 		'public' => true,
-		'publicly_queryable' => true,
+		'publicly_queryable' => false,
 		'show_ui' => true,
 		'show_in_menu' => true,
 		'query_var' => true,
