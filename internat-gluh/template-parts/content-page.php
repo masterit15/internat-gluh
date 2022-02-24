@@ -8,8 +8,7 @@
  */
 
 ?>
-<div class="content_wrap" id="post-<?php the_ID(); ?>">
-  <main class="content">
+<div class="content" id="post-<?php the_ID(); ?>">
 	<?php the_title( '<h2 class="page_title title">', '</h2>' ); ?>
 	<?php
 		the_content();
@@ -21,5 +20,4 @@
 			)
 		);
 		?>
-  </main>
 </div>
