@@ -271,11 +271,13 @@ $(function () {
             success: function(res){
                 var cats = []
                 var docs = []
+                var shortcode = '[documents cat="" docs=""]'
                 $('.document_modal').append(res)
                 $('#documents_cat ').on('change', function(){
                     var select_button_text = $('#documents_cat option:selected').toArray().map(item => item.value);
                     cats = select_button_text
-                    $('#documents_shortcode').val(`[documents cat="${cats.unique().join(",")}" docs="${docs.unique().join(",")}"]`)
+                    $('#documents_shortcode').val(`[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}"]`)
+                    shortcode = `[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}"]`
                 })
                 $('.document_list li').on('click', function(){
                     $(this).toggleClass('active')
@@ -284,8 +286,11 @@ $(function () {
                     }else{
                         docs = docs.filter(doc=>doc !=Number($(this).data('id')))
                     }
-                    
-                    $('#documents_shortcode').val(`[documents cat="${cats.unique().join(",")}" docs="${docs.unique().join(",")}"]`)
+                    $('#documents_shortcode').val(`[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}"]`)
+                    shortcode = `[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}"]`
+                })
+                $('.add_shortcode').on('click', function(){
+                    tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
                 })
                 
             }

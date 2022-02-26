@@ -246,11 +246,11 @@ add_shortcode('documents', 'documents_shortcode');
 function documents_shortcode($atts)
 {
 	$atts = shortcode_atts([
-		'name' => 'Noname',
-		'age'  => 18,
+		'cats' => '', // категории документов
+		'docs'  => '',// документы
 	], $atts);
 
-	return "Меня зовут {$atts['name']} мне {$atts['age']} лет";
+	return "Документы из категорий {$atts['cats']}, список ИД документов {$atts['docs']}";
 }
 
 // добавляем кнопку генерации шорткода для вывода на страницах - записях
@@ -312,6 +312,7 @@ function documentsShortCodeForm()
 			wp_reset_postdata(); ?>
 		</ul>
 		<input type="text" name="documents_shortcode" id="documents_shortcode" disabled>
+		<a href="#!" class="add_shortcode">Добавить</a>
 	</div>
 <?
 	die;
