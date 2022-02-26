@@ -58,7 +58,7 @@
 					?>
 				</li>
 				<?
-				}} else {echo 'Ничего не найдено';}wp_reset_postdata();?>
+				}}wp_reset_postdata();?>
 			</ul>
 			</div>
 		</div>

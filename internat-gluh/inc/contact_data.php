@@ -45,11 +45,6 @@ function my_custom_contact_data() {
 	// );
 }
 
-function admin_style() {
-	wp_enqueue_style('admin-styles', get_template_directory_uri().'/admin.css');
-}
-add_action('admin_enqueue_scripts', 'admin_style');
-
 //Дополнительные поля продукта
 add_action("admin_init", "contact_data_init");
 add_action('save_post', 'save_contact_data');
