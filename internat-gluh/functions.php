@@ -70,7 +70,11 @@ function internat_gluh_setup() {
 			'menu-1' => esc_html__( 'Primary', 'internat-gluh' ),
 		)
 	);
-
+	register_nav_menus(
+		array(
+			'menu-home-items' => esc_html__( 'Home-items', 'internat-gluh' ),
+		)
+	);
 	/*
 		* Switch default core markup for search form, comment form, and comments
 		* to output valid HTML5.
@@ -226,3 +230,27 @@ function admin_js() {
   }
 }
 add_action('admin_enqueue_scripts', 'admin_js');
+
+
+//pagination
+function wp_corenavi()
+{
+    global $wp_query, $wp_rewrite;
+    $pages = '';
+    $max = $wp_query->max_num_pages;
+    if (!$current = get_query_var('paged')) $current = 1;
+    $a['base'] = str_replace(999999999, '%#%', get_pagenum_link(999999999));
+    $a['total'] = $max;
+    $a['current'] = $current;
+
+    $total = 0; //1 - выводить текст "Страница N из N", 0 - не выводить
+    $a['mid_size'] = 5; //сколько ссылок показывать слева и справа от текущей
+    $a['end_size'] = 1; //сколько ссылок показывать в начале и в конце
+    $a['prev_text'] = '&laquo;'; //текст ссылки "Предыдущая страница"
+    $a['next_text'] = '&raquo;'; //текст ссылки "Следующая страница"
+
+    if ($max > 1) echo '<li>';
+    if ($total == 1 && $max > 1) $pages = '<span class="pages">Страница ' . $current . ' из ' . $max . '</span>' . "\r\n";
+    echo $pages . paginate_links($a);
+    if ($max > 1) echo '</li>';
+}

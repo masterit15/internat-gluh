@@ -32,6 +32,7 @@ function my_custom_documents()
 		'supports' => array('title'),
 		'show_in_rest' => true,
 		'rest_base' => 'documents',
+		'menu_icon' => 'dashicons-media-document'
 	));
 	// Добавляем для кастомных типо записей Категории
 	register_taxonomy(
@@ -150,7 +151,7 @@ function documents()
 						$file = getFileArr($attach_id);
 				?>
 						<li data-id="<?= $file['id'] ?>">
-							<a href="<?= $file['path'] ?>">
+							<a class="document_list_item_wrap" href="<?= $file['path'] ?>">
 								<span class="file_icon"><?= $file['icon'] ?></span>
 								<span class="file_name"><?= $file['name'] ?></span>
 								<span class="file_size"><?= $file['size'] ?></span>
@@ -161,7 +162,7 @@ function documents()
 					$file = getFileArr($custom['documents'][0]);
 					?>
 					<li data-id="<?= $file['id'] ?>">
-						<a href="<?= $file['path'] ?>">
+						<a class="document_list_item_wrap" href="<?= $file['path'] ?>">
 							<span class="file_icon"><?= $file['icon'] ?></span>
 							<span class="file_name"><?= $file['name'] ?></span>
 							<span class="file_size"><?= $file['size'] ?></span>
@@ -247,12 +248,80 @@ function documents_shortcode($atts)
 {
 	$atts = shortcode_atts([
 		'cats' => '', // категории документов
-		'docs'  => '',// документы
+		'docs' => '', // категории документов
+		'files'  => '', // документы
 	], $atts);
+	$docArr = getPostByMyFilter($atts['cats'], $atts['docs'], $atts['files']);
+	PR($docArr);
+?>
 
-	return "Документы из категорий {$atts['cats']}, список ИД документов {$atts['docs']}";
+
+<? }
+function getPostByMyFilter($cats = '', $docs = '', $files = '')
+{
+	$result = array();
+	if ($cats != '') {
+		$reviews = new WP_Query(
+			array(
+				'post_type' => 'documents',
+				'post_status' => 'publish',
+				'posts_per_page' => -1,
+				'orderby'          => 'date',
+				'order'            => 'ASC',
+				'tax_query' => array(
+					// 'relation' => 'AND',
+					array(
+						'taxonomy' => 'documents-cat',
+						'field' => 'id',
+						'terms' => explode(',', $cats),
+						'operator' => 'IN',
+					)
+				),
+			)
+		);
+		if ($reviews->have_posts()) {
+			$i = 0;
+			while ($reviews->have_posts()) {
+				$reviews->the_post();
+				$result['documents'][] = (array) $reviews->posts[$i];
+				$i++;
+			}
+		}
+		wp_reset_postdata();
+	}
+	if ($docs != '') {
+		$reviews = new WP_Query(
+			array(
+				'post_type' => 'documents',
+				'post_status' => 'publish',
+				'posts_per_page' => -1,
+				'orderby'          => 'date',
+				'order'            => 'ASC',
+				'post__in' => explode(',', $docs),
+			)
+		);
+		if ($reviews->have_posts()) {
+			$i = 0;
+			while ($reviews->have_posts()) {
+				$reviews->the_post();
+				$result['documents'][] = (array) $reviews->posts[$i];
+				$i++;
+			}
+		}
+		wp_reset_postdata();
+	}
+	if ($files != '') {
+		if (strpos($files, ',')) {
+			$filesArr = explode(',', $files);
+			foreach ($filesArr as $file) {
+				$result['files'][] = getFileArr($file);
+			}
+		} else {
+			$result['files'] = getFileArr($files);
+		}
+	}
+	return $result;
 }
-
 // добавляем кнопку генерации шорткода для вывода на страницах - записях
 add_action('media_buttons', 'add_my_media_button');
 
@@ -298,11 +367,11 @@ function documentsShortCodeForm()
 						$file = getFileArr($attach_id);
 			?>
 						<li data-id="<?= $file['id'] ?>">
-							<a href="#!">
+							<span class="document_list_item_wrap">
 								<span class="file_icon"><?= $file['icon'] ?></span>
 								<span class="file_name"><?= $file['name'] ?></span>
 								<span class="file_size"><?= $file['size'] ?></span>
-							</a>
+							</span>
 						</li>
 			<? }
 				}

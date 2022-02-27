@@ -23,6 +23,50 @@ window.onload = ()=>{
       $(this).parent().children('.sub-menu').slideUp(200)
     }
   })
+  // folder animation
+function folderAnimation(){
+  $(".js_toggle-folder").on('click', function () {
+      let top = 0
+      let icon = $(this).find('.fa-folder')
+      let iconOpen = $(this).find('.fa-folder-open')
+      
+      $(".js_toggle-folder").not(this).each(function () {
+          $(this).parent().removeClass("active");
+          $(this).removeClass("active");
+          tl.to($(this).find('.fa-folder'), { opacity: 1, duration: 0.01 })
+          tl.to($(this).find('.fa-folder-open'), { opacity: 0, duration: 0.01 })   
+          top = $(this).innerHeight()
+      });
+      $(this).parent().toggleClass("active");
+      $(this).toggleClass("active");
+      if ($(this).hasClass('active')) {
+          $('.folder-content').slideUp(200)
+          $('.folder.active').children('.folder-content').slideDown(200)
+          // tl.to($(icon), { opacity: 0, duration: 0.01 })
+          // tl.to($(iconOpen), { opacity: 1, duration: 0.01 })
+          // tl.to($('.folder.active').children('.folder-content').children('.folder-item'), { y: 0, opacity: 1, stagger: 0.1, duration: .2, })
+          .then(function (res) {
+              let offsetFromScreenTop = $('.folder.active').offset().top - $(window).scrollTop();
+              if(offsetFromScreenTop >= 200 && Math.sign(offsetFromScreenTop) != -1){
+                  $('html, body').animate({ scrollTop: parseInt($('.folder.active').offset().top) - 50 }, 300);
+              }else if(Math.sign(offsetFromScreenTop) == -1){
+                  $('html, body').animate({ scrollTop: parseInt($('.folder.active').offset().top) - 50 }, 300);
+              }
+          })
+      } else {
+        $('.folder-content').slideUp(200)
+        $('.folder.active').children('.folder-content').slideUp(200)
+          // tl.to($('.folder.active').children('.folder-content').children('.folder-item'), { y: -20, opacity: 0, stagger: 0.1, duration: 0.02, })
+          //     .then(function (res) {
+                  
+          //         tl.to($(icon), { opacity: 1, duration: 0.01 })
+          //         tl.to($(iconOpen), { opacity: 0, duration: 0.01 })
+                  
+          //     })
+      }
+  });
+}
+folderAnimation()
 }
 
 

@@ -31,6 +31,7 @@ function my_custom_contact_data() {
 		'supports' => array('title'),
 		'show_in_rest' => true,
 		'rest_base' => 'contact_data',
+		'menu_icon' => 'dashicons-phone'
 	));
 	// Добавляем для кастомных типо записей Категории
 	// register_taxonomy(

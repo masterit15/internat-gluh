@@ -42,7 +42,7 @@
   height: 779px
 .page
   &_title
-    margin-bottom: 30px
+    margin-bottom: 30px!important
     line-height: 38px
 .content
   width: 100%
@@ -107,6 +107,16 @@ section
   display: flex
   justify-content: space-between
   align-items: center
+  &_item
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    &:first-child
+      justify-content: flex-start
+    &:last-child
+      justify-content: flex-end
   .btn
     margin-left: auto
 .logo
@@ -189,16 +199,12 @@ section
     background-color: $accent
     padding: 5px 3px
 .social
-  position: fixed
-  right: 75px
-  top: 0
-  bottom: 0
-  margin: auto
   padding: 0
+  margin: 0
   display: flex
-  flex-direction: column
+  justify-content: center
+  align-items: center
   gap: 15px
-  height: 195px
   list-style: none
   z-index: 999
   li
@@ -206,20 +212,22 @@ section
       display: flex
       justify-content: center
       align-items: center
-      width: 51px
-      height: 51px
-      border-radius: 100%
-      border: 2px solid #241D19
+      width: 45px
+      height: 45px
+      border-radius: 10px
+      text-decoration: none
       transition: all .2s ease
+      color: #241D19
+      font-size: 1.5rem
+      &:active, &:visited
+        color: #241D19
+        text-decoration: none
       &:hover
         background-color: #241D19
         transition: all .2s ease
-        svg
-          fill: #F4AE86
+        .fa
+          color: #fff
           transition: all .2s ease
-      svg
-        fill: #241D19
-        transition: all .2s ease
 .elips-small-light,.elips-small-red
   position: absolute
   width: 1028px
@@ -261,11 +269,32 @@ section
   float: right
   #bt_widget-vi-on a
     box-shadow: none
+.pagination
+  display: flex
+  justify-content: center
+  align-items: center
+  gap: 10px
+  .page-numbers
+    width: 40px
+    height: 40px
+    display: flex
+    justify-content: center
+    align-items: center
+    border: 1px solid $accent
+    border-radius: 10px
+    text-decoration: none
+    color: $textcolor
+    &:first
+      text-decoration: none
+      color: $textcolor
+    &.current
+      background-color: $accent
 @import 'offer'
 @import 'form'
 @import 'important_actions'
 @import 'useful_link'
 @import 'news'
+@import 'folder'
 @import 'slider'
 @import 'contact'
 @import 'accardeon'

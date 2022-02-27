@@ -1,4 +1,18 @@
 $(function () {
+    Array.prototype.unique = function () {
+        var a = [];
+        var l = this.length;
+        for (var i = 0; i < l; i++) {
+            for (var j = i + 1; j < l; j++) {
+                if (this[i] === this[j]) {
+                    j = ++i;
+                }
+            }
+            a.push(this[i]);
+        }
+
+        return a;
+    };
     // отслеживаем изменения параметров фильтра
     var uploaderParam = { files: [] }
     var uploader = new Proxy(uploaderParam, {
@@ -239,7 +253,7 @@ $(function () {
     }
 
 
-    $('#insert-documents').on("click", function() {
+    $('#insert-documents').on("click", function () {
         var modal = `<div class="document_modal">
                         <span class="close"><i class="fa fa-times"></i></span>
                     </div>`;
@@ -250,52 +264,37 @@ $(function () {
         $('.close').on('click', function () {
             $('.document_modal').remove()
         })
-        Array.prototype.unique = function () {
-            var a = [];
-            var l = this.length;
-        
-            for (var i = 0; i < l; i++) {
-                for (var j = i + 1; j < l; j++) {
-                    if (this[i] === this[j]) {
-                        j = ++i;
-                    }
-                }
-                a.push(this[i]);
-            }
-        
-            return a;
-        };
+        $('.document_modal').on('click', function (e) {
+            if ($(e.target).hasClass('document_modal')) $('.document_modal').remove()
+        })
         $.ajax({
             url: $(this).data('url'),
             method: 'GET',
-            success: function(res){
+            success: function (res) {
                 var cats = []
                 var docs = []
-                var shortcode = '[documents cat="" docs=""]'
+                var files = []
+                var shortcode = `[documents]`
                 $('.document_modal').append(res)
-                $('#documents_cat ').on('change', function(){
-                    var select_button_text = $('#documents_cat option:selected').toArray().map(item => item.value);
-                    cats = select_button_text
-                    $('#documents_shortcode').val(`[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}"]`)
-                    shortcode = `[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}"]`
+                $('#documents_cat ').on('change', function () {
+                    cats = $('#documents_cat option:selected').toArray().map(item => item.value);
+                    shortcode = `[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}" files="${files.unique().join(",")}"]`
                 })
-                $('.document_list li').on('click', function(){
+                $('.document_list li').on('click', function () {
                     $(this).toggleClass('active')
-                    if($(this).hasClass('active')){
-                        docs.push(Number($(this).data('id')))
-                    }else{
-                        docs = docs.filter(doc=>doc !=Number($(this).data('id')))
+                    if ($(this).hasClass('active')) {
+                        files.push(Number($(this).data('id')))
+                    } else {
+                        files = files.filter(file => file != Number($(this).data('id')))
                     }
-                    $('#documents_shortcode').val(`[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}"]`)
-                    shortcode = `[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}"]`
+                    shortcode = `[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}" files="${files.unique().join(",")}"]`
                 })
-                $('.add_shortcode').on('click', function(){
+                $('.add_shortcode').on('click', function () {
                     tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
                 })
-                
             }
         })
 
     });
-    
+
 })

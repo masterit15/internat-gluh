@@ -31,6 +31,8 @@ function my_custom_useful_link() {
 		'supports' => array('title','thumbnail'),
 		'show_in_rest' => true,
 		'rest_base' => 'useful_link',
+		'menu_icon' => 'dashicons-welcome-view-site'
+		
 	));
 	// Добавляем для кастомных типо записей Категории
 	// register_taxonomy(

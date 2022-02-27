@@ -13,12 +13,15 @@
   <div class="slider owl-carousel owl-theme">
     <div class="slider_item">
       <div class="slider_item_media" style="background-image: url(<?= TURI ?>/images/dist/pexels-1.jpg);"></div>
+      <h2 class="slider_item_title">Далеко-далеко за словесными горами, в стране гласных и согласных живут рыбные тексты. Все послушавшись своего они языкового, до по всей меня имени щеке рот жизни живет несколько предложения взобравшись, решила курсивных коварных знаках!</h2>
     </div>
     <div class="slider_item">
       <div class="slider_item_media" style="background-image: url(<?= TURI ?>/images/dist/pexels-2.jpg);"></div>
+      <h2 class="slider_item_title">Далеко-далеко за словесными горами, в стране гласных и согласных живут рыбные тексты. Все послушавшись своего они языкового, до по всей меня имени щеке рот жизни живет несколько предложения взобравшись, решила курсивных коварных знаках!</h2>
     </div>
     <div class="slider_item">
       <div class="slider_item_media" style="background-image: url(<?= TURI ?>/images/dist/pexels-3.jpg);"></div>
+      <h2 class="slider_item_title">Далеко-далеко за словесными горами, в стране гласных и согласных живут рыбные тексты. Все послушавшись своего они языкового, до по всей меня имени щеке рот жизни живет несколько предложения взобравшись, решила курсивных коварных знаках!</h2>
     </div>
   </div>
 </section>
@@ -144,44 +147,32 @@
   Widget("https://pos.gosuslugi.ru/form", <?= $widgetId ?>)
 </script>
 <section class="section important_actions">
-  <ul class="important_actions_list">
-    <li class="important_actions_list_item" aria-label="Поддержка обучения в дистанционныый период">
-      <a href="/">
-        <h4 class="important_actions_list_item_title">Поддержка обучения в дистанционныый период</h4>
-        <span class="important_actions_list_item_icon"></span>
-      </a>
-    </li>
-    <li class="important_actions_list_item">
-      <a href="/">
-        <h4 class="important_actions_list_item_title">Обращение к директору</h4>
-        <span class="important_actions_list_item_icon"></span>
-      </a>
-    </li>
-    <li class="important_actions_list_item">
-      <a href="/">
-        <h4 class="important_actions_list_item_title">Календарный график</h4>
-        <span class="important_actions_list_item_icon"></span>
-      </a>
-    </li>
-    <li class="important_actions_list_item">
-      <a href="/">
-        <h4 class="important_actions_list_item_title">Ежедневное меню</h4>
-        <span class="important_actions_list_item_icon"></span>
-      </a>
-    </li>
-    <li class="important_actions_list_item">
-      <a href="/">
-        <h4 class="important_actions_list_item_title">Расписание занятий</h4>
-        <span class="important_actions_list_item_icon"></span>
-      </a>
-    </li>
-    <li class="important_actions_list_item">
-      <a href="/">
-        <h4 class="important_actions_list_item_title">Кружки секции</h4>
-        <span class="important_actions_list_item_icon"></span>
-      </a>
-    </li>
-  </ul>
+  <?
+  $ul = '<ul id="%1$s" class="%2$s">%3$s
+          <li class="menu-item">
+            <a href="#">Контакты</a>
+            <ul class="sub-menu">
+              <li><a href="/">'.get_theme_mod('address').'</a></li>
+              <li><a data-phone="'.get_theme_mod('phones').'" href="tel:'.get_theme_mod('phones').'"> '.get_theme_mod('phones').'</a></li>
+              <li><a href="mailto:'.get_theme_mod('email').'">'.get_theme_mod('email').'</a></li>
+              <li><a href="#">'.get_theme_mod('operating_mode').'</a></li>
+
+              
+            </ul>
+          </li>
+        </ul>';
+    wp_nav_menu(
+      array(
+        'theme_location' 	=> 'menu-home-items',
+        'menu_id'        	=> '',
+        'menu_class' 			=> 'important_actions_list',
+        'container' 			=> false,
+        'link_before' => '<h4 class="important_actions_list_item_title">',
+        'link_after' => '</h4>'
+        // 'items_wrap' => $ul
+      )
+    );
+    ?>
 </section>
 <div class="row">
   <? get_sidebar(); ?>
