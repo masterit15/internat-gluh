@@ -1,6 +1,6 @@
 const preprocessor = 'sass',
 		  fileswatch   = 'php,html,htm,txt,json,md,woff2',
-      baseDir      = 'internat-gluh',
+      baseDir      = 'internat_gluh',
       hostName     = 'http://internat-gluh.rg/'
 
 const { src, dest, parallel, series, watch } = require('gulp');
@@ -46,7 +46,7 @@ function browsersync() {
 }
 function assets() {
 	return src([ // Берём файлы из источников
-		'./internat-gluh/libs/jquery/jquery.min.js',
+		'./internat_gluh/libs/jquery/jquery.min.js',
 		'node_modules/owl.carousel/dist/owl.carousel.min.js',
 		])
 		.pipe(newer(`${baseDir}/assets/js/libs.min.js`))

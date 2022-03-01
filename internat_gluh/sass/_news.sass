@@ -1,0 +1,106 @@
+.news
+  &_home
+    display: grid
+    grid-template-columns: repeat(5, 1fr)
+    grid-template-rows: repeat(3, 1fr)
+    grid-column-gap: 20px
+    grid-row-gap: 20px
+    &_item
+      position: relative
+      width: 100%
+      max-width: 670px
+      height: 140px
+      background-color: #fff
+      box-shadow: $bsh
+      border-radius: 20px
+      display: flex
+      flex-direction: row
+      overflow: hidden
+      transition: all .2s ease
+      svg
+        opacity: 0.4
+        fill: $accent
+      &_title
+        display: block
+        font-size: 18px
+        font-weight: 700
+        max-width: 420px
+        text-decoration: none
+        color: $textcolor
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        &:active,&:hover, &:visited
+          color: $textcolor
+          text-decoration: none
+      &_date
+        color: $textgrey
+        position: absolute
+        right: 15px
+        bottom: 10px  
+        font-size: 14px 
+      &:hover
+        transform: scale(1.02)
+        box-shadow: $hbsh
+        transition: all .2s ease
+      &:nth-child(1)
+        grid-area: 1 / 1 / 6 / 2
+        width: 320px
+        height: 460px
+        flex-direction: column
+        svg
+          height: 250px
+        .news_home_item
+          &_madia
+            width: 100%
+            height: 200px
+            background-position: 50% 50%
+            background-size: cover
+            background-repeat: no-repeat
+          &_content
+            padding: 10px 15px
+          &_desc
+            font-size: 14px
+            max-height: 160px
+            overflow: hidden
+            margin-bottom: 15px
+            position: relative
+            &::before
+              content: ''
+              position: absolute
+              bottom: 0
+              width: 100%
+              height: 50px
+              background: rgb(255,255,255)
+              background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)
+      &:nth-child(2)
+        grid-area: 1 / 2 / 2 / 6
+      &:nth-child(3)
+        grid-area: 2 / 2 / 3 / 6
+      &:nth-child(4)
+        grid-area: 3 / 2 / 4 / 6
+      &:nth-child(5)
+        grid-area: 4 / 2 / 5 / 6
+      &_madia
+        width: 100%
+        height: 100%
+        background-position: 50% 50%
+        background-size: cover
+        background-repeat: no-repeat
+      &_content
+        padding: 10px 15px
+      &_desc
+        font-size: 14px
+        max-height: 70px
+        overflow: hidden
+        margin-bottom: 15px
+        position: relative
+        &::before
+          content: ''
+          position: absolute
+          bottom: 0
+          width: 100%
+          height: 50px
+          background: rgb(255,255,255)
+          background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)
+         
