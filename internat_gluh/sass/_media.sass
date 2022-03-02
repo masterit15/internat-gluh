@@ -9,11 +9,26 @@
 
 @media only screen and (max-width : 1072px)
 	/**/
-
+	.about_us_post_media
+		width: 220px
+		height: 220px
+		&::before,&::after
+			width: 240px
+			height: 240px
 /* Средние устройства, Настольные компьютеры */
 @media only screen and (max-width : 992px)
 	/**/
-
+	#sidebar
+		position: fixed
+		right: 0
+		top: 0px
+		height: 100%
+		border-radius: 0
+		transform: translateX(100%)
+		transition: all .2s ease-in
+		overflow-y: scroll
+		opacity: 0
+		z-index: 999
 /* Небольшие устройства, Планшеты */
 @media only screen and (max-width : 768px)
 	/**/

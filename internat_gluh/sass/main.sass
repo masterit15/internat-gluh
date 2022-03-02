@@ -29,7 +29,10 @@
   width: 100%
   height: max-content
   overflow: hidden
-  
+  &.active
+    opacity: 1
+    transform: translateY(0px)
+    transition: all .2s ease-in
 .row
   display: flex
   width: 100%
@@ -163,13 +166,13 @@ section
       &::before
         content: ''
         position: absolute
-        left: -16px
+        left: -10px
         top: 0
         right: 0
         bottom: 0
         margin: auto
-        width: calc(110% - 10px)
-        height: calc(110% - 10px)
+        width: 440px
+        height: 440px
         border-radius: 100%
         background-color: #fff
         border: 3px dashed $accent
@@ -178,13 +181,13 @@ section
       &::after
         content: ''
         position: absolute
-        left: -16px
+        left: -10px
         top: 0
         right: 0
         bottom: 0
         margin: auto
-        width: calc(110% - 10px)
-        height: calc(110% - 10px)
+        width: 440px
+        height: 440px
         border-radius: 100%
         background-color: #fff
         box-shadow: $hbsh

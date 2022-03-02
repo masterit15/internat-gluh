@@ -67,6 +67,11 @@
 					<div class="top_item">
 						<button class="btn add">Написать</button>
 						<div class="specversion"><?php dynamic_sidebar('specvarsion-1'); ?></div>
+						<div class="mobile_menu_btn">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
 					</div>
 				</div>
 					<header id="masthead" class="site-header">

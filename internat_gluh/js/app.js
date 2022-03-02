@@ -70,6 +70,25 @@ function folderAnimation(){
   });
 }
 folderAnimation()
+
+$('.mobile_menu_btn').on('click', function(){
+  
+  if(!$(this).hasClass('active')){
+    $(this).addClass('active')
+    $('#sidebar').addClass('active')
+    $('body').append(`<div class="overlay"></div>`)
+    $('.overlay').on('click', function(){
+      $('.mobile_menu_btn').removeClass('active')
+      $('#sidebar').removeClass('active')
+      $(this).remove()
+    })
+  }else{
+    $(this).removeClass('active')
+    $('#sidebar').removeClass('active')
+    $('.overlay').remove()
+  }
+})
+
 }
 
 
