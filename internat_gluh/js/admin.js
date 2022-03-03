@@ -1,4 +1,40 @@
 $(function () {
+    $('.delete_video').one('click', function () {
+        let vId = $(this).data('video-id')
+        let videos = $('input[name="videos"]').val() != '' ? $('input[name="videos"]').val().split(',') : []
+        console.log('bef', vId);
+        videos = videos.filter(vd => vd != vId)
+        console.log('aff', videos);
+        $('input[name="videos"]').val(videos.join(','))
+        $(`.video[data-video-id="${vId}"]`).remove()
+    })
+    $('.video_input input').on('change', function () {
+        let that = $(this)
+        let value = $(this).val()
+        let coint = $(this).parent('.fields').children().length
+        // <iframe src="https://www.youtube.com/embed/${value}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        if (value.length > 0) {
+            $('.add_video').addClass('enable')
+            $('.add_video.enable').one('click', function () {
+                let videos = $('input[name="videos"]').val() != '' ? $('input[name="videos"]').val().split(',') : []
+                videos.push(value)
+                console.log(videos.join(','));
+                $('input[name="videos"]').val(videos.join(','))
+                $('.two_colimn').append(`<div class="video">
+                <div class="video_input">
+                <input type="text" value="${value}" name="video-${coint++}"/>
+                </div>
+                <div class="video_frame">
+                <img src="https://img.youtube.com/vi/${value}/0.jpg"/>
+                </div><span class="delete_video" data-videoId="${value}">Удалить</span></div>`)
+                $(that).val('')
+                $('.add_video').removeClass('enable')
+            })
+        } else {
+            $('.add_video').removeClass('enable')
+        }
+
+    })
     Array.prototype.unique = function () {
         var a = [];
         var l = this.length;

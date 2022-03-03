@@ -5,23 +5,23 @@
  *
  * @package internat_gluh
  */
-// Добавляем кастомный тип записи Тарифы
-add_action('init', 'my_custom_rates');
-function my_custom_rates() {
-	register_post_type('rates', array(
+// Добавляем кастомный тип записи слайды
+add_action('init', 'my_custom_slider');
+function my_custom_slider() {
+	register_post_type('slider', array(
 		'labels' => array(
-			'name' => 'Тарифы',
-			'singular_name' => 'Tариф',
-			'add_new' => 'Добавить тариф',
-			'add_new_item' => 'Добавить новый тариф',
-			'edit_item' => 'Редактировать тариф',
-			'new_item' => 'Новаый тариф',
-			'view_item' => 'Посмотреть тариф',
-			'search_items' => 'Найти тариф',
-			'not_found' => 'Тарифов не найдено',
-			'not_found_in_trash' => 'В корзине тарифов не найдено',
+			'name' => 'Слайды',
+			'singular_name' => 'Слайд',
+			'add_new' => 'Добавить слайд',
+			'add_new_item' => 'Добавить новый слайд',
+			'edit_item' => 'Редактировать слайд',
+			'new_item' => 'Новаый слайд',
+			'view_item' => 'Посмотреть слайд',
+			'search_items' => 'Найти слайд',
+			'not_found' => 'Слайдов не найдено',
+			'not_found_in_trash' => 'В корзине слайдов не найдено',
 			'parent_item_colon' => '',
-			'menu_name' => 'Тарифы',
+			'menu_name' => 'Слайды',
 
 		),
 		'public' => true,
@@ -32,22 +32,22 @@ function my_custom_rates() {
 		'rewrite' => true,
 		'capability_type' => 'post',
 		'has_archive' => true,
-		'rewrite' => array('slug' => 'rates', 'with_front' => true),
+		'rewrite' => array('slug' => 'slider', 'with_front' => true),
 		'hierarchical' => false,
 		'menu_position' => null,
 		'supports' => array('title'),
 		'show_in_rest' => true,
-		'rest_base' => 'rates',
+		'rest_base' => 'slider',
 	));
 	// Добавляем для кастомных типо записей Категории
 	register_taxonomy(
-		"rates-cat",
-		array("rates"),
+		"slider-cat",
+		array("slider"),
 		array(
 			"hierarchical" => true,
 			"label" => "Категории",
 			"singular_label" => "Категория",
-			"rewrite" => array('slug' => 'rates', 'with_front' => false),
+			"rewrite" => array('slug' => 'slider', 'with_front' => false),
 		)
 	);
 }

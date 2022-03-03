@@ -89,6 +89,57 @@ $('.mobile_menu_btn').on('click', function(){
   }
 })
 
+// bottom nav
+var scrollPos = 0;
+$(window).on('scroll',function(){
+   var st = $(this).scrollTop();
+   if (st > scrollPos){
+    $('.mobile_nav').removeClass('active')
+   } else {
+    $('.mobile_nav').addClass('active')
+   }
+   scrollPos = st;
+});
+$('.mobile_nav_item.specversion').on('click', function(){
+  $(this).toggleClass('active')
+  // if($(this).hasClass('active')){
+  //   $(this).removeClass('bt_widget-vi-on')
+  //   $(this).addClass('vi-close')
+  //   $(this).find('i.fa').removeClass('fa-eye')
+  //   $(this).find('i.fa').addClass('fa-low-vision')
+  // }else{
+  //   $(this).removeClass('vi-close')
+  //   $(this).addClass('bt_widget-vi-on')
+  //   $(this).find('i.fa').removeClass('fa-low-vision')
+  //   $(this).find('i.fa').addClass('fa-eye')
+  // }
+})
+$('.gallery_list_wrap').magnificPopup({
+  delegate: 'a',
+  type: 'image',
+  tLoading: 'Loading image #%curr%...',
+  mainClass: 'mfp-img-mobile',
+  gallery: {
+    enabled: true,
+    navigateByImgClick: true,
+    preload: [0,1] // Will preload 0 - before current, and 1 after the current image
+  },
+  image: {
+    tError: '<a href="%url%">Изображение #%curr%</a> не удалось загрузить.',
+    titleSrc: function(item) {
+      return item.el.attr('title') + '<small>ГБОУ "КРОЦ"</small>';
+    }
+  },
+  callbacks: {
+    elementParse: function(item) {
+      if($(item.el).hasClass('popup-youtube')) {
+          item.type = 'iframe';
+      } else {
+          item.type = 'image';
+      }
+    }
+  },
+});
 }
 
 

@@ -240,7 +240,7 @@
     </section>
     <section class="section useful_link">
       <h3 class="section_title">Полезные ресурсы</h3>
-      <ul class="useful_link_list">
+      <!-- <ul class="useful_link_list">
         <li class="useful_link_list_item" title="Официальный сайт Министерства образования и науки РФ" aria-label="Официальный сайт Министерства образования и науки РФ">
           <a href="#" target="_blank" rel="noopener noreferrer">
             <div class="useful_link_list_item_title"></div>
@@ -271,7 +271,7 @@
             <img src="http://internat_gluh.ucoz.ru/12345/sajt_minobr.jpg" alt="" class="useful_link_list_item_media">
           </a>
         </li>
-      </ul>
+      </ul> -->
     </section>
   </main>
 </div>

@@ -18,7 +18,7 @@ get_header();
 <div class="row">
 	<?get_sidebar();?>
 
-	<main id="primary" class="site-main">
+	<main id="main" class="site-main">
 
 		<?php
 		while ( have_posts() ) :

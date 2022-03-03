@@ -209,6 +209,8 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/useful_links.php';
 require get_template_directory() . '/inc/contact_data.php';
 require get_template_directory() . '/inc/documents.php';
+require get_template_directory() . '/inc/slider.php';
+require get_template_directory() . '/inc/gallery.php';
 /**
  * Load Jetpack compatibility file.
  */
