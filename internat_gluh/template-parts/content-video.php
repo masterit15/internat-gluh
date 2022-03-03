@@ -10,12 +10,14 @@
 ?>
 <div class="content" id="post-<?php the_ID(); ?>">
 	<?php the_title( '<h2 class="page_title title">', '</h2>' ); ?>
-<?php // Display blog posts on any page @ http://m0n.co/l
+<?php 
+$current_page = !empty($_GET['paged']) ? $_GET['paged'] : 1;
 $reviews = new WP_Query(
     array(
         'post_type' => 'gallery',
         'post_status' => 'publish',
         'posts_per_page' => 10,
+        'paged'          => $current_page,
         'tax_query' => array(
             array(
                 'taxonomy' => 'gallery-cat',   // taxonomy name
@@ -39,5 +41,22 @@ if ($reviews->have_posts()) {
 } else {
     echo 'Ничего не найдено';
 }
-wp_reset_postdata(); ?>
+?>
+<nav class="pagination">
+<? // я упомянул, что функция ничего не возвращает, если всего только 1 страница постов?
+echo paginate_links(array(
+  'base' => site_url() . '%_%',
+  'format' => '?paged=%#%',
+  'total' => $query->max_num_pages,
+  'current' => $current_page,
+  'prev_next'    => True,
+'prev_text'    => __('« '),
+'next_text'    => __('»'),
+'mid_size' => 3,
+  'end_size' => 2,
+));
+
+wp_reset_postdata(); // чтобы ничего не поломать
+?>
+</nav>
 </div>

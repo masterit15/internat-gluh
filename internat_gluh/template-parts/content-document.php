@@ -14,7 +14,7 @@
     <main id="main" class="content">
       <?php the_title('<h2 class="page_title title">', '</h2>'); ?>
       <?
-      $current_page = !empty($_GET['paged']) ? $_GET['paged'] : 1;;
+      $current_page = !empty($_GET['paged']) ? $_GET['paged'] : 1;
       $query = new WP_Query(
         array(
           'post_type' => 'documents',
