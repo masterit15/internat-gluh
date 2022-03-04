@@ -49,6 +49,7 @@ function assets() {
 		'./internat_gluh/libs/jquery/jquery.min.js',
 		'node_modules/owl.carousel/dist/owl.carousel.min.js',
 		'node_modules/magnific-popup/dist/jquery.magnific-popup.min.js',
+		'node_modules/suggestions-jquery/dist/js/jquery.suggestions.min.js',
 		])
 		.pipe(newer(`${baseDir}/assets/js/libs.min.js`))
 		.pipe(uglify()) // Сжимаем JavaScript

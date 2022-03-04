@@ -92,6 +92,26 @@
 	</li>
 	<li class="mobile_nav_item search" aria-label="поиск по сайту"><i class="fa fa-search" aria-hidden="true"></i></li>
 </ul>
+	<form action="" class="application">
+		<span class="close"><i class="fa fa-times"></i></span>
+		<div class="fields_group">
+			<input type="text" class="input" name="fio" id="fio" required>
+			<label for="fio">ФИО</label>
+		</div>
+		<div class="fields_group">
+			<input type="text" class="input" name="phone" id="phone" required>
+			<label for="phone">Телефон</label>
+		</div>
+		<div class="fields_group">
+			<input type="text" class="input" name="email" id="email" required>
+			<label for="email">Е-почта</label>
+		</div>
+		<div class="fields_group">
+			<textarea id="text" name="text" id="" cols="30" rows="5" required></textarea>
+			<label for="text">Текст</label>
+		</div>
+		<button class="btn" type="submit">отправить</button>
+	</form>
 </body>
 
 </html>

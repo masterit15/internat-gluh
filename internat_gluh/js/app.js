@@ -106,7 +106,39 @@ window.onload = () => {
       }
     },
   });
+  $('.add').on('click', function(){
+    $('.application').addClass('active')
+    $('body').css({'position': 'fixed'})
+  })
+  $('.close').on('click', function(){
+    $('.application').removeClass('active')
+    $('body').css({'position': 'relative'})
+  })
+  
+// Подсказка поля адрес
+$('#address').suggestions({
+  token: "fd6932ba741e45fb66a5724df848eb4a15478eda",
+  type: "ADDRESS",
+  onSelect: function(suggestion) {
+      // console.log(suggestion.data)
+  }
+});
+// Подсказка поля е-почта
+$('#email').suggestions({
+  token: "fd6932ba741e45fb66a5724df848eb4a15478eda",
+  type: "EMAIL",
+  onSelect: function(res) {
 
+  }
+});
+// Подсказка поля ФИО имя
+$('#fio').suggestions({
+  token: "fd6932ba741e45fb66a5724df848eb4a15478eda",
+  type: "NAME",
+  onSelect: function(res) {
+      console.log(res);
+  }
+});
   // форматируем номера телефонов на всем сайте
   function phoneFormat() {
     let a = [...document.getElementsByTagName("a")]

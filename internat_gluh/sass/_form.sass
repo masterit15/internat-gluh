@@ -1,30 +1,73 @@
 .application
+  position: fixed
+  right: 0
+  top: 0
+  width: 100%
+  max-width: 600px
+  height: 100%
   display: flex
-  justify-content: flex-start
+  justify-content: center
   flex-direction: column
-  transform: translateY(1000px)
+  align-items: center
+  box-shadow: $hbsh
+  transform: translateX(100%)
   opacity: 0
-  label
+  background-color: #fff
+  transition: all .2s ease-out
+  z-index: 9999
+  .close
+    position: absolute
+    right: 30px
+    top: 30px
+    width: 40px
+    height: 40px
     display: flex
-    justify-content: flex-start
-    flex-direction: column
-    margin-bottom: 20px
-    font-family: $Roboto
-    font-style: normal
-    font-weight: normal
-    font-size: 20px
-    line-height: 100%
-    color: #000000
-  input
+    cursor: pointer
+    justify-content: center
+    align-items: center
+    font-size: 2rem
+  &.active
+    opacity: 1
+    transform: translateY(0px)
+    transition: all .2s ease-in
+  .fields_group
+    position: relative
+    margin-bottom: 35px
     width: 100%
-    max-width: 331px
-    height: 50px
-    padding: 15px
-    background: #FFFFFF
-    border: 2px solid rgba(0, 0, 0, 0.1)
-    box-shadow: 0px 1px 38px -8px rgba(36, 29, 25, 0.21)
-    transition: all .3s ease
-    &:active, &:focus
-      border: 2px solid #F4AE86
-      box-shadow: 0px 22px 38px -8px rgba(36, 29, 25, 0.21)
+    max-width: 300px
+    display: flex
+    justify-content: center
+    flex-direction: column
+    align-items: flex-start
+    label
+      position: absolute
+      top: 15px
+      left: 15px
+      font-family: $Roboto
+      font-style: normal
+      font-weight: normal
+      font-size: 20px
+      line-height: 100%
+      color: #000000
+      transition: top .3s ease
+    input, textarea
+      width: 100%
+      max-width: 331px
+      padding: 15px
+      background: #FFFFFF
+      border: 2px solid rgba(0, 0, 0, 0.1)
+      box-shadow: 0px 1px 38px -8px rgba(36, 29, 25, 0.21)
       transition: all .3s ease
+      &:active, &:focus
+        border: 2px solid #F4AE86
+        box-shadow: 0px 22px 38px -8px rgba(36, 29, 25, 0.21)
+        transition: all .3s ease
+        & ~ label
+          top: -25px
+          transition: top .3s ease
+      &:valid
+        & ~ label
+          top: -25px
+          transition: top .3s ease
+    input
+      height: 45px
