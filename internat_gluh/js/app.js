@@ -25,33 +25,37 @@ window.onload = () => {
     }
   })
   // folder animation
-    $(".js_toggle-folder").on('click', function () {
-      let top = 0
-      let icon = $(this).find('.fa-folder')
-      let iconOpen = $(this).find('.fa-folder-open')
-      $(".js_toggle-folder").not(this).each(function () {
-        $(this).parent().removeClass("active");
-        $(this).removeClass("active");
-        tl.to($(this).find('.fa-folder'), { opacity: 1, duration: 0.01 })
-        tl.to($(this).find('.fa-folder-open'), { opacity: 0, duration: 0.01 })
-        top = $(this).innerHeight()
-      });
-      $(this).parent().toggleClass("active");
-      $(this).toggleClass("active");
-      if ($(this).hasClass('active')) {
-        $('.folder-content').slideUp(200)
-        $('.folder.active').children('.folder-content').slideDown(200)
-            let offsetFromScreenTop = $('.folder.active').offset().top - $(window).scrollTop();
-            if (offsetFromScreenTop >= 200 && Math.sign(offsetFromScreenTop) != -1) {
-              $('html, body').animate({ scrollTop: parseInt($('.folder.active').offset().top) - 50 }, 300);
-            } else if (Math.sign(offsetFromScreenTop) == -1) {
-              $('html, body').animate({ scrollTop: parseInt($('.folder.active').offset().top) - 50 }, 300);
-            }
-      } else {
-        $('.folder-content').slideUp(200)
-        $('.folder.active').children('.folder-content').slideUp(200)
-      }
+  $(".js_toggle-folder").on('click', function () {
+    let top = 0
+    let icon = $(this).find('.fa-folder')
+    let iconOpen = $(this).find('.fa-folder-open')
+    $(".js_toggle-folder").not(this).each(function () {
+      $(this).parent().removeClass("active");
+      $(this).removeClass("active");
+      $(this).find('.fa-folder').css({'opacity': 0})
+      $(this).find('.fa-folder-open').css({'opacity': 1})
+      top = $(this).innerHeight()
     });
+    $(this).parent().toggleClass("active");
+    $(this).toggleClass("active");
+    if ($(this).hasClass('active')) {
+      $('.folder-content').slideUp(200)
+      $('.folder.active').children('.folder-content').slideDown(200)
+      $(icon).css({'opacity': 0})
+      $(iconOpen).css({'opacity': 1})
+      let offsetFromScreenTop = $('.folder.active').offset().top - $(window).scrollTop();
+      if (offsetFromScreenTop >= 200 && Math.sign(offsetFromScreenTop) != -1) {
+        $('html, body').animate({ scrollTop: parseInt($('.folder.active').offset().top) - 50 }, 300);
+      } else if (Math.sign(offsetFromScreenTop) == -1) {
+        $('html, body').animate({ scrollTop: parseInt($('.folder.active').offset().top) - 50 }, 300);
+      }
+    } else {
+      $('.folder-content').slideUp(200)
+      $('.folder.active').children('.folder-content').slideUp(200)
+      $(icon).css({'opacity': 1})
+      $(iconOpen).css({'opacity': 0})
+    }
+  });
 
   $('.mobile_menu_btn').on('click', function () {
     if (!$(this).hasClass('active')) {
@@ -106,39 +110,39 @@ window.onload = () => {
       }
     },
   });
-  $('.add').on('click', function(){
+  $('.add').on('click', function () {
     $('.application').addClass('active')
-    $('body').css({'position': 'fixed'})
+    $('body').css({ 'position': 'fixed' })
   })
-  $('.close').on('click', function(){
+  $('.close').on('click', function () {
     $('.application').removeClass('active')
-    $('body').css({'position': 'relative'})
+    $('body').css({ 'position': 'relative' })
   })
-  
-// Подсказка поля адрес
-$('#address').suggestions({
-  token: "fd6932ba741e45fb66a5724df848eb4a15478eda",
-  type: "ADDRESS",
-  onSelect: function(suggestion) {
-      // console.log(suggestion.data)
-  }
-});
-// Подсказка поля е-почта
-$('#email').suggestions({
-  token: "fd6932ba741e45fb66a5724df848eb4a15478eda",
-  type: "EMAIL",
-  onSelect: function(res) {
 
-  }
-});
-// Подсказка поля ФИО имя
-$('#fio').suggestions({
-  token: "fd6932ba741e45fb66a5724df848eb4a15478eda",
-  type: "NAME",
-  onSelect: function(res) {
+  // Подсказка поля адрес
+  $('#address').suggestions({
+    token: "fd6932ba741e45fb66a5724df848eb4a15478eda",
+    type: "ADDRESS",
+    onSelect: function (suggestion) {
+      // console.log(suggestion.data)
+    }
+  });
+  // Подсказка поля е-почта
+  $('#email').suggestions({
+    token: "fd6932ba741e45fb66a5724df848eb4a15478eda",
+    type: "EMAIL",
+    onSelect: function (res) {
+
+    }
+  });
+  // Подсказка поля ФИО имя
+  $('#fio').suggestions({
+    token: "fd6932ba741e45fb66a5724df848eb4a15478eda",
+    type: "NAME",
+    onSelect: function (res) {
       console.log(res);
-  }
-});
+    }
+  });
   // форматируем номера телефонов на всем сайте
   function phoneFormat() {
     let a = [...document.getElementsByTagName("a")]
@@ -180,164 +184,82 @@ $('#fio').suggestions({
     tl.innerHTML = wordsArr.join(' ')
   })
 
-  //  изменение для карточки популярного тарифа
-
-
-  // анимация стрелок скорости тарифа 
-  function animateSpeed() {
-    let path = document.querySelectorAll('.speed_arrow')
-    path.forEach((p, i) => {
-      let speed = p.closest('.rates_list_item').dataset.speed
-      let step = 800
-      p.style.transform = `rotate(0deg)`
-      setTimeout(() => {
-        p.style.transform = `rotate(240deg)`
-      }, 300)
-      setTimeout(() => {
-        p.style.transform = `rotate(${speed}deg)`
-      }, step)
-      setTimeout(() => {
-        p.classList.add('ag-speedometer_needle')
-      }, 1200)
-      step += 800
-    })
-  }
-
-  // отслеживание в зоне видимости ли елемент
-  function elementInViewport(el) {
-    if (!el) return
-    var top = el.offsetTop
-    var left = el.offsetLeft
-    var width = el.offsetWidth
-    var height = el.offsetHeight
-    while (el.offsetParent) {
-      el = el.offsetParent
-      top += el.offsetTop
-      left += el.offsetLeft
+  $('input').on('change', function(){
+    $(this).val().length > 0 ? $(this).parent().find('label').addClass('active') : $(this).parent().find('label').removeClass('active')
+  })
+  $('#f_name').on('change', function(){
+    documentProxy.name = $(this).val()
+  })
+  $('.f_cat_list').on('change', function(){
+    if($(this).val() != '#'){
+      documentProxy.cat = $(this).val()
+    }else{
+      documentProxy.cat = ''
     }
-    return (
-      top >= window.pageYOffset &&
-      left >= window.pageXOffset &&
-      (top + height) <= (window.pageYOffset + window.innerHeight) &&
-      (left + width) <= (window.pageXOffset + window.innerWidth)
-    );
-  }
-  // подкрузка формы заявки на подключение
-  function getForm(url) {
-    return new Promise((resolve, reject) => {
-      fetch(url).then(function (response) {
-        return response.text()
-      }).then(function (html) {
-        let offer_wrap = document.querySelector('.offer_wrap')
-        tl.to(offer_wrap, { opacity: 0, duration: .3 }).then(res => {
-          offer_wrap.style.display = 'none'
-          let offer = document.querySelector('.offer')
-          offer.insertAdjacentHTML('beforeend', html)
-          let form = offer.querySelector('.application')
-          tl.to(form, { opacity: 1, translateY: '0px', duration: .2 })
-          let rateItems = form.querySelectorAll('.rates_dd_item')
-          let rateInput = form.querySelector('#rate')
-          form.querySelector('#rate').onfocus = function () {
-            tl.to('.rates_dd_list', { opacity: 1, height: 'auto', duration: .2 })
-          };
-          rateInput.addEventListener('click', (e) => {
-
-          })
-          document.addEventListener('click', (e) => {
-            let menu = form.querySelector('.rates_dd_list')
-            if (!menu.contains(e.target) && !form.querySelector('#rate').contains(e.target)) {
-              tl.to('.rates_dd_list', { opacity: 0, height: '0px', duration: .2 })
-            }
-          })
-
-          rateItems.forEach(rateItem => {
-            rateItem.addEventListener('click', () => {
-              tl.to('.rates_dd_list', { opacity: 0, height: '0px', duration: .2 })
-              form.querySelector('#rate').value = rateItem.innerHTML
-
-            })
-          })
-
-          let phone = IMask(
-            form.querySelector('#phone'), {
-            mask: '+{7} (000) 000-00-00',
-            lazy: false,  // make placeholder always visible
-            placeholderChar: '0'     // defaults to '_'
-          });
-
-          resolve('form_done')
-          form.querySelector('.send').addEventListener('click', (event) => {
-            event.preventDefault()
-            let fio = form.querySelector('#fio').value
-            let address = form.querySelector('#address').value
-            let phone = form.querySelector('#phone').value
-            let data = { fio, address, phone }
-
-            fetch('/ajax.html', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-              },
-              body: JSON.stringify(data)
-            })
-              .then(function (response) {
-                return response.json()
-              })
-              .then(res => {
-                console.log(res);
-              })
-          })
-        })
-      }).catch(function (err) {
-        console.warn('Какя то ошибка.', err)
-      });
-    })
-  }
-  document.querySelector('.offer_btn')?.addEventListener('click', (e) => {
-    getForm(e.target.dataset.action)
+    
   })
-
-  // плавная прокрутка до элемента
-  function smoothScroll(target, speed) {
-    return new Promise((resolve, reject) => {
-      var scrollContainer = target;
-      do { //find scroll container
-        scrollContainer = scrollContainer.parentNode;
-        if (!scrollContainer) return;
-        scrollContainer.scrollTop += 1;
-      } while (scrollContainer.scrollTop == 0);
-
-      var targetY = 0;
-      do { //find the top of target relatively to the container
-        if (target == scrollContainer) break;
-        targetY += target.offsetTop;
-      } while (target = target.offsetParent);
-
-      scroll = function (c, a, b, i) {
-        i++; if (i > speed) return;
-        c.scrollTop = a + (b - a) / speed * i;
-        setTimeout(function () { scroll(c, a, b, i); }, 15);
-        if (i == speed) {
-          resolve('done')
-        }
-      }
-      // start scrolling
-      scroll(scrollContainer, scrollContainer.scrollTop, targetY, 0);
-    })
+  let documentFilterParams = {
+    cat: '',
+    name: '',
+    dateTo: '',
+    dateFrom: ''
   }
-
-
-  let accardeonItems = document.querySelectorAll('.accardeon_list_item')
-  accardeonItems.forEach(accardeonItem => {
-    accardeonItem.addEventListener('click', (e) => {
-      let content = e.target.parentElement.querySelector('.accardeon_list_item_content')
-      if (e.target.classList.contains('active')) {
-        tl.to(content, { opacity: 0, height: '0', duration: .2 })
-        e.target.classList.remove('active')
+  // отслеживаем изменения параметров фильтра
+  const documentProxy = new Proxy(documentFilterParams, {
+    get: function (target, prop) {
+      // console.log({
+      // 	type: "get",
+      // 	target,
+      // 	prop
+      // });
+      return Reflect.get(target, prop);
+    },
+    set: function (target, prop, value) {
+      // console.log({
+      //   type: "set",
+      //   target,
+      //   prop,
+      //   value
+      // });
+      setTimeout(()=>{
+          GetFilter(target)
+      },10)
+      return Reflect.set(target, prop, value);
+    }
+  });
+  new AirDatepicker('#f_date', {
+    range: true,
+    // timepicker: true,
+    multipleDatesSeparator: ' - ',
+    onSelect: ({ date, formattedDate, datepicker }) => {
+      $('#f_date').val().length > 0 ? $('#f_date').parent().find('label').addClass('active') : $('#f_date').parent().find('label').removeClass('active')
+      if (formattedDate.length > 1) {
+        documentProxy.dateFrom = formattedDate[0]
+        documentProxy.dateTo = formattedDate[1]
+        
       } else {
-        e.target.classList.add('active')
-        tl.to(content, { opacity: 1, height: 'auto', duration: .2 })
+        documentProxy.dateFrom = formattedDate[0]
       }
-    })
+    }
   })
+  function GetFilter(param) {
+    $.ajax({
+        type: "POST",
+        url: $('#filter').data('url'),
+        data: param,
+        beforeSend: function () {
+            // NProgress.start();
+        },
+        complete: function () {
+            // NProgress.done();
+        },
+        success: function (res) {
+          $('.documents_wrap').html(res)
+        },
+        error: function (err) {
+            // mainToast(5000, "error", 'Ошибка загрузки!', err)
+            console.error(err);
+        }
+    });
+}
 }

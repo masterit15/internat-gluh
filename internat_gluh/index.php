@@ -17,7 +17,8 @@ get_header();
 <div class="row">
 	<?get_sidebar();?>
 	<main id="main" class="site-main">
-
+	<h2 class="page_title title">Новости</h2>
+	<div class="news_list">
 		<?php
 		if ( have_posts() ) :
 
@@ -42,7 +43,7 @@ get_header();
 
 			endwhile;
 
-			the_posts_navigation();
+			the_posts_pagination();
 
 		else :
 
@@ -50,7 +51,7 @@ get_header();
 
 		endif;
 		?>
-
+</div>
 	</main><!-- #main -->
 </div>
 <?php

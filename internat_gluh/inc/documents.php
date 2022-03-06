@@ -153,7 +153,7 @@ function documents()
 						<li data-id="<?= $file['id'] ?>">
 							<div class="document_list_item_wrap">
 								<span class="file_icon"><?= $file['icon'] ?></span>
-								<span class="file_name"> <input type="text" name="file_name" id="file-<?= $file['id'] ?>" value="<?= $file['name'] ?>" disabled/></span>
+								<span class="file_name"> <input type="text" name="file_name" id="file-<?= $file['id'] ?>" value="<?= $file['name'] ?>" disabled /></span>
 								<span class="file_size"><?= $file['size'] ?></span>
 							</div>
 							<div class="file_action">
@@ -169,7 +169,7 @@ function documents()
 					<li data-id="<?= $file['id'] ?>">
 						<div class="document_list_item_wrap">
 							<span class="file_icon"><?= $file['icon'] ?></span>
-							<span class="file_name"> <input type="text" name="file_name" id="file-<?= $file['id'] ?>" value="<?= $file['name'] ?>" disabled/></span>
+							<span class="file_name"> <input type="text" name="file_name" id="file-<?= $file['id'] ?>" value="<?= $file['name'] ?>" disabled /></span>
 							<span class="file_size"><?= $file['size'] ?></span>
 						</div>
 						<div class="file_action">
@@ -203,7 +203,7 @@ function documents()
 		</div>
 	</div>
 <?
-
+PR(get_the_title($post->ID));
 }
 // ajax action для загрузки документов
 add_action('wp_ajax_documentsUpload', 'documentsUpload'); // wp_ajax_{ACTION HERE} 
@@ -262,7 +262,6 @@ function documents_shortcode($atts)
 		'files'  => '', // документы
 	], $atts);
 	$docArr = getPostByMyFilter($atts['cats'], $atts['docs'], $atts['files']);
-	PR($docArr);
 ?>
 
 
@@ -395,4 +394,29 @@ function documentsShortCodeForm()
 	</div>
 <?
 	die;
+}
+add_action('save_post', 'change_default_title_by_doc_name');
+function change_default_title_by_doc_name($post_id)
+{
+
+	if (!wp_is_post_revision($post_id)) {
+		$title = get_the_title($post_id);
+		if (!$title || $title=="Черновик") {
+			$custom = get_post_custom($post_id);
+			$filesId = explode(',', $custom['documents'][0]);
+			$file = getFileArr($filesId[0]);
+			// удаляем этот хук, чтобы он не создавал бесконечного цикла
+			remove_action('save_post', 'change_default_title_by_doc_name');
+			// Update post
+			$my_post = array(
+				'ID'           => $post_id,
+				'post_title'   => $file['name'], // new title
+			);
+			// обновляем пост, когда снова вызовется хук save_post
+			wp_update_post($my_post);
+
+			// снова вешаем хук
+			add_action('save_post', 'change_default_title_by_doc_name');
+		}
+	}
 }

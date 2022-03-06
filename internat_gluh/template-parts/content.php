@@ -10,50 +10,20 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<?php
-		if ( is_singular() ) :
-			the_title( '<h1 class="entry-title">', '</h1>' );
-		else :
-			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
-		endif;
-
-		if ( 'post' === get_post_type() ) :
-			?>
-			<div class="entry-meta">
-				<?php
-				internat_gluh_posted_on();
-				internat_gluh_posted_by();
-				?>
-			</div><!-- .entry-meta -->
-		<?php endif; ?>
-	</header><!-- .entry-header -->
-
-	<?php internat_gluh_post_thumbnail(); ?>
-
-	<div class="entry-content">
-		<?php
-		the_content(
-			sprintf(
-				wp_kses(
-					/* translators: %s: Name of current post. Only visible to screen readers */
-					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'internat_gluh' ),
-					array(
-						'span' => array(
-							'class' => array(),
-						),
-					)
-				),
-				wp_kses_post( get_the_title() )
-			)
-		);
-
-		wp_link_pages(
-			array(
-				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'internat_gluh' ),
-				'after'  => '</div>',
-			)
-		);
-		?>
-	</div><!-- .entry-content -->
+<div class="news_item">
+	<?if(get_the_post_thumbnail_url($post->ID, 'large')){?>
+		<div class="news_item_madia" style="background-image: url(<?=get_the_post_thumbnail_url($post->ID, 'large')?>);"></div>
+	<?}else{?>
+		<div class="news_item_madia">
+		<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+		<title/><g data-name="Layer 2" id="Layer_2">
+		<path d="M29,8H26V5a1,1,0,0,0-1-1H3A1,1,0,0,0,2,5V23a1,1,0,0,0,1,1H6v3a1,1,0,0,0,1,1H29a1,1,0,0,0,1-1V9A1,1,0,0,0,29,8ZM4,22V6H24V8H7A1,1,0,0,0,6,9V22Zm8-10a2,2,0,1,1-2,2A2,2,0,0,1,12,12ZM25.89,23.46A1,1,0,0,1,25,24H11a1,1,0,0,1-.89-.55,1,1,0,0,1,.09-1.05l3-4a1,1,0,0,1,1.25-.29l1.35.67,3.49-3.49a1,1,0,0,1,.79-.29,1,1,0,0,1,.73.42l5,7A1,1,0,0,1,25.89,23.46Z"/></g></svg>
+		</div>
+	<?}?>
+	<div class="news_item_content">
+		<a class="news_item_title" href="<?=get_permalink()?>"><?the_title()?></a>
+		<div class="news_item_desc"><?the_excerpt()?></div>
+		<span class="news_item_date"><?=date("d.m.Y в H:m", strtotime($reviews->post->post_date))?></span>
+	</div>
+</div>
 </article><!-- #post-<?php the_ID(); ?> -->

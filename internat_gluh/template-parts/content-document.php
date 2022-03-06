@@ -13,6 +13,32 @@
   <div class="content_wrap" id="post-<?php the_ID(); ?>">
     <main id="main" class="content">
       <?php the_title('<h2 class="page_title title">', '</h2>'); ?>
+      <form id="filter" data-url="<?php echo site_url() ?>/wp-admin/admin-ajax.php?action=docfilters">
+        <div class="fields_group">
+          <input type="text" name="name" id="f_name">
+          <label for="f_name">По названию</label>
+        </div>
+        <div class="fields_group">
+        <select name="f_cat" class="f_cat_list">
+          <option value="#">По разделу</option>
+            <?
+            $terms = get_terms([
+              'taxonomy' => 'documents-cat',
+              'hide_empty' => false,
+            ]);
+            foreach($terms as $term){
+              $cat = (array) $term;
+            ?>
+              <option value="<?=$cat['term_id']?>"><?=$cat['name']?></option>
+            <?}?>
+            </select>
+        </div>
+        <div class="fields_group">
+          <input id="f_date" name="date" type="text" class="datepicker-here"/>
+          <label for="f_date">По дате от - до</label>
+        </div>
+      </form>
+      <div class="documents_wrap">
       <?
       $current_page = !empty($_GET['paged']) ? $_GET['paged'] : 1;
       $query = new WP_Query(
@@ -45,7 +71,7 @@
                     <? the_title() ?>
                   </div>
                   <div class="folder-summary__details__share">
-                    <? echo $doc['ACTIVE_FROM'] ? $doc['ACTIVE_FROM'] : $doc['DATE_CREATE']; ?>
+                    <? the_date() ?>
                   </div>
                 </div>
                 <div class="folder-summary__end">
@@ -59,7 +85,7 @@
                   $file = getFileArr($arProperty);
                 ?>
                   <li class="folder-item js_folder-item">
-                    <a no-data-pjax class="folder-item-wrap" href="<?= $file['path'] ?>" <? if ($file['type'] != 'pdf') { ?>download<? } ?>>
+                    <a class="folder-item-wrap" href="<?= $file['path'] ?>" <? if ($file['type'] != 'pdf') { ?>download<? } ?>>
                       <div class="folder-item__icon"><?= $file['icon']; ?></div>
                       <div class="folder-item__details">
                         <div class="folder-item__details__name">
@@ -72,7 +98,7 @@
                 <? } ?>
                 <? if (count($filesId) > 1) { ?>
                   <li class="folder-item js_folder-item download_zip">
-                    <div no-data-pjax class="folder-item-wrap">
+                    <div class="folder-item-wrap">
                       <div class="folder-item__icon"><i class="fa fa-file-archive-o" style="color:#f3aa16"></i></div>
                       <div class="folder-item__details">
                         <div class="folder-item__details__name">
@@ -89,7 +115,7 @@
             $file = getFileArr($filesId[0]);
           ?>
             <div class="doc_item item" title='<?= the_title() ?>'>
-              <a no-data-pjax href="<?= $file['path'] ?>" <? if ($file['type'] != 'pdf') { ?>download<? } ?>>
+              <a href="<?= $file['path'] ?>" <? if ($file['type'] != 'pdf') { ?>download<? } ?>>
                 <span class="doc_icon">
                   <?= $file['icon'] ?>
                 </span>
@@ -107,9 +133,8 @@
       <? } // if(count($filesId) > 1)
         }
       }
-
-
       ?>
+      </div>
       <nav class="pagination">
       <? // я упомянул, что функция ничего не возвращает, если всего только 1 страница постов?
       echo paginate_links(array(
@@ -121,7 +146,7 @@
       'prev_text'    => __('« '),
       'next_text'    => __('»'),
       'mid_size' => 3,
-		'end_size' => 2,
+      'end_size' => 2,
       ));
 
       wp_reset_postdata(); // чтобы ничего не поломать
