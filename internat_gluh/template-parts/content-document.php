@@ -84,7 +84,7 @@
                 <? foreach ($filesId as $arProperty) {
                   $file = getFileArr($arProperty);
                 ?>
-                  <li class="folder-item js_folder-item">
+                  <li class="folder-item js_folder-item" data-id="<?= $file['id']; ?>">
                     <a class="folder-item-wrap" href="<?= $file['path'] ?>" <? if ($file['type'] != 'pdf') { ?>download<? } ?>>
                       <div class="folder-item__icon"><?= $file['icon']; ?></div>
                       <div class="folder-item__details">
@@ -96,8 +96,8 @@
                     </a>
                   </li>
                 <? } ?>
-                <? if (count($filesId) > 1) { ?>
-                  <li class="folder-item js_folder-item download_zip">
+                <? if (false and count($filesId) > 1) { ?>
+                  <li class="folder-item js_folder-item download_zip" >
                     <div class="folder-item-wrap">
                       <div class="folder-item__icon"><i class="fa fa-file-archive-o" style="color:#f3aa16"></i></div>
                       <div class="folder-item__details">
@@ -114,7 +114,7 @@
           <? } else {
             $file = getFileArr($filesId[0]);
           ?>
-            <div class="doc_item item" title='<?= the_title() ?>'>
+            <div class="doc_item item" title='<?= the_title() ?>' data-id="<?= $file['id']; ?>">
               <a href="<?= $file['path'] ?>" <? if ($file['type'] != 'pdf') { ?>download<? } ?>>
                 <span class="doc_icon">
                   <?= $file['icon'] ?>

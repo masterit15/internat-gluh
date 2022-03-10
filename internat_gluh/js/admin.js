@@ -1,5 +1,5 @@
-$(function () {
-    $('.delete_video').one('click', function () {
+$(function() {
+    $('.delete_video').one('click', function() {
         let vId = $(this).data('video-id')
         let videos = $('input[name="videos"]').val() != '' ? $('input[name="videos"]').val().split(',') : []
         console.log('bef', vId);
@@ -8,14 +8,14 @@ $(function () {
         $('input[name="videos"]').val(videos.join(','))
         $(`.video[data-video-id="${vId}"]`).remove()
     })
-    $('.video_input input').on('change', function () {
+    $('.video_input input').on('change', function() {
         let that = $(this)
         let value = $(this).val()
         let coint = $(this).parent('.fields').children().length
-        // <iframe src="https://www.youtube.com/embed/${value}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            // <iframe src="https://www.youtube.com/embed/${value}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         if (value.length > 0) {
             $('.add_video').addClass('enable')
-            $('.add_video.enable').one('click', function () {
+            $('.add_video.enable').one('click', function() {
                 let videos = $('input[name="videos"]').val() != '' ? $('input[name="videos"]').val().split(',') : []
                 videos.push(value)
                 console.log(videos.join(','));
@@ -35,7 +35,7 @@ $(function () {
         }
 
     })
-    Array.prototype.unique = function () {
+    Array.prototype.unique = function() {
         var a = [];
         var l = this.length;
         for (var i = 0; i < l; i++) {
@@ -52,7 +52,7 @@ $(function () {
     // отслеживаем изменения параметров фильтра
     var uploaderParam = { files: [] }
     var uploader = new Proxy(uploaderParam, {
-        get: function (target, prop) {
+        get: function(target, prop) {
             // console.log({
             // 	type: "get",
             // 	target,
@@ -60,7 +60,7 @@ $(function () {
             // });
             return Reflect.get(target, prop);
         },
-        set: function (target, prop, value) {
+        set: function(target, prop, value) {
             // console.log({
             // 	type: "set",
             // 	target,
@@ -75,7 +75,7 @@ $(function () {
         function uploaderImg(addButton, addInput, imgList, reset = false, edit = false, fileLimit = 5) {
             $(addButton).on(
                 'dragover',
-                function (e) {
+                function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     $(addButton).css({})
@@ -83,14 +83,14 @@ $(function () {
             )
             $(addButton).on(
                 'dragenter',
-                function (e) {
+                function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
             )
             $(addButton).on(
                 'drop',
-                function (e) {
+                function(e) {
                     if (e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files.length) {
                         e.preventDefault();
                         e.stopPropagation();
@@ -100,7 +100,7 @@ $(function () {
                 }
             )
 
-            $(addButton).on('click', function () {
+            $(addButton).on('click', function() {
                 $(addInput).trigger('click');
             })
 
@@ -146,7 +146,7 @@ $(function () {
             }
 
             function limitSize() {
-                $(addInput).on('change', function () {
+                $(addInput).on('change', function() {
                     var total = 0;
                     for (var i = 0; i < this.files.length; i++) {
                         total = total + this.files[i].size;
@@ -155,10 +155,11 @@ $(function () {
                 });
             }
             limitSize();
-            $(addInput).on('change', function () {
+            $(addInput).on('change', function() {
                 prepreview(this.files)
                 this.value = '';
             });
+
             function prepreview(files) {
                 // Перебор файлов до лимита
                 for (var i = 0; i < limitUpload(); i++) {
@@ -180,10 +181,11 @@ $(function () {
                     }
                 }
             }
+
             function preview(file, fileType) {
                 var reader = new FileReader();
                 var itemPreview = itemPreviewTemplate.clone();
-                reader.addEventListener('load', function (event) {
+                reader.addEventListener('load', function(event) {
                     if (fileType == 'jpeg' || fileType == 'jpg' || fileType == 'png') {
                         itemPreview.find('.img-wrap').css({ 'background-image': `url(${event.target.result})` });
                         imagesList.append(itemPreview);
@@ -221,7 +223,7 @@ $(function () {
                     itemPreview.find('.delete-link').before(`<input type="text" value="${file.name.split('.').shift().toLowerCase()}" name="doc_name_${imagesList.children().length}"/>`)
                     var input = itemPreview.find(`input`)
                     var oldName = file.name
-                    $(input).on('change', function () {
+                    $(input).on('change', function() {
                         var newName = `${$(this).val()}.${fileType}`
                         if (oldName !== newName) {
                             var myNewFile = new File([queue[file.name]], newName, { type: file.type });
@@ -231,7 +233,7 @@ $(function () {
                     })
 
                     // Обработчик удаления
-                    itemPreview.find('.delete-link').on('click', function () {
+                    itemPreview.find('.delete-link').on('click', function() {
                         delete queue[file.name];
                         uploader.files = queue
                         $(this).parent().remove();
@@ -239,7 +241,7 @@ $(function () {
                     });
                     queue[file.name] = file;
                     uploader.files = queue
-                    // Отображение лимита при добавлении
+                        // Отображение лимита при добавлении
                     limitDisplay();
                 });
                 reader.readAsDataURL(file);
@@ -258,9 +260,9 @@ $(function () {
             return queue
         }
         uploaderImg('.add_photo-item', '#js-photo-upload', '#uploadImagesList', false, false, 9999);
-        $('.btn').on('click', function () {
+        $('.btn').on('click', function() {
             var formData = new FormData()
-            $.each(uploader.files, function (key, input) {
+            $.each(uploader.files, function(key, input) {
                 console.log(input);
                 formData.append('files[]', input)
             });
@@ -272,7 +274,7 @@ $(function () {
                 processData: false,
                 data: formData,
                 dataType: 'json',
-                success: function (res) {
+                success: function(res) {
                     if (res.success) {
                         if ($('#documents_ids').val() != '') {
                             let val = $('#documents_ids').val().split(',')
@@ -289,7 +291,7 @@ $(function () {
     }
 
 
-    $('#insert-documents').on("click", function () {
+    $('#insert-documents').on("click", function() {
         var modal = `<div class="document_modal">
                         <span class="close"><i class="fa fa-times"></i></span>
                     </div>`;
@@ -297,43 +299,159 @@ $(function () {
         $('body')
             .css({ 'overflow': 'hidden' })
             .append(modal)
-        $('.close').on('click', function () {
+        $('.close').on('click', function() {
             $('.document_modal').remove()
         })
-        $('.document_modal').on('click', function (e) {
+        $('.document_modal').on('click', function(e) {
             if ($(e.target).hasClass('document_modal')) $('.document_modal').remove()
         })
         $.ajax({
             url: $(this).data('url'),
             method: 'GET',
-            success: function (res) {
+            success: function(res) {
                 var cats = []
                 var docs = []
                 var files = []
                 var shortcode = `[documents]`
                 $('.document_modal').append(res)
-                $('#documents_cat ').on('change', function () {
-                    cats = $('#documents_cat option:selected').toArray().map(item => item.value);
-                    shortcode = `[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}" files="${files.unique().join(",")}"]`
+                    // folder animation
+                $(".js_toggle-folder").on('click', function() {
+                    let top = 0
+                    let icon = $(this).find('.fa-folder')
+                    let iconOpen = $(this).find('.fa-folder-open')
+                    $(".js_toggle-folder").not(this).each(function() {
+                        $(this).parent().removeClass("active");
+                        $(this).removeClass("active");
+                        $(this).find('.fa-folder').css({ 'opacity': 0 })
+                        $(this).find('.fa-folder-open').css({ 'opacity': 1 })
+                        top = $(this).innerHeight()
+                    });
+                    $(this).parent().toggleClass("active");
+                    $(this).toggleClass("active");
+                    if ($(this).hasClass('active')) {
+                        $('.folder-content').slideUp(200)
+                        $('.folder.active').children('.folder-content').slideDown(200)
+                        $(icon).css({ 'opacity': 0 })
+                        $(iconOpen).css({ 'opacity': 1 })
+                        let offsetFromScreenTop = $('.folder.active').offset().top - $(window).scrollTop();
+                        if (offsetFromScreenTop >= 200 && Math.sign(offsetFromScreenTop) != -1) {
+                            $('html, body').animate({ scrollTop: parseInt($('.folder.active').offset().top) - 50 }, 300);
+                        } else if (Math.sign(offsetFromScreenTop) == -1) {
+                            $('html, body').animate({ scrollTop: parseInt($('.folder.active').offset().top) - 50 }, 300);
+                        }
+                    } else {
+                        $('.folder-content').slideUp(200)
+                        $('.folder.active').children('.folder-content').slideUp(200)
+                        $(icon).css({ 'opacity': 1 })
+                        $(iconOpen).css({ 'opacity': 0 })
+                    }
+                });
+                $('.folder .checked').on('click', function() {
+                    $(this).toggleClass('active')
+                    if ($(this).hasClass('active')) {
+                        docs.push(Number($(this).data('id')))
+                    } else {
+                        docs = docs.filter(doc => doc != Number($(this).data('id')))
+                    }
+                    shortcode = `[documents docs="${docs.unique().join(",")}" files="${files.unique().join(",")}"]`
                 })
-                $('.document_list li').on('click', function () {
+                $('.doc_item, .folder-item').on('click', function() {
                     $(this).toggleClass('active')
                     if ($(this).hasClass('active')) {
                         files.push(Number($(this).data('id')))
                     } else {
                         files = files.filter(file => file != Number($(this).data('id')))
                     }
-                    shortcode = `[documents cats="${cats.unique().join(",")}" docs="${docs.unique().join(",")}" files="${files.unique().join(",")}"]`
+                    shortcode = `[documents docs="${docs.unique().join(",")}" files="${files.unique().join(",")}"]`
                 })
-                $('.add_shortcode').on('click', function () {
+                $('.add_shortcode').on('click', function() {
                     tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
                 })
+                $('input').on('change', function() {
+                    $(this).val().length > 0 ? $(this).parent().find('label').addClass('active') : $(this).parent().find('label').removeClass('active')
+                })
+                $('#f_name').on('change', function() {
+                    documentProxy.name = $(this).val()
+                })
+                $('.f_cat_list').on('change', function() {
+                    if ($(this).val() != '#') {
+                        documentProxy.cat = $(this).val()
+                    } else {
+                        documentProxy.cat = ''
+                    }
+
+                })
+                let documentFilterParams = {
+                        cat: '',
+                        name: '',
+                        dateTo: '',
+                        dateFrom: ''
+                    }
+                    // отслеживаем изменения параметров фильтра
+                const documentProxy = new Proxy(documentFilterParams, {
+                    get: function(target, prop) {
+                        // console.log({
+                        // 	type: "get",
+                        // 	target,
+                        // 	prop
+                        // });
+                        return Reflect.get(target, prop);
+                    },
+                    set: function(target, prop, value) {
+                        // console.log({
+                        //   type: "set",
+                        //   target,
+                        //   prop,
+                        //   value
+                        // });
+                        setTimeout(() => {
+                            GetFilter(target)
+                        }, 10)
+                        return Reflect.set(target, prop, value);
+                    }
+                });
+                new AirDatepicker('#f_date', {
+                    range: true,
+                    // timepicker: true,
+                    multipleDatesSeparator: ' - ',
+                    onSelect: ({ date, formattedDate, datepicker }) => {
+                        $('#f_date').val().length > 0 ? $('#f_date').parent().find('label').addClass('active') : $('#f_date').parent().find('label').removeClass('active')
+                        if (formattedDate.length > 1) {
+                            documentProxy.dateFrom = formattedDate[0]
+                            documentProxy.dateTo = formattedDate[1]
+
+                        } else {
+                            documentProxy.dateFrom = formattedDate[0]
+                        }
+                    }
+                })
+
+                function GetFilter(param) {
+                    $.ajax({
+                        type: "POST",
+                        url: $('#filter').data('url'),
+                        data: param,
+                        beforeSend: function() {
+                            // NProgress.start();
+                        },
+                        complete: function() {
+                            // NProgress.done();
+                        },
+                        success: function(res) {
+                            $('.documents_wrap').html(res)
+                        },
+                        error: function(err) {
+                            // mainToast(5000, "error", 'Ошибка загрузки!', err)
+                            console.error(err);
+                        }
+                    });
+                }
             }
         })
 
     });
 
-    $('.file_edit').on('click', function(){
+    $('.file_edit').on('click', function() {
         var parent = $(this).parent().parent('li')
         $(parent).find('.file_name input').prop('disabled', false)
     })

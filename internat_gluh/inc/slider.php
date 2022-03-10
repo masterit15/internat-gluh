@@ -35,9 +35,11 @@ function my_custom_slider() {
 		'rewrite' => array('slug' => 'slider', 'with_front' => true),
 		'hierarchical' => false,
 		'menu_position' => null,
-		'supports' => array('title'),
+		'supports' => array('title', 'thumbnail'),
 		'show_in_rest' => true,
 		'rest_base' => 'slider',
+		'menu_icon' => 'dashicons-slides'
+		
 	));
 	// Добавляем для кастомных типо записей Категории
 	register_taxonomy(

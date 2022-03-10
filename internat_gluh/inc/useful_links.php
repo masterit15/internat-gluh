@@ -46,4 +46,39 @@ function my_custom_useful_link() {
 	// 	)
 	// );
 }
-?>
+
+//Дополнительные поля 
+add_action("admin_init", "useful_link_init");
+
+function useful_link_init() {
+	$post_types = get_post_types();
+	foreach ($post_types as $post_type) {
+		add_meta_box("useful_link", "Ссылка на ресурс", "useful_link_field", 'useful_link', "normal", "low");
+	}
+}
+
+add_action('save_post', 'save_useful_link');
+
+function save_useful_link() {
+	global $post;
+	if ($post) {
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {return $post->ID;}
+		update_post_meta($post->ID, "useful_link", $_POST["useful_link"]);
+	}
+}
+//Дополнительные поля продукта html
+function useful_link_field() {
+	global $post;
+	$custom = get_post_custom($post->ID);
+	$link    = $custom["useful_link"][0];
+	?>
+	<div class="group">
+		<label>Ссылка:</label>
+			<?if ($link) {?>
+				<input class="useful_link" name="useful_link" type="text" value="<?=$link?>">
+			<?} else {?>
+				<input class="useful_link" name="useful_link" type="text">
+			<?}?>
+	</div>
+<?
+}

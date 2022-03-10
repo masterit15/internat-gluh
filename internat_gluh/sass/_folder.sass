@@ -29,10 +29,8 @@
     padding: 0
     margin: 0
 .shared-user
-  -webkit-box-align: center
   align-items: center
   color: #6a696a
-  display: -webkit-inline-box
   display: inline-flex
   font-weight: 500
   margin-left: 5px
@@ -43,17 +41,16 @@
   height: 15px
   margin-right: 3px
 .folder-summary
-  padding: 10px 15px 15px 15px
   cursor: pointer
-  display: -webkit-box
   display: flex
   justify-content: space-between
-  line-height: 1
+  align-items: center
   height: 100px
   position: relative
   transition: all .5s ease
 .folder-summary__start
   position: relative
+  margin-left: 15px
 .folder-summary__file-count__amount
   color: #ffffff
   font-size: 12px
@@ -114,7 +111,7 @@
   font-weight: bold
   padding: 8px 15px
 .folder-summary__end
-  margin-left: 15px
+  margin-right: 15px
   svg
     width: 30px
     height: 30px
@@ -175,32 +172,31 @@
   align-items: flex-start
   display: flex
   height: 80px
-  line-height: 1
   opacity: 1
   position: relative
-  transform: translate(0px, 20px)
   transition: all .3s ease
   &:hover
     transition: all .3s ease
     background-color: #f7f7f7
   &-wrap
     position: absolute
-    padding: 20px 25px
     height: 100%
     display: flex
     justify-content: center
     align-items: center
+    gap: 20px
     width: 100%
     text-decoration: none
 .folder-item__icon
   display: flex
   justify-content: center
   align-items: center
-  height: 40px
-  width: auto
+  height: 30px
+  width: 30px
+  margin-left: 15px
   font-size: 1.8rem
 .folder-item__details
-  padding: 1px 0 0 15px
+  width: 100%
   &__action
     width: 100%
     display: flex
@@ -241,8 +237,7 @@
 .folder-item__size
   color: #6a696a
   font-weight: 500
-  margin-left: auto
-  margin-top: 2px
+  margin-right: 15px
   font-size: 1.1rem
 .folder-item:not(:last-child)::after
   background: #edecee
