@@ -1,9 +1,10 @@
 .important_actions
-  padding: 30px
+  margin-bottom: 30px
   &_list
     display: flex
-    justify-content: center
+    justify-content: space-between
     align-items: center
+    gap: 20px
     list-style: none
     margin: 0
     padding: 0
@@ -11,10 +12,64 @@
     & >li
       position: relative
       background-color: #fff
-      width: 222px
-      height: 240px
+      width: 150px
+      height: 180px
       border-radius: 20px
       transition: all .3s ease
+      &:nth-child(1)
+        background-color: #ff7c28
+        &:hover
+          box-shadow: 0 10px 30px rgba(#ff7c28, .5)
+          transition: all .3s ease
+          z-index: 10
+      &:nth-child(2)
+        background-color: #ff4040
+        &:hover
+          box-shadow: 0 10px 30px rgba(#ff4040, .5)
+          transition: all .3s ease
+          z-index: 10
+      &:nth-child(3)
+        background-color: #b010ca
+        &:hover
+          box-shadow: 0 10px 30px rgba(#b010ca, .5)
+          transition: all .3s ease
+          z-index: 10
+      &:nth-child(4)
+        background-color: #ff03be
+        &:hover
+          box-shadow: 0 10px 30px rgba(#ff03be, .5)
+          transition: all .3s ease
+          z-index: 10
+      &:nth-child(5)
+        background-color: #00aff2
+        &:hover
+          box-shadow: 0 10px 30px rgba(#00aff2, .5)
+          transition: all .3s ease
+          z-index: 10
+      &:nth-child(6)
+        background-color: #15ca52
+        &:hover
+          box-shadow: 0 10px 30px rgba(#15ca52, .5)
+          transition: all .3s ease
+          z-index: 10
+      &:nth-child(7)
+        background-color: #30ccbf
+        &:hover
+          box-shadow: 0 10px 30px rgba(#30ccbf, .5)
+          transition: all .3s ease
+          z-index: 10
+      &:nth-child(8)
+        background-color: #dfff28
+        &:hover
+          box-shadow: 0 10px 30px rgba(#dfff28, .5)
+          transition: all .3s ease
+          z-index: 10
+      &:nth-child(9)
+        background-color: #ff2828
+        &:hover
+          box-shadow: 0 10px 30px rgba(#ff2828, .5)
+          transition: all .3s ease
+          z-index: 10
       &:hover
         box-shadow: 0 10px 30px rgba($textcolor, .2)
         transition: all .3s ease
@@ -25,18 +80,20 @@
         align-items: center
         width: 100%
         height: 100%
-        color: $textcolor
+        color: #fff
         text-decoration: none
         padding: 10px
         text-align: center
         &:active, &:visited
           outline: none
-          color: $textcolor
+          color: #fff
         & h4
           display: flex
           justify-content: space-around
           align-items: center
           flex-direction: column
+          font-size: 16px
+          line-height: 20px
           height: 100%
           width: 100%
           .fa

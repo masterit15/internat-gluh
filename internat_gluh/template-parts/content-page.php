@@ -11,7 +11,6 @@
 <div class="content" id="post-<?php the_ID(); ?>">
 	<?php the_title( '<h2 class="page_title title">', '</h2>' ); ?>
 	<?php
-PR(the_content());
 the_content();
 
 		wp_link_pages(

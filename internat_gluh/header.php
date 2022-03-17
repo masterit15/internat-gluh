@@ -17,8 +17,8 @@
 <head>
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="КРОЦ,КРОЦ для детей с нарушениями слуха и зрения,ГБОУ Комплексный реабилитационно-образовательный центр для детей с нарушениями слуха и зрения г. Владикавказ РСО-Алания, Школа-интернат для глухих детей">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
-
 	<?php wp_head(); ?>
 	<?
 	define("TURI",     get_template_directory_uri() . '/');
@@ -56,19 +56,6 @@
 								</div>
 							</a>
 						<? } ?>
-					</div>
-					<div class="top_item">
-						<ul class="social">
-							<li>
-								<a href="<?= get_theme_mod('soc_vk') ?>" target="_black"><i class="fa fa-vk"></i></a>
-							</li>
-							<li>
-								<a href="<?= get_theme_mod('soc_inst') ?>" target="_black"><i class="fa fa-instagram"></i></a>
-							</li>
-							<li>
-								<a href="<?= get_theme_mod('soc_fac') ?>" target="_black"><i class="fa fa-facebook"></i></a>
-							</li>
-						</ul>
 					</div>
 					<div class="top_item">
 						<button class="btn add">Написать</button>

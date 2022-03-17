@@ -68,16 +68,28 @@
 		</div>
 	</div>
 	<ul class="social">
+		<?if(get_theme_mod('soc_vk')){?>
 		<li>
-			<a href="<?= get_theme_mod('soc_vk') ?>" target="_black"><i class="fa fa-vk"></i></a>
+			<a href="<?= get_theme_mod('soc_vk') ?>" target="_black"><img src="<?=TURI?>/images/dist/vk.svg" alt=""></a>
 		</li>
+		<?}?>
+		<?if(get_theme_mod('soc_inst')){?>
 		<li>
-			<a href="<?= get_theme_mod('soc_inst') ?>" target="_black"><i class="fa fa-instagram"></i></a>
+			<a href="<?= get_theme_mod('soc_inst') ?>" target="_black"><img src="<?=TURI?>/images/dist/im.svg" alt=""></a>
 		</li>
+		<?}?>
+		<?if(get_theme_mod('soc_fac')){?>
 		<li>
-			<a href="<?= get_theme_mod('soc_fac') ?>" target="_black"><i class="fa fa-facebook"></i></a>
+			<a href="<?= get_theme_mod('soc_fac') ?>" target="_black"><img src="<?=TURI?>/images/dist/fb.svg" alt=""></a>
 		</li>
+		<?}?>
+		<?if(get_theme_mod('soc_ok')){?>
+		<li>
+			<a href="<?= get_theme_mod('soc_ok') ?>" target="_black"><img src="<?=TURI?>/images/dist/ok.svg" alt=""></a>
+		</li>
+		<?}?>
 	</ul>
+	<div class="copyright"><?= get_theme_mod('copyright') ?></div>
 </footer><!-- #colophon -->
 
 </div>

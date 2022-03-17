@@ -176,10 +176,10 @@ window.onload = () => {
         var str = $(this).text()
         if (str.includes('http://')) {
             str = str.replace('http://', '');
-            str = str.replace('/', '');
+            str = str.slice(0, -1)
         } else if (str.includes('https://')) {
             str = str.replace('https://', '');
-            str = str.replace('/', '');
+            str = str.slice(0, -1)
         }
         str = str.replace(/\s/g, '')
         $(this).text(str)

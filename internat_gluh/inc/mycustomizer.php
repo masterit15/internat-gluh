@@ -38,12 +38,52 @@ add_action('customize_register', function($customizer) {
 	));
   // копирайт сайта
   $customizer->add_setting('copyright', 
-    array('default' => '© 2021 «ЮГ-Телеком» Все права защищены.')
+    array('default' => '© 2022 ГБОУ КРОЦ Все права защищены.')
   );
   $customizer->add_control('copyright', array(
     'label' => 'Копирайт сайта (copyright ©)',
     'section' => 'section_one',
     'type' => 'text',
   ));
-
+// Настройки соцсетей ==========================================================
+$customizer->add_section(
+  'section_soc', array(
+    'title' => 'Ссылки на соцсети',
+    'description' => 'Указываем ссылки в поле',
+    'priority' => 10,
+  )
+);
+// Ссылки на соцсети
+$customizer->add_setting('soc_fac', 
+  array('default' => '')
+);
+$customizer->add_control('soc_fac', array(
+  'label' => 'Ссылка на фейсбук',
+  'section' => 'section_soc',
+  'type' => 'text',
+));
+$customizer->add_setting('soc_vk', 
+  array('default' => '')
+);
+$customizer->add_control('soc_vk', array(
+  'label' => 'Ссылка на вконтакте',
+  'section' => 'section_soc',
+  'type' => 'text',
+));
+$customizer->add_setting('soc_inst', 
+  array('default' => '')
+);
+$customizer->add_control('soc_inst', array(
+  'label' => 'Ссылка на инстаграм',
+  'section' => 'section_soc',
+  'type' => 'text',
+));
+$customizer->add_setting('soc_ok', 
+  array('default' => '')
+);
+$customizer->add_control('soc_ok', array(
+  'label' => 'Ссылка на одноклассники',
+  'section' => 'section_soc',
+  'type' => 'text',
+));
 });

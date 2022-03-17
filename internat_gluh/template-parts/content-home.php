@@ -28,14 +28,32 @@
     ?>
         <div class="slider_item">
           <div class="slider_item_media" style="background-image: url(<?= get_the_post_thumbnail_url($post->ID, 'large') ?>);"></div>
-          <h2 class="slider_item_title"><?= $post->post_title ?></h2>
+          <!-- <h2 class="slider_item_title"><?//= $post->post_title ?></h2> -->
         </div>
     <? }
     }
     wp_reset_postdata(); ?>
   </div>
 </section>
-<script src="https://pos.gosuslugi.ru/bin/script.min.js"></script>
+
+<div class="row">
+  <? get_sidebar(); ?>
+  <main id="main">
+  <section class="section important_actions">
+  <?
+  wp_nav_menu(
+    array(
+      'theme_location'   => 'menu-home-items',
+      'menu_id'          => '',
+      'menu_class'       => 'important_actions_list',
+      'container'       => false,
+      'link_before' => '<h4 class="important_actions_list_item_title">',
+      'link_after' => '</h4>'
+    )
+  );
+  ?>
+</section>
+  <script src="https://pos.gosuslugi.ru/bin/script.min.js"></script>
 <div id='js-show-iframe-wrapper'>
   <div class='pos-banner-fluid bf-18'>
     <div class='bf-18__decor'>
@@ -156,102 +174,10 @@
 <script>
   Widget("https://pos.gosuslugi.ru/form", <?= $widgetId ?>)
 </script>
-<section class="section important_actions">
-  <?
-  wp_nav_menu(
-    array(
-      'theme_location'   => 'menu-home-items',
-      'menu_id'          => '',
-      'menu_class'       => 'important_actions_list',
-      'container'       => false,
-      'link_before' => '<h4 class="important_actions_list_item_title">',
-      'link_after' => '</h4>'
-    )
-  );
-  ?>
-</section>
-<div class="row">
-  <? get_sidebar(); ?>
-  <main id="main">
-    <section class="section news">
-      <h3 class="section_title">Новости</h3>
-      <div class="news_home">
-        <?
-        $reviews = new WP_Query(
-          array(
-            'post_type' => 'post',
-            'post_status' => 'publish',
-            'posts_per_page' => 6,
-          )
-        );
-        if ($reviews->have_posts()) {
-          while ($reviews->have_posts()) {
-            $reviews->the_post(); 
-            
-            ?>
-            <div class="news_home_item">
-              <? if (get_the_post_thumbnail_url($post->ID, 'large')) { ?>
-                <div class="news_home_item_madia" style="background-image: url(<?= get_the_post_thumbnail_url($post->ID, 'large') ?>);"></div>
-              <? } else { ?>
-                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                  <title />
-                  <g data-name="Layer 2" id="Layer_2">
-                    <path d="M29,8H26V5a1,1,0,0,0-1-1H3A1,1,0,0,0,2,5V23a1,1,0,0,0,1,1H6v3a1,1,0,0,0,1,1H29a1,1,0,0,0,1-1V9A1,1,0,0,0,29,8ZM4,22V6H24V8H7A1,1,0,0,0,6,9V22Zm8-10a2,2,0,1,1-2,2A2,2,0,0,1,12,12ZM25.89,23.46A1,1,0,0,1,25,24H11a1,1,0,0,1-.89-.55,1,1,0,0,1,.09-1.05l3-4a1,1,0,0,1,1.25-.29l1.35.67,3.49-3.49a1,1,0,0,1,.79-.29,1,1,0,0,1,.73.42l5,7A1,1,0,0,1,25.89,23.46Z" />
-                  </g>
-                </svg>
-              <? } ?>
-
-              <div class="news_home_item_content">
-                <a class="news_home_item_title" href="<?= get_permalink() ?>"><? the_title() ?></a>
-                <div class="news_home_item_desc"><? the_excerpt() ?></div>
-                <span class="news_home_item_date"><?= date("d.m.Y в H:m", strtotime($reviews->post->post_date)) ?></span>
-              </div>
-            </div>
-        <? }
-        } else {
-          echo 'Ничего не найдено';
-        }
-        wp_reset_postdata(); ?>
-      </div>
-    </section>
     <section class="section about_us">
       <h3 class="section_title">О нас</h3>
       <p class="section_desc">ГБОУ "Комплексный реабилитационно-образовательный центр для детей с нарушениями слуха и зрения" г. Владикавказ РСО-Алания</p>
-      <div class="about_us_post">
-        <div class="about_us_post_media" style="background-image: url(<?= TURI ?>/images/dist/pexels-1.jpg);"></div>
-        <p> Мы с тобою живем в необычном мире,
-          Мы судьбою помечены знаком одним
-          Этот знак для иных, словно тяжкая гиря,
-          А другие стоят, не согнувшись под ним. </p>
-
-        <p> И живут, как и все, полнокровно и смело,
-          Не сдаваясь ни в чем, промолчав о беде.
-          В их умелых руках также спорится дело,
-          И черпаются силы в любви и труде. </p>
-
-        <p>Ты равняйся по ним! Ничего не пропало.
-          Сколько дел на земле! Присмотрись не спеша.
-          Что бывало лишь сказка – реальностью стала.
-          И в реальности жизнь все равно хороша! </p>
-      </div>
-
-
-      <div class="about_us_post">
-        <div class="about_us_post_media" style="background-image: url(<?= TURI ?>/images/dist/pexels-3.jpg);"></div>
-        <p>На планете все мы люди.
-          Так давайте с вами будем
-          Относиться чуть добрее
-          К тем, кто в чем-то нас слабее.</p>
-
-        <p>Главное – внутри, учтите,
-          И на внешность не смотрите.
-          Всем нам хочется влюбиться,
-          И работать, и учиться.</p>
-
-        <p>Пусть же тот, кто не такой,
-          Счастья сыщет, как любой.</p>
-      </div>
-
+      <?the_content()?>
     </section>
     <section class="section useful_link">
       <h3 class="section_title">Полезные ресурсы</h3>
@@ -277,21 +203,21 @@
               <a href="<?=$link?>" target="_blank" rel="noopener noreferrer">
                 <div class="useful_link_list_item_content">
                   <?if(!get_the_post_thumbnail_url($post->ID, 'large')){?>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
-                    </svg>
+                    <div class="useful_link_list_item_svg">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                      </svg>
+                    </div>
                   <?}else{?>
                     <img src="<?= get_the_post_thumbnail_url($post->ID, 'large') ?>" alt="" class="useful_link_list_item_media">
                   <?}?>
@@ -305,5 +231,21 @@
         wp_reset_postdata(); ?>
       </ul>
     </section>
+    <p style="text-align: center;">
+<strong>Обновление официального сайта образовательной организации не менее 4-х раз в месяц.</strong></p>
+
+<p style="text-align: center;"><strong>Последнее обновление: <b>
+  <script language="javascript" type="text/javascript">
+var d = new Date();
+
+var day=new Array("Воскресенье","Понедельник","Вторник",
+"Среда","Четверг","Пятница","Суббота");
+
+var month=new Array("января","февраля","марта","апреля","мая","июня",
+"июля","августа","сентября","октября","ноября","декабря");
+
+document.write(day[d.getDay()]+" " +d.getDate()+ " " + month[d.getMonth()]
++ " " + d.getFullYear() + " г.");
+</script></b> </strong></p>
   </main>
 </div>

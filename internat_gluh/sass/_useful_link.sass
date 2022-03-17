@@ -4,13 +4,13 @@
     padding: 0
     margin: 0
     display: flex
-    justify-content: center
+    justify-content: flex-start
     align-items: center
     flex-wrap: wrap
     gap: 20px
     &_item
       width: 100%
-      max-width: 300px
+      max-width: 320px
       height: 155px
       display: flex
       justify-content: center
@@ -43,8 +43,18 @@
       &_title
         max-height: 70px
         overflow: hidden
+        width: 100%
       &_media
         width: 50px
         height: auto
       &_lnk
         font-weight: 900
+      &_svg
+        width: 50px
+        height: auto
+        display: flex
+        justify-content: center
+        align-items: center
+        svg
+          width: 100%
+          height: auto
