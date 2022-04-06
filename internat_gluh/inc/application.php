@@ -397,6 +397,17 @@ function applicationHandler(){
         update_post_meta($post_id, "application_specialist_cat", $feed['specialistsCat']);
         update_post_meta($post_id, "application_specialist_shedule", $feed['specialistShedule']);
 
+				// обновляем график специалиста
+				$specialistsShedule = get_post_custom($feed['specialist']);
+				$applicationShedule = get_post_custom($post_id);
+				$specialistsShedule = json_decode($specialistsShedule["specialists_shedule"][0], true);
+				$applicationShedule = json_decode($applicationShedule["application_specialist_shedule"][0], true);
+				foreach($applicationShedule as $shedules){
+          $i = array_search($shedules['id'], array_column($specialistsShedule, 'id'));
+          $specialistsShedule[$i]['book'] = true;
+				}
+				update_post_meta($feed['specialist'], "specialists_shedule", json_encode($specialistsShedule));
+				
           if($post->ID){
             $res['success'] = true;
             $res['message'] = '<div class="message success">
@@ -405,8 +416,8 @@ function applicationHandler(){
                                   <a href="/">Закрыть</a>
                               </div>';
             $res['chaptcha'] = $is_valid;
-            $res['sendEmail'] = sendEmail($feed, $post);
-            // $res['bs64'] = $feed['specialistSheduleImg'];
+            // $res['sendEmail'] = sendEmail($feed, $post);
+            
           }else{
             $res['message'] = '<div class="message success">
 																	<i class="fa fa-exclamation-triangle"></i>

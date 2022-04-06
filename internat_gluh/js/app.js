@@ -312,6 +312,7 @@ window.onload = () => {
                             $(`.day[data-id="${ss.id}"]`)
                             .addClass('active')
                             .addClass('book')
+                            .attr('data-book', true)
                             .html(`${specialistLock}${$(`.day[data-id="${ss.id}"]`).data('time')}:00`)
                         }else{
                             $(`.day[data-id="${ss.id}"]`)
@@ -323,8 +324,8 @@ window.onload = () => {
                 }
                 
                 $('.day.active').on('click', function () {
-                    $('.loader').css({"display":"flex"})
                     if (!$(this).data('book')) {
+                        $('.loader').css({"display":"flex"})
                         $(this).toggleClass('check')
                         let id = $(this).data('id')
                         let time = $(this).data('time')
@@ -341,7 +342,7 @@ window.onload = () => {
                             specialists_shedule_book = specialists_shedule_book.filter(sh => sh.id != $(this).data('id'))
                             $('#specialists_field_shedule').val(JSON.stringify(specialists_shedule_book))
                         }
-                    }
+                    
                         html2canvas(document.querySelector(".shedule"), {logging: false}).then(function(canvas) {
                             var ctx = canvas.getContext('2d');
                             ctx.fillRect(50,50,600,400);
@@ -352,6 +353,7 @@ window.onload = () => {
                             // $('body').before(img)
                             $('.loader').fadeOut(200)
                         });
+                    }
                 })
             },
             error: function (err) {

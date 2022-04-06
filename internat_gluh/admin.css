@@ -904,7 +904,7 @@
 #specialists .group label{
     font-weight: bold;
 }
-#specialists_field,#application_specialist_shedule{
+#specialists_field,#application_specialist_shedule, #specialists_field_book{
     /* display: none; */
 }
 .specialist_shedule{
@@ -952,7 +952,14 @@
 .specialist_shedule td.active.check svg{
     fill: #a58242
 }
-  
+.specialist_shedule td.active.book{
+    background-color: #ffa7a7;
+        border: 1px solid #a54242;
+        color: #a54242;
+}
+.specialist_shedule td.active.book svg{
+    fill: #a54242
+}
 .specialist_shedule td.active svg{
     fill: rgb(38, 112, 57);
 }

@@ -64,6 +64,7 @@ function save_specialists() {
 	if ($post) {
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {return $post->ID;}
 		update_post_meta($post->ID, "specialists_shedule", $_POST["specialists_shedule"]);
+		update_post_meta($post->ID, "specialists_shedule_book", $_POST["specialists_shedule_book"]);
 		update_post_meta($post->ID, "specialists_email", $_POST["specialists_email"]);
 	}
 }
@@ -74,7 +75,6 @@ function specialists_field() {
 	$shedule    = $custom["specialists_shedule"][0];
 	$email    = $custom["specialists_email"][0];
 	?>
-  
   <div class="group">
     <?if ($email) {?>
       <label for="specialists_email">Е-почта специалиста</label>
