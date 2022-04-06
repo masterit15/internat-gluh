@@ -489,6 +489,7 @@ $(function () {
                 let time = $(this).data('time')
                 let book = $(this).data('book')
                 let weekday = $(this).data('weekday')
+                
                 let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
                 let weekdatefull = $(`.weekday[data-weekday="${weekday}"]`).data('weekdatefull')
                 $(this).html(`${specialistTime}${weekdayText} / ${time}:00`)
