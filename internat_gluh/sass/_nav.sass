@@ -15,15 +15,19 @@
       &:before
         display: block
     &.active
+      background-color: rgba($accent, 0.4)
+      &>a
+        box-shadow: 0px 2px 2px rgba(#000,0.3)
       &:before
         transform: rotate(180deg)
     .sub-menu
       list-style: none
       display: none
-      margin-left: 12px
+      margin-left: 0
       padding: 0
       overflow: hidden
-      border-left: 1px dashed $borderColor
+      
+      background-color: rgba($accent, 0.4)
     &.current_page_item
       // background-color: rgba($accent, 0.1)
     &:before
@@ -31,6 +35,7 @@
       position: absolute
       font-family: 'FontAwesome'
       right: 10px
+      top: 6px
       display: none
       height: 25px
       width: 15px
@@ -43,7 +48,7 @@
       color: #241D19
       display: block
       width: 100%
-      padding: 5px 15px
+      padding: 6px 25px 6px 15px
       &:active, &:focus
         outline: none
       &:hover
@@ -57,7 +62,7 @@
   align-items: center
   flex-direction: column
   margin: 0 20px
-  z-index: 99999
+  z-index: 999
   &.active
     position: fixed
     right: 310px
@@ -108,7 +113,7 @@
     transition: transform .2s ease
   &_item
     cursor: pointer
-    width: 50px
+    width: 80px
     height: 100%
     display: flex
     justify-content: center

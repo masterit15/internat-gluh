@@ -1,56 +1,98 @@
 <?
-header("Access-Control-Allow-Origin: *");
-add_action('wp_ajax_specialistsSelect', 'specialistsSelect'); // wp_ajax_{ACTION HERE} 
-add_action('wp_ajax_nopriv_specialistsSelect', 'specialistsSelect');
-function specialistsSelect(){
-  $arg = array(
-    'post_type' => 'specialists',
-    'post_status' => 'publish',
-    'posts_per_page' => -1,
-  );
-  if($_POST['specialistscat'] != ''){
-    $arg['tax_query'][] = array(
-          'taxonomy' => 'specialists-cat',   // taxonomy name
-          'field' => 'id',           // term_id, slug or name
-          'terms' => $_POST['specialistscat'],                  // term id, term slug or term name
-      );
-  }
-  $reviews = new WP_Query($arg);
-  if ($reviews->have_posts()) {
-    echo '<select id="specialists" name="specialists" title="Список специалистов" data-action="'.site_url ().'/wp-admin/admin-ajax.php?action=specialistShedule">';
-      echo '<option value="#">Список специалистов</option>';  
-      while ($reviews->have_posts()) {
-        global $post;
-          $reviews->the_post();
-          echo '<option value="'.$post->ID.'">'. $post->post_title .'</option>';
-      }
-    echo '</select>';
-  }
-die();
+add_action('init', 'my_custom_specialists');
+function my_custom_specialists() {
+	register_post_type('specialists', array(
+		'labels' => array(
+			'name' => 'Специалисты',
+			'singular_name' => 'Специалисты',
+			'add_new' => 'Добавить Специалиста',
+			'add_new_item' => 'Добавить нового Специалиста',
+			'edit_item' => 'Редактировать Специалиста',
+			'new_item' => 'Новый Специалист',
+			'view_item' => 'Посмотреть Специалиста',
+			'search_items' => 'Найти Специалиста',
+			'not_found' => 'Специалистов не найдено',
+			'not_found_in_trash' => 'В корзине Специалистов не найдено',
+			'parent_item_colon' => '',
+			'menu_name' => 'Специалисты',
+
+		),
+		'public' => true,
+		'publicly_queryable' => false,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'query_var' => true,
+		'rewrite' => true,
+		'capability_type' => 'post',
+		'has_archive' => true,
+		'rewrite' => array('slug' => 'specialists', 'with_front' => true),
+		'hierarchical' => false,
+		'menu_position' => null,
+		'supports' => array('title','thumbnail'),
+		'show_in_rest' => true,
+		'rest_base' => 'specialists',
+		'menu_icon' => 'dashicons-id'
+		
+	));
+	// Добавляем для кастомных типо записей Категории
+	register_taxonomy(
+		"specialists-cat",
+		array("specialists"),
+		array(
+			"hierarchical" => true,
+			"label" => "Категории",
+			"singular_label" => "Категория",
+			"rewrite" => array('slug' => 'specialists', 'with_front' => false),
+		)
+	);
 }
-add_action('wp_ajax_specialistShedule', 'specialistShedule'); // wp_ajax_{ACTION HERE} 
-add_action('wp_ajax_nopriv_specialistShedule', 'specialistShedule');
-function specialistShedule(){
-  if($_POST['specialist'] != '#'){
-  $post = get_post($_POST['specialist']);
-  $custom = get_post_custom($post->ID);
+
+//Дополнительные поля 
+add_action("admin_init", "specialists_init");
+
+function specialists_init() {
+	$post_types = get_post_types();
+	foreach ($post_types as $post_type) {
+		add_meta_box("specialists", "График оказания услуг", "specialists_field", 'specialists', "normal", "low");
+	}
+}
+
+add_action('save_post', 'save_specialists');
+
+function save_specialists() {
+	global $post;
+	if ($post) {
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {return $post->ID;}
+		update_post_meta($post->ID, "specialists_shedule", $_POST["specialists_shedule"]);
+		update_post_meta($post->ID, "specialists_email", $_POST["specialists_email"]);
+	}
+}
+//Дополнительные поля продукта html
+function specialists_field() {
+	global $post;
+	$custom = get_post_custom($post->ID);
 	$shedule    = $custom["specialists_shedule"][0];
 	$email    = $custom["specialists_email"][0];
-  ?>
-  <div class="shedule">
+	?>
+  
+  <div class="group">
+    <?if ($email) {?>
+      <label for="specialists_email">Е-почта специалиста</label>
+      <input type="email" name="specialists_email" id="specialists_email" placeholder="Е-почта специалиста" value="<?=$email?>">
+    <?} else {?>
+      <label for="specialists_email">Е-почта специалиста</label>
+      <input type="email" name="specialists_email" id="specialists_email" placeholder="Е-почта специалиста" value="<?=$email?>">
+    <?}?>
+  </div>
   <?if ($shedule) {?>
     <textarea id="specialists_field" name="specialists_shedule" id="" cols="50" rows="10"><?=$shedule?></textarea>
   <?} else {?>
     <textarea id="specialists_field" name="specialists_shedule" id="" cols="50" rows="10"></textarea>
   <?}?>
-  <?if ($email) {?>
-    <input type="hidden" name="specialists_email" id="specialists_email" placeholder="Е-почта специалиста" value="<?=$email?>">
-  <?}?>
-  <textarea id="specialists_field_shedule" name="specialists_shedule_book" id="" cols="50" rows="10"></textarea>
   <table class="specialist_shedule">
     <tbody>
       <tr>
-        <td></td>
+      <td></td>
         <?getWeekAndDate()?>
       </tr>
       <tr>
@@ -155,10 +197,68 @@ function specialistShedule(){
       </tr>
     </tbody>
   </table>
-  </div>
-  <?
-  }
-die();
+<?
 }
+function getPostCount($specialist)
+{
+  $args = array(
+    'post_type' => 'application'
+  );
+  $the_query = new WP_Query( $args );
+  $count = 0;
+  $appArr = (array) $the_query->posts;
+  
+  foreach($appArr as $app){
+    $custom = get_post_custom($app->ID);
+    if($custom['application_specialist'][0] == $specialist){
+      $count++;
+    }
+  }
+  echo $count;
+}
+// Регистрируем колонку 'ID' и 'Миниатюра'. Обязательно.
+add_filter( 'manage_specialists_posts_columns', function ( $columns ) {
+	$my_columns = [
+		'email'=> 'E-почта',
+		'app_count'=> 'Количество заявок'
+	];
 
-?>
+	return array_slice( $columns, 0, 1 ) + $columns + $my_columns ;
+} );
+// Выводим контент для каждой из зарегистрированных нами колонок. Обязательно.
+add_action( 'manage_specialists_posts_custom_column', function ( $column_name ) {
+	global $post;
+	$custom = get_post_custom($post->ID);
+	if ( $column_name === 'app_count' ) {
+		echo getPostCount($post->ID);
+	}
+	if ( $column_name === 'email' ) {
+    echo $custom['specialists_email'][0];
+	}
+} );
+// Меняем заголовок столбца
+add_filter( 'manage_posts_columns', 'change_title_in_table_services', 10, 2 );
+function change_title_in_table_services( $post_columns, $post_type ) {
+	if ( 'specialists' === $post_type ) {
+		$post_columns['title'] = 'ФИО специалиста';
+		// $post_columns['date'] = 'ФИО специалиста';
+    
+	}
+	return $post_columns;
+}
+function getWeekAndDate(){
+  $date = strtotime('monday this week');
+  $weekday = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  $weekArr = [];
+  for($i = 0;$i < 7;$i++) {
+    $weekArr[$i]['weekday'] = $weekday[$i];
+    $weekArr[$i]['weekdate'] = date("d.m", $date);
+    $weekArr[$i]['weekdatefull'] = date("d.m.Y", $date);
+    $date =  strtotime('+1 day', $date);
+  } 
+    $i = 1;
+    foreach($weekArr as $week){
+      echo '<td class="weekday" data-weekdatefull="'.$week['weekdatefull'].'" data-weekday="'.$i.'">'.$week['weekday'].' <span>'.$week['weekdate'].'</span></td>';
+    $i++;
+  }
+}

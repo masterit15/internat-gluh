@@ -1,5 +1,5 @@
 const preprocessor = 'sass',
-		  fileswatch   = 'php,html,htm,txt,json,md,woff2',
+		  fileswatch   = 'php,html,htm,txt,json,md,woff2,css',
       baseDir      = 'internat_gluh',
       hostName     = 'http://internat-gluh.rg/'
 
@@ -46,11 +46,13 @@ function browsersync() {
 }
 function assets() {
 	return src([ // Берём файлы из источников
-		'./internat_gluh/libs/jquery/jquery.min.js',
+		'node_modules/jquery/dist/jquery.min.js',
 		'node_modules/owl.carousel/dist/owl.carousel.min.js',
 		'node_modules/magnific-popup/dist/jquery.magnific-popup.min.js',
 		'node_modules/suggestions-jquery/dist/js/jquery.suggestions.min.js',
 		'node_modules/air-datepicker/air-datepicker.js',
+		'node_modules/html2canvas/dist/html2canvas.min.js',
+		'node_modules/imask/dist/imask.min.js',
 		])
 		.pipe(newer(`${baseDir}/assets/js/libs.min.js`))
 		.pipe(uglify()) // Сжимаем JavaScript
@@ -60,7 +62,7 @@ function assets() {
 		.pipe(browserSync.stream()) // Триггерим Browsersync для обновления страницы
 }
 function scripts() {
-	return src([`${baseDir}/js/*.js`, `!${baseDir}/js/*.min.js`])
+	return src([`${baseDir}/js/app.js`, `!${baseDir}/js/*.min.js`])
 		.pipe(webpack({
 			mode: 'production',
 			performance: { hints: false },

@@ -34,6 +34,9 @@
 /* Небольшие устройства, Планшеты */
 @media only screen and (max-width : 768px)
 	/**/
+	.page-title
+		font-size: 22px
+		margin-bottom: 30px!important
 	/*Disable Animation on Mobile Devices*/
 	.mobile_nav
 		display: flex
@@ -79,7 +82,35 @@
 		-o-animation: none !important
 		-ms-animation: none !important
 		animation: none !important
-
+	.footer_list_item
+		margin-bottom: 20px
+	.logo
+		margin-bottom: 15px
+		img
+			max-width: 80px
+	.application_wrap
+		padding: 70px 15px
+		select
+			max-width: 100%
+			margin-bottom: 0
+		.fields_group 
+			max-width: 100%
+			input
+				max-width: 100%
+	.weekday
+		span
+			display: none
+	table.specialist_shedule 
+		td
+			&.time, &.day
+				font-size: 11px
+				padding: 0
+			&.time
+				&_title
+			&.weekday
+				font-size: 11px
+		svg
+			display: none
 /* Сверхмалые Устройства, Телефоны */
 @media only screen and (max-width : 480px)
 	/**/
@@ -98,9 +129,11 @@
 	.top
 		.social
 			display: none
+	
 /* Пользовательские, iPhone Retina */
 @media only screen and (max-width : 320px)
 	/**/
+	
 
 
 /*==========  Mobile First Method  ==========*/

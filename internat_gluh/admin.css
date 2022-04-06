@@ -893,3 +893,75 @@
     background-color: #fff;
     border: 2px solid rgba(0, 0, 0, 0.1);
 }
+#specialists .inside{
+    padding: 0;
+    margin: 0;
+}
+#specialists .group{
+    align-items: center;
+    margin: 20px;
+}
+#specialists .group label{
+    font-weight: bold;
+}
+#specialists_field,#application_specialist_shedule{
+    /* display: none; */
+}
+.specialist_shedule{
+    width: 100%;
+    min-height: 600px;
+    border-collapse: collapse;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    
+}
+.specialist_shedule .weekday {
+    font-size: 1.3rem;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.specialist_shedule .time {
+    font-size: 1.3rem;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.specialist_shedule .day {
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    color: rgb(38, 112, 57);
+    padding: 0 10px;
+    text-align: right;
+    
+}
+.specialist_shedule td{
+    position: relative;
+    border: 1px solid #edecee;
+    width: 120px;
+}
+.specialist_shedule td.active{
+    background-color: rgb(93, 255, 133);
+    border: 1px solid rgb(70, 219, 107);
+}
+.specialist_shedule td.active.check{
+    background-color: #ffeaa7;
+        border: 1px solid #a58242;
+        color: #a58242;
+}
+.specialist_shedule td.active.check svg{
+    fill: #a58242
+}
+  
+.specialist_shedule td.active svg{
+    fill: rgb(38, 112, 57);
+}
+
+.specialist_shedule td svg{
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    fill:rgb(59, 59, 59);
+    width: 30px;
+    height: 30px;
+}

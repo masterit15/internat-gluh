@@ -16,7 +16,7 @@ function PR($var, $all = false, $die = false) {
 	$dRoot = str_replace("\\", "/", $dRoot);
 	$bt["file"] = str_replace($dRoot, "", $bt["file"]);
 	?>
-		<div style='font-size:9pt; color:#000; background:#fff; border:1px dashed #000;z-index: 999'>
+		<div style='position:relative;font-size:9pt; color:#000; background:#fff; border:1px dashed #000;z-index: 999'>
 		<div style='padding:3px 5px; background:#99CCFF; font-weight:bold;'>File: <?=$bt["file"]?> [<?=$bt["line"]?>]</div>
 		<pre style='padding:10px;'><?print_r($var)?></pre>
 		</div>
@@ -211,7 +211,10 @@ require get_template_directory() . '/inc/useful_links.php';
 require get_template_directory() . '/inc/contact_data.php';
 require get_template_directory() . '/inc/documents.php';
 require get_template_directory() . '/inc/slider.php';
+require get_template_directory() . '/inc/form.php';
+require get_template_directory() . '/inc/application.php';
 require get_template_directory() . '/inc/gallery.php';
+require get_template_directory() . '/inc/specialists.php';
 require get_template_directory() . '/inc/documents_filter.php';
 require get_template_directory() . '/inc/documents_filter_admin.php';
 

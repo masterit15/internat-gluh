@@ -97,7 +97,7 @@ if ( ! function_exists( 'internat_gluh_entry_footer' ) ) :
 			sprintf(
 				wp_kses(
 					/* translators: %s: Name of current post. Only visible to screen readers */
-					__( 'Edit <span class="screen-reader-text">%s</span>', 'internat_gluh' ),
+					__( 'Редактировать <span class="screen-reader-text">%s</span>', 'internat_gluh' ),
 					array(
 						'span' => array(
 							'class' => array(),

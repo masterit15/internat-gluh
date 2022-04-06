@@ -9,6 +9,8 @@
 
 get_header();
 ?>
+<div class="row">
+  <? get_sidebar(); ?>
 
 	<main id="main" class="site-main">
 
@@ -18,7 +20,7 @@ get_header();
 				<h1 class="page-title">
 					<?php
 					/* translators: %s: search query. */
-					printf( esc_html__( 'Search Results for: %s', 'internat_gluh' ), '<span>' . get_search_query() . '</span>' );
+					printf( esc_html__( 'Результаты поиска по: %s', 'internat_gluh' ), '<span>' . get_search_query() . '</span>' );
 					?>
 				</h1>
 			</header><!-- .page-header -->
@@ -47,7 +49,6 @@ get_header();
 		?>
 
 	</main><!-- #main -->
-
+</div>
 <?php
-get_sidebar();
 get_footer();

@@ -292,6 +292,8 @@ i.fa
       color: $textcolor
     &.current
       background-color: $accent
+.suggestions-wrapper
+  width: 100%
 .navigation
   .nav-previous,.nav-next
     a
@@ -306,8 +308,15 @@ i.fa
       border-radius: 10px
       text-decoration: none
       color: $textcolor
+.entry-title
+  a
+    color: $textcolor
+    &:active,&:visited
+      color: $textcolor
 @import 'offer'
 @import 'form'
+@import 'search'
+@import 'shedule'
 @import 'important_actions'
 @import 'useful_link'
 @import 'news'
