@@ -905,7 +905,7 @@
     font-weight: bold;
 }
 #specialists_field,#application_specialist_shedule, #specialists_field_book{
-    /* display: none; */
+    display: none;
 }
 .specialist_shedule{
     width: 100%;

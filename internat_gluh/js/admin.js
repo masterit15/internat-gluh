@@ -463,33 +463,32 @@ $(function () {
     var specialistTime = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M496 224c-79.6 0-144 64.4-144 144s64.4 144 144 144 144-64.4 144-144-64.4-144-144-144zm64 150.3c0 5.3-4.4 9.7-9.7 9.7h-60.6c-5.3 0-9.7-4.4-9.7-9.7v-76.6c0-5.3 4.4-9.7 9.7-9.7h12.6c5.3 0 9.7 4.4 9.7 9.7V352h38.3c5.3 0 9.7 4.4 9.7 9.7v12.6zM320 368c0-27.8 6.7-54.1 18.2-77.5-8-1.5-16.2-2.5-24.6-2.5h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h347.1c-45.3-31.9-75.1-84.5-75.1-144zm-96-112c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128z"/></svg>`
     if ($('textarea#specialists_field').length > 0) {
         specialistsData.forEach(ss => {
-            let time = $(`.day[data-id="${ss.id}"]`).data('time')
-            let weekday = $(`.day[data-id="${ss.id}"]`).data('weekday')
+            const td = $(`.day[data-weekday="${ss.weekday}"][data-time="${ss.time}"]`)
+            let time = $(td).data('time')
+            let weekday = $(td).data('weekday')
             let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
+            $(td)
+                .addClass('active')
+                .html(`${specialistTime}${weekdayText} / ${time}:00`)
+        });
+    }
+    if ($('textarea#application_specialist_shedule').length > 0) {
+        application_specialist_shedule.forEach(ss => {
+            let weekdayText = `${$(`.weekday[data-weekday="${$(`.day[data-id="${ss.id}"]`).data('weekday')}"]`).text()}`;
+            let time = $(`.day[data-id="${ss.id}"]`).data('time');
             if(ss.book){
                 $(`.day[data-id="${ss.id}"]`)
                 .addClass('active')
                 .addClass('book')
                 .attr('data-book', true)
-                .html(`${specialistLock}${weekdayText} / ${time}:00`)
+                .html(`${specialistLock}${weekdayText}/${time}:00`)
             }else{
                 $(`.day[data-id="${ss.id}"]`)
                 .addClass('active')
-                .html(`${specialistTime}${weekdayText} / ${time}:00`)
-            }
-            
-            
-        });
-    }
-    if ($('textarea#application_specialist_shedule').length > 0) {
-        application_specialist_shedule.forEach(ss => {
-            $(`.day`).attr('data-book', true)
-            let weekdayText = `${$(`.weekday[data-weekday="${$(`.day[data-id="${ss.id}"]`).data('weekday')}"]`).text()}`;
-            let time = $(`.day[data-id="${ss.id}"]`).data('time');
-            $(`.day[data-id="${ss.id}"]`)
-                .addClass('active')
                 .addClass('check')
-                .html(`${specialistCheck}${weekdayText} / ${time}:00`)
+                // .attr('data-book', true)
+                .html(`${specialistCheck}${weekdayText}/${time}:00`)
+            }
         });
     }
     $('.day').on('click', function () {
@@ -500,11 +499,10 @@ $(function () {
                 let time = $(this).data('time')
                 let book = $(this).data('book')
                 let weekday = $(this).data('weekday')
-                
                 let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
                 let weekdatefull = $(`.weekday[data-weekday="${weekday}"]`).data('weekdatefull')
                 $(this).html(`${specialistTime}${weekdayText} / ${time}:00`)
-                specialists_shedule.push({id, book, time, weekdatefull})
+                specialists_shedule.push({id, book, weekday, time, weekdatefull})
                 $('textarea#specialists_field').val(JSON.stringify(specialists_shedule))
             } else {
                 $(this).html(``)

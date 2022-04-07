@@ -286,9 +286,10 @@ window.onload = () => {
             complete: function () {},
             success: function (res) {
                 $(getel).remove()
+                $('.application_wrap').find('.shedule').remove()
                 if (reset) {
                     getFormEl($(el), '#specialists')
-                    $('.application_wrap').find('.shedule').remove()
+                    
                 }
                 $(el).after(res)
                 $('.loader').fadeOut(200)
@@ -302,45 +303,68 @@ window.onload = () => {
                     getFormEl($(this), '.shedule', { specialist: val })
                 })
                 var specialistsData = $('textarea#specialists_field').length > 0 && $('textarea#specialists_field').val().length > 0 ? JSON.parse($('textarea#specialists_field').val()) : []
-                var specialists_shedule_book = []
+                var application_specialist_shedule = $('textarea#application_specialist_shedule').length > 0 && $('textarea#application_specialist_shedule').val().length > 0 ?JSON.parse($('textarea#application_specialist_shedule').val()) : []
+                var specialists_shedule_book = application_specialist_shedule
                 var specialistLock = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M80 192V144C80 64.47 144.5 0 224 0C303.5 0 368 64.47 368 144V192H384C419.3 192 448 220.7 448 256V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V256C0 220.7 28.65 192 64 192H80zM144 192H304V144C304 99.82 268.2 64 224 64C179.8 64 144 99.82 144 144V192z"/></svg>`
                 var specialistCheck = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4zm323-128.4l-27.8-28.1c-4.6-4.7-12.1-4.7-16.8-.1l-104.8 104-45.5-45.8c-4.6-4.7-12.1-4.7-16.8-.1l-28.1 27.9c-4.7 4.6-4.7 12.1-.1 16.8l81.7 82.3c4.6 4.7 12.1 4.7 16.8.1l141.3-140.2c4.6-4.7 4.7-12.2.1-16.8z"/></svg>`
                 var specialistTime = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M496 224c-79.6 0-144 64.4-144 144s64.4 144 144 144 144-64.4 144-144-64.4-144-144-144zm64 150.3c0 5.3-4.4 9.7-9.7 9.7h-60.6c-5.3 0-9.7-4.4-9.7-9.7v-76.6c0-5.3 4.4-9.7 9.7-9.7h12.6c5.3 0 9.7 4.4 9.7 9.7V352h38.3c5.3 0 9.7 4.4 9.7 9.7v12.6zM320 368c0-27.8 6.7-54.1 18.2-77.5-8-1.5-16.2-2.5-24.6-2.5h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h347.1c-45.3-31.9-75.1-84.5-75.1-144zm-96-112c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128z"/></svg>`
                 if($('textarea#specialists_field').length > 0){
                     specialistsData.forEach(ss => {
+                        const td = $(`.day[data-weekday="${ss.weekday}"][data-time="${ss.time}"]`)
+                        if(ss.book){
+                            $(td)
+                            .addClass('active')
+                            .addClass('book')
+                            .attr('data-book', true)
+                            .html(`${specialistLock}${$(td).data('time')}:00`)
+                        }else{
+                            $(td)
+                            .addClass('active')
+                            .html(`${specialistTime}${$(td).data('time')}:00`)
+                        }
+                        
+                    });
+                }
+                if ($('textarea#application_specialist_shedule').length > 0) {
+                    application_specialist_shedule.forEach(ss => {
+                        const td = $(`.day[data-id="${ss.id}"]`)
+                        console.log(ss);
+                        let weekdayText = `${$(`.weekday[data-weekday="${$(`.day[data-id="${ss.id}"]`).data('weekday')}"]`).text()}`;
+                        let time = $(`.day[data-id="${ss.id}"]`).data('time');
                         if(ss.book){
                             $(`.day[data-id="${ss.id}"]`)
                             .addClass('active')
                             .addClass('book')
                             .attr('data-book', true)
-                            .html(`${specialistLock}${$(`.day[data-id="${ss.id}"]`).data('time')}:00`)
+                            .html(`${specialistLock}${time}:00`)
                         }else{
                             $(`.day[data-id="${ss.id}"]`)
                             .addClass('active')
-                            .html(`${specialistTime}${$(`.day[data-id="${ss.id}"]`).data('time')}:00`)
+                            .addClass('check')
+                            // .attr('data-book', true)
+                            .html(`${specialistCheck}${time}:00`)
                         }
                         
                     });
                 }
-                
                 $('.day.active').on('click', function () {
+                    $('.loader').css({"display":"flex"})
                     if (!$(this).data('book')) {
-                        $('.loader').css({"display":"flex"})
                         $(this).toggleClass('check')
                         let id = $(this).data('id')
                         let time = $(this).data('time')
-                        
+                        let book = $(this).data('book')
                         let weekday = $(this).data('weekday')
                         let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
                         let weekdatefull = $(`.weekday[data-weekday="${weekday}"]`).data('weekdatefull')
                         if ($(this).hasClass('check')) {
                             $(this).html(`${specialistCheck}${time}:00`)
-                            specialists_shedule_book.push({id, book: true, time, weekdatefull})
-                            $('#specialists_field_shedule').val(JSON.stringify(specialists_shedule_book))
+                            specialists_shedule_book.push({id, book, time, weekdatefull})
+                            $('#application_specialist_shedule').val(JSON.stringify(specialists_shedule_book))
                         } else {
                             $(this).html(`${specialistTime}${time}:00`)
                             specialists_shedule_book = specialists_shedule_book.filter(sh => sh.id != $(this).data('id'))
-                            $('#specialists_field_shedule').val(JSON.stringify(specialists_shedule_book))
+                            $('#application_specialist_shedule').val(JSON.stringify(specialists_shedule_book))
                         }
                     
                         html2canvas(document.querySelector(".shedule"), {logging: false}).then(function(canvas) {
@@ -401,7 +425,7 @@ window.onload = () => {
         let specialist = $(e.target).find('#specialists').val()
         let specialistsCat = $(e.target).find('#specialists_cat').val()
         let specialistEmail = $(e.target).find('#specialists_email').val() ?? ''
-        let specialistShedule = $(e.target).find('#specialists_field_shedule').val()
+        let specialistShedule = $(e.target).find('#application_specialist_shedule').val()
         let userFio = $(e.target).find('#fio').val()
         let userText = $(e.target).find('#text').val()
         let userEmail = $(e.target).find('#email').val()
@@ -430,7 +454,7 @@ window.onload = () => {
             success: function (res) {
                 let result = JSON.parse(res)
                 console.log(result);
-                $('.application_wrap').html(result.message)
+                // $('.application_wrap').html(result.message)
                 $('.loader').fadeOut(200)
             },
             error: function (err) {

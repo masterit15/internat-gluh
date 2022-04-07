@@ -1,4 +1,4 @@
-#specialists_field, #specialists_field_shedule
+#specialists_field, #specialists_field_shedule,#application_specialist_shedule
   display: none 
 .specialists
   &_filter
@@ -80,11 +80,16 @@ table.specialist_shedule
       color: #fff
       padding: 0 10px 
       text-align: center
-      background-color: #fab1a0
-      border-color: #e17055
+      background-color: #fff
+      border-color: #eee
     &.active 
       background-color: #1abc9c
       border: 1px solid #14af90
+      &.book
+        background-color: #fab1a0
+        border-color: #e17055
+        svg 
+          fill: #e17055
       svg 
         fill: #fff
       &.check

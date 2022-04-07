@@ -29,7 +29,7 @@ function my_custom_gallery()
 		'has_archive' => true,
 		'rewrite' => array('slug' => 'gallery', 'with_front' => true),
 		'hierarchical' => false,
-		'menu_position' => null,
+		'menu_position' => 38,
 		'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields'),
 		'show_in_rest' => true,
 		'rest_base' => 'gallery',

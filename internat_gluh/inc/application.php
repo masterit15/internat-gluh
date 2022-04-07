@@ -62,7 +62,7 @@ function application_field() {
 	global $post;
 	$custom = get_post_custom($post->ID);
 	$spec = get_post($custom['application_specialist'][0]);
-	$specCustom = get_post_custom($spec->ID)
+	$specCustom = get_post_custom($spec->ID);
 	?>
 	<div class="application">
 		<div class="application_fields">
@@ -108,114 +108,7 @@ function application_field() {
 	<?if ($specCustom['specialists_shedule'][0]) {?>
     <textarea id="specialists_field" name="specialists_shedule" id="" cols="50" rows="10"><?=$specCustom['specialists_shedule'][0]?></textarea>
   <?}?>
-  <table class="specialist_shedule">
-    <tbody>
-      <tr>
-        <td class="weekday">Время</td>
-        <?getWeekAndDate()?>
-      </tr>
-      <tr>
-        <td class="time">9:00</td>
-        <td class="day" data-weekday="1" data-time="9" data-book="false" data-id="1"></td>
-        <td class="day" data-weekday="2" data-time="9" data-book="false" data-id="2"></td>
-        <td class="day" data-weekday="3" data-time="9" data-book="false" data-id="3"></td>
-        <td class="day" data-weekday="4" data-time="9" data-book="false" data-id="4"></td>
-        <td class="day" data-weekday="5" data-time="9" data-book="false" data-id="5"></td>
-        <td class="day" data-weekday="6" data-time="9" data-book="false" data-id="6"></td>
-        <td class="day" data-weekday="7" data-time="9" data-book="false" data-id="7"></td>
-      </tr>
-      <tr>
-        <td class="time">10:00</td>
-        <td class="day" data-weekday="1" data-time="10" data-book="false" data-id="8"></td>
-        <td class="day" data-weekday="2" data-time="10" data-book="false" data-id="9"></td>
-        <td class="day" data-weekday="3" data-time="10" data-book="false" data-id="10"></td>
-        <td class="day" data-weekday="4" data-time="10" data-book="false" data-id="11"></td>
-        <td class="day" data-weekday="5" data-time="10" data-book="false" data-id="12"></td>
-        <td class="day" data-weekday="6" data-time="10" data-book="false" data-id="13"></td>
-        <td class="day" data-weekday="7" data-time="10" data-book="false" data-id="14"></td>
-      </tr>
-      <tr>
-        <td class="time">11:00</td>
-        <td class="day" data-weekday="1" data-time="11" data-book="false" data-id="15"></td>
-        <td class="day" data-weekday="2" data-time="11" data-book="false" data-id="16"></td>
-        <td class="day" data-weekday="3" data-time="11" data-book="false" data-id="17"></td>
-        <td class="day" data-weekday="4" data-time="11" data-book="false" data-id="18"></td>
-        <td class="day" data-weekday="5" data-time="11" data-book="false" data-id="19"></td>
-        <td class="day" data-weekday="6" data-time="11" data-book="false" data-id="20"></td>
-        <td class="day" data-weekday="7" data-time="11" data-book="false" data-id="21"></td>
-      </tr>
-      <tr>
-        <td class="time">12:00</td>
-        <td class="day" data-weekday="1" data-time="12" data-book="false" data-id="22"></td>
-        <td class="day" data-weekday="2" data-time="12" data-book="false" data-id="23"></td>
-        <td class="day" data-weekday="3" data-time="12" data-book="false" data-id="24"></td>
-        <td class="day" data-weekday="4" data-time="12" data-book="false" data-id="25"></td>
-        <td class="day" data-weekday="5" data-time="12" data-book="false" data-id="26"></td>
-        <td class="day" data-weekday="6" data-time="12" data-book="false" data-id="27"></td>
-        <td class="day" data-weekday="7" data-time="12" data-book="false" data-id="28"></td>
-      </tr>
-      <tr>
-        <td class="time">13:00</td>
-        <td class="day" data-weekday="1" data-time="13" data-book="false" data-id="29"></td>
-        <td class="day" data-weekday="2" data-time="13" data-book="false" data-id="30"></td>
-        <td class="day" data-weekday="3" data-time="13" data-book="false" data-id="31"></td>
-        <td class="day" data-weekday="4" data-time="13" data-book="false" data-id="32"></td>
-        <td class="day" data-weekday="5" data-time="13" data-book="false" data-id="33"></td>
-        <td class="day" data-weekday="6" data-time="13" data-book="false" data-id="34"></td>
-        <td class="day" data-weekday="7" data-time="13" data-book="false" data-id="35"></td>
-      </tr>
-      <tr>
-        <td class="time">14:00</td>
-        <td class="day" data-weekday="1" data-time="14" data-book="false" data-id="36"></td>
-        <td class="day" data-weekday="2" data-time="14" data-book="false" data-id="37"></td>
-        <td class="day" data-weekday="3" data-time="14" data-book="false" data-id="38"></td>
-        <td class="day" data-weekday="4" data-time="14" data-book="false" data-id="39"></td>
-        <td class="day" data-weekday="5" data-time="14" data-book="false" data-id="40"></td>
-        <td class="day" data-weekday="6" data-time="14" data-book="false" data-id="41"></td>
-        <td class="day" data-weekday="7" data-time="14" data-book="false" data-id="42"></td>
-      </tr>
-      <tr>
-        <td class="time">15:00</td>
-        <td class="day" data-weekday="1" data-time="15" data-book="false" data-id="43"></td>
-        <td class="day" data-weekday="2" data-time="15" data-book="false" data-id="44"></td>
-        <td class="day" data-weekday="3" data-time="15" data-book="false" data-id="45"></td>
-        <td class="day" data-weekday="4" data-time="15" data-book="false" data-id="46"></td>
-        <td class="day" data-weekday="5" data-time="15" data-book="false" data-id="47"></td>
-        <td class="day" data-weekday="6" data-time="15" data-book="false" data-id="48"></td>
-        <td class="day" data-weekday="7" data-time="15" data-book="false" data-id="49"></td>
-      </tr>
-      <tr>
-        <td class="time">16:00</td>
-        <td class="day" data-weekday="1" data-time="16" data-book="false" data-id="50"></td>
-        <td class="day" data-weekday="2" data-time="16" data-book="false" data-id="51"></td>
-        <td class="day" data-weekday="3" data-time="16" data-book="false" data-id="52"></td>
-        <td class="day" data-weekday="4" data-time="16" data-book="false" data-id="53"></td>
-        <td class="day" data-weekday="5" data-time="16" data-book="false" data-id="54"></td>
-        <td class="day" data-weekday="6" data-time="16" data-book="false" data-id="55"></td>
-        <td class="day" data-weekday="7" data-time="16" data-book="false" data-id="56"></td>
-      </tr>
-      <tr>
-        <td class="time">17:00</td>
-        <td class="day" data-weekday="1" data-time="17" data-book="false" data-id="57"></td>
-        <td class="day" data-weekday="2" data-time="17" data-book="false" data-id="58"></td>
-        <td class="day" data-weekday="3" data-time="17" data-book="false" data-id="59"></td>
-        <td class="day" data-weekday="4" data-time="17" data-book="false" data-id="60"></td>
-        <td class="day" data-weekday="5" data-time="17" data-book="false" data-id="61"></td>
-        <td class="day" data-weekday="6" data-time="17" data-book="false" data-id="62"></td>
-        <td class="day" data-weekday="7" data-time="17" data-book="false" data-id="63"></td>
-      </tr>
-      <tr>
-        <td class="time">18:00</td>
-        <td class="day" data-weekday="1" data-time="18" data-book="false" data-id="64"></td>
-        <td class="day" data-weekday="2" data-time="18" data-book="false" data-id="65"></td>
-        <td class="day" data-weekday="3" data-time="18" data-book="false" data-id="66"></td>
-        <td class="day" data-weekday="4" data-time="18" data-book="false" data-id="67"></td>
-        <td class="day" data-weekday="5" data-time="18" data-book="false" data-id="68"></td>
-        <td class="day" data-weekday="6" data-time="18" data-book="false" data-id="69"></td>
-        <td class="day" data-weekday="7" data-time="18" data-book="false" data-id="70"></td>
-      </tr>
-    </tbody>
-  </table>
+	<?sheduleTable(explode(' ', $post->post_date)[0]);?>
 	</div>
 <?
 }
@@ -349,6 +242,7 @@ function applicationHandler(){
 				'specialistEmail' => $_POST['specialistEmail'],
 				'specialistShedule' => $_POST['specialistShedule'],
 				'specialistSheduleImg' => $_POST['specialistSheduleImg'],
+				'specialistSheduleCheck' => $_POST['specialistSheduleCheck'],
 				'userFio' => $_POST['userFio'],
 				'userText' => $_POST['userText'],
 				'userEmail' => $_POST['userEmail'],
@@ -396,18 +290,19 @@ function applicationHandler(){
         update_post_meta($post_id, "application_specialist", $feed['specialist']);
         update_post_meta($post_id, "application_specialist_cat", $feed['specialistsCat']);
         update_post_meta($post_id, "application_specialist_shedule", $feed['specialistShedule']);
-
 				// обновляем график специалиста
-				$specialistsShedule = get_post_custom($feed['specialist']);
 				$applicationShedule = get_post_custom($post_id);
-				$specialistsShedule = json_decode($specialistsShedule["specialists_shedule"][0], true);
 				$applicationShedule = json_decode($applicationShedule["application_specialist_shedule"][0], true);
+				$i = 0;
+				$bookingShedules = [];
 				foreach($applicationShedule as $shedules){
-          $i = array_search($shedules['id'], array_column($specialistsShedule, 'id'));
-          $specialistsShedule[$i]['book'] = true;
+					$shedules['book'] = true;
+					$bookingShedules[] = $shedules;
+					$i++;
 				}
-				update_post_meta($feed['specialist'], "specialists_shedule", json_encode($specialistsShedule));
-				
+				// update_post_meta($feed['specialist'], "specialists_shedule", json_encode($specialistsShedule));
+				update_post_meta($feed['specialist'], "specialists_shedule_book", json_encode($bookingShedules));
+				$res['test'] = $applicationShedule;
           if($post->ID){
             $res['success'] = true;
             $res['message'] = '<div class="message success">
