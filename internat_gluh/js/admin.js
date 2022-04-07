@@ -455,6 +455,10 @@ $(function () {
         var parent = $(this).parent().parent('li')
         $(parent).find('.file_name input').prop('disabled', false)
     })
+    $('.file_delete').on('click', function () {
+        var parent = $(this).parent().parent('li')
+        $(parent).remove()
+    })
     var specialistsData = $('textarea#specialists_field').length > 0 && $('textarea#specialists_field').val().length > 0 ? JSON.parse($('textarea#specialists_field').val()) : []
     var application_specialist_shedule = $('textarea#application_specialist_shedule').length > 0 && $('textarea#application_specialist_shedule').val().length > 0 ?JSON.parse($('textarea#application_specialist_shedule').val()) : []
     var specialists_shedule = specialistsData

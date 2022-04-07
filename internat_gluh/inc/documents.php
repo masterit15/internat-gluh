@@ -150,7 +150,7 @@ function documents()
 					foreach ($attach_ids as $attach_id) {
 						$file = getFileArr($attach_id);
 				?>
-						<li data-id="<?= $file['id'] ?>">
+						<li class="document_list_item" data-id="<?= $file['id'] ?>">
 							<div class="document_list_item_wrap">
 								<span class="file_icon"><?= $file['icon'] ?></span>
 								<span class="file_name"> <input type="text" name="file_name" id="file-<?= $file['id'] ?>" value="<?= $file['name'] ?>" disabled /></span>
@@ -159,7 +159,7 @@ function documents()
 							<div class="file_action">
 								<span class="file_edit"><i class="fa fa-pencil"></i></span>
 								<span class="file_delete"><i class="fa fa-times"></i></span>
-								<span class="file_link"><a href="<?= $file['path'] ?>"><i class="fa fa-link"></i></a></span>
+								<span class="file_link"><a href="<?= $file['path'] ?>" target="_blank"><i class="fa fa-link"></i></a></span>
 							</div>
 						</li>
 					<? }

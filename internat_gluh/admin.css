@@ -212,7 +212,13 @@
     border-radius: 5px;
     text-decoration: none;
 }
-
+.document_list li .file_action span a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
 .document_list li .file_action .file_edit {
     border-color: #b4b4b4;
     color: #b4b4b4;
