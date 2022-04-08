@@ -72,7 +72,7 @@ $(function () {
     });
     if ($('.add_photo-item').length > 0) {
         // fileupload 
-        function uploaderImg(addButton, addInput, imgList, reset = false, edit = false, fileLimit = 5) {
+        function uploaderImg(addButton, addInput, imgList, reset = false, edit = false, fileLimit = 5, fileSize = 5) {
             $(addButton).on(
                 'dragover',
                 function (e) {
@@ -104,11 +104,11 @@ $(function () {
                 $(addInput).trigger('click');
             })
 
-            var maxFileSize = 5 * 1024 * 1024; // (байт) Максимальный размер файла (2мб)
+            var maxFileSize = fileSize * 1024 * 1024; 
             var queue = {};
             var imagesList = $(imgList);
             var filelist = $('.file_list').children().length;
-            var itemPreviewTemplate = imagesList.find('.item').detach();
+            var itemPreviewTemplate = imagesList.find('.document_list_item').detach();
             var fileTypeArr = [
                 'jpeg',
                 'jpg',
@@ -173,7 +173,7 @@ $(function () {
                             continue;
                         }
                         if (file.size > maxFileSize) {
-                            $(".errormassege").append("Размер файла не должен превышать 2 Мб")
+                            $(".errormassege").append(`Размер файла не должен превышать ${maxFileSize} Мб`)
                             continue;
                         }
                         $(".errormassege").html('');
@@ -202,7 +202,7 @@ $(function () {
                                 icon = 'fa-file-archive-o'
                                 break;
                             case 'zip':
-                                icon = 'fa-solid fa-file-zipper'
+                                icon = 'fa-file-archive-o'
                                 break;
                             case 'docx':
                                 icon = 'fa-file-word-o'
@@ -214,13 +214,16 @@ $(function () {
                                 icon = 'fa-file-pdf-o'
                                 break;
                             default:
-                                icon = 'fa-solid fa-file'
+                                icon = 'fa-file'
                                 break;
                         }
                         itemPreview.find('.img-wrap').append(`<i class="fa ${icon}"></i>`);
                         imagesList.append(itemPreview);
                     }
-                    itemPreview.find('.delete-link').before(`<input type="text" value="${file.name.split('.').shift().toLowerCase()}" name="doc_name_${imagesList.children().length}"/>`)
+                    itemPreview.find('.file_name').append(`<input type="text" value="${file.name.split('.').shift().toLowerCase()}" name="doc_name_${imagesList.children().length}" disabled/>`)
+                    $('.file_edit').on('click', function () {
+                        $(input).prop('disabled', false)
+                    })
                     var input = itemPreview.find(`input`)
                     var oldName = file.name
                     $(input).on('change', function () {
@@ -233,10 +236,10 @@ $(function () {
                     })
 
                     // Обработчик удаления
-                    itemPreview.find('.delete-link').on('click', function () {
+                    itemPreview.find('.file_delete.delete').on('click', function () {
                         delete queue[file.name];
                         uploader.files = queue
-                        $(this).parent().remove();
+                        $(this).parent().parent().remove();
                         limitDisplay();
                     });
                     queue[file.name] = file;
@@ -259,11 +262,42 @@ $(function () {
 
             return queue
         }
-        uploaderImg('.add_photo-item', '#js-photo-upload', '#uploadImagesList', false, false, 9999);
+        uploaderImg('.add_photo-item', '#js-photo-upload', '#uploadImagesList', false, false, 9999, 10000);
+        // function getFileIcon(f){
+        //     console.log(f);
+        //     let fileType = f.split('.').pop().toLowerCase()
+        //     let icon = 'fa-file'
+        //     switch (fileType) {
+        //         case 'xls':
+        //             icon = 'fa-file-excel-o'
+        //             break;
+        //         case 'xlsx':
+        //             icon = 'fa-file-excel-o'
+        //             break;
+        //         case 'rar':
+        //             icon = 'fa-file-archive-o'
+        //             break;
+        //         case 'zip':
+        //             icon = 'fa-file-archive-o'
+        //             break;
+        //         case 'docx':
+        //             icon = 'fa-file-word-o'
+        //             break;
+        //         case 'doc':
+        //             icon = 'fa-file-word-o'
+        //             break;
+        //         case 'pdf':
+        //             icon = 'fa-file-pdf-o'
+        //             break;
+        //         default:
+        //             icon = 'fa-file'
+        //             break;
+        //     }
+        //     return `<i class="fa ${icon}"></i>`
+        // }
         $('.btn').on('click', function () {
             var formData = new FormData()
             $.each(uploader.files, function (key, input) {
-                console.log(input);
                 formData.append('files[]', input)
             });
             $.ajax({
@@ -274,6 +308,23 @@ $(function () {
                 processData: false,
                 data: formData,
                 dataType: 'json',
+                xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                    var percentComplete = evt.loaded / evt.total;
+                    percentComplete = parseInt(percentComplete * 100);
+                    $('.progress_bar').fadeIn()
+                    $('.progress_bar').removeClass('done')
+                    $('.progress_bar').css({'width': `${percentComplete}%`})
+                    if (percentComplete === 100) {
+                        $('.progress_bar').addClass('done')
+                        $('.progress_bar').fadeOut()
+                    }
+                    }
+                }, false);
+                return xhr;
+                },
                 success: function (res) {
                     if (res.success) {
                         if ($('#documents_ids').val() != '') {
@@ -453,11 +504,46 @@ $(function () {
 
     $('.file_edit').on('click', function () {
         var parent = $(this).parent().parent('li')
-        $(parent).find('.file_name input').prop('disabled', false)
+        if(!$(this).hasClass('edit')){
+            $(this).addClass('edit')
+            $(this).find('.fa').removeClass('fa-pencil')
+            $(this).find('.fa').addClass('fa-floppy-o')
+            $(parent).find('.file_name input').prop('disabled', false)
+            $('.file_name input').on('change', function(){
+                console.log($(this).val());
+            })
+        }else{
+            $(this).removeClass('edit')
+            $(this).find('.fa').removeClass('fa-floppy-o')
+            $(this).find('.fa').addClass('fa-pencil')
+            $(parent).find('.file_name input').prop('disabled', true)
+        }
+
     })
     $('.file_delete').on('click', function () {
         var parent = $(this).parent().parent('li')
-        $(parent).remove()
+        var files = $('#documents_ids').val().length > 0 ? $('#documents_ids').val().split(',') : []
+        files = files.filter(f=>Number(f) != Number($(parent).data('id')))
+        $.ajax({
+            type: "POST",
+            url: $(this).data('url'),
+            data: {post: $(parent).data('post'), file: $(parent).data('id'), docs: files.join(',')},
+            beforeSend: function () {
+                // NProgress.start();
+            },
+            complete: function () {
+                // NProgress.done();
+            },
+            success: function (res) {
+                console.log(res);
+                $(parent).remove()
+                // $('.documents_wrap').html(res)
+            },
+            error: function (err) {
+                // mainToast(5000, "error", 'Ошибка загрузки!', err)
+                console.error(err);
+            }
+        });
     })
     var specialistsData = $('textarea#specialists_field').length > 0 && $('textarea#specialists_field').val().length > 0 ? JSON.parse($('textarea#specialists_field').val()) : []
     var application_specialist_shedule = $('textarea#application_specialist_shedule').length > 0 && $('textarea#application_specialist_shedule').val().length > 0 ?JSON.parse($('textarea#application_specialist_shedule').val()) : []

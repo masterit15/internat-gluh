@@ -52,7 +52,7 @@ add_action("admin_init", "documents_init");
 add_action('save_post', 'save_documents');
 function documents_init()
 {
-	add_meta_box("documents", "Документы", "documents", 'documents', "normal", "low");
+	add_meta_box("documents", "Документы (допустимые форматы: jpeg,jpg,png,tif,gif,pdf,doc,docx,xls,xlsx,zip,rar)", "documents", 'documents', "normal", "low");
 }
 // Функция сохранения полей продукта "Цена" и "Тираж"
 function save_documents()
@@ -89,8 +89,10 @@ function formatBytes($bytes, $precision = 2)
 function getFileArr($fileid)
 {
 	$fileArr = pathinfo(wp_get_attachment_url($fileid));
+
 	$file['path'] = $fileArr["dirname"] . '/' . $fileArr["basename"];
 	$file['size'] = formatBytes(filesize(get_attached_file($fileid)));
+	$file['original_name'] = get_the_title($fileid);
 	$file['name'] = $fileArr["basename"];
 	$file['type'] = $fileArr["extension"];
 	$file['id'] = $fileid;
@@ -149,16 +151,19 @@ function documents()
 					$attach_ids = explode(',', $custom['documents'][0]);
 					foreach ($attach_ids as $attach_id) {
 						$file = getFileArr($attach_id);
+						// PR($file);
+						$name =  array_shift(explode('.', $file['name']));
+
 				?>
-						<li class="document_list_item" data-id="<?= $file['id'] ?>">
+						<li class="document_list_item" data-id="<?= $file['id'] ?>" data-post="<?=$post->ID?>">
 							<div class="document_list_item_wrap">
 								<span class="file_icon"><?= $file['icon'] ?></span>
-								<span class="file_name"> <input type="text" name="file_name" id="file-<?= $file['id'] ?>" value="<?= $file['name'] ?>" disabled /></span>
+								<span class="file_name"> <input type="text" name="file_name" id="file-<?= $file['id'] ?>" value="<?= $file['original_name'] ?>" disabled /></span>
 								<span class="file_size"><?= $file['size'] ?></span>
 							</div>
 							<div class="file_action">
 								<span class="file_edit"><i class="fa fa-pencil"></i></span>
-								<span class="file_delete"><i class="fa fa-times"></i></span>
+								<span class="file_delete" data-url="<?php echo site_url() ?>/wp-admin/admin-ajax.php?action=documentDelete"><i class="fa fa-times"></i></span>
 								<span class="file_link"><a href="<?= $file['path'] ?>" target="_blank"><i class="fa fa-link"></i></a></span>
 							</div>
 						</li>
@@ -166,15 +171,15 @@ function documents()
 				} else {
 					$file = getFileArr($custom['documents'][0]);
 					?>
-					<li data-id="<?= $file['id'] ?>">
+					<li class="document_list_item" data-id="<?= $file['id'] ?>" data-post="<?=$post->ID?>">
 						<div class="document_list_item_wrap">
 							<span class="file_icon"><?= $file['icon'] ?></span>
-							<span class="file_name"> <input type="text" name="file_name" id="file-<?= $file['id'] ?>" value="<?= $file['name'] ?>" disabled /></span>
+							<span class="file_name"> <input type="text" name="file_name" id="file-<?= $file['id'] ?>" value="<?= $file['original_name']?>" disabled /></span>
 							<span class="file_size"><?= $file['size'] ?></span>
 						</div>
 						<div class="file_action">
 							<span class="file_edit"><i class="fa fa-pencil"></i></span>
-							<span class="file_delete"><i class="fa fa-times"></i></span>
+							<span class="file_delete" data-url="<?php echo site_url() ?>/wp-admin/admin-ajax.php?action=documentDelete"><i class="fa fa-times"></i></span>
 							<span class="file_link"><a href="<?= $file['path'] ?>"><i class="fa fa-link"></i></a></span>
 						</div>
 					</li>
@@ -186,18 +191,26 @@ function documents()
 				<input type="file" name="files[]" multiple id="js-photo-upload">
 				<input type="hidden" name="documents" id="documents_ids" value="<?= $custom['documents'][0] ?>">
 				<div class="add_photo-content">
+				<div class="progress_bar"></div>
 					<div class="add_photo-item"></div>
-					<ul id="uploadImagesList">
-						<li class="item">
-							<span class="img-wrap"></span>
-							<span class="delete-link" title="Удалить">
+					<ul id="uploadImagesList" class="document_list">
+						<li class="document_list_item">
+							<div class="document_list_item_wrap">
+							<span class="img-wrap file_icon"></span>
+							<span class="file_name"></span>
+							<span class="file_size">476.05KB</span>
+							</div>
+							<div class="file_action">
+							<span class="file_edit"><i class="fa fa-pencil"></i></span>
+							<span class="file_delete delete" title="Удалить">
 								<i class="fa fa-times"></i>
 							</span>
+							<span class="file_link"><a href="#"><i class="fa fa-link"></i></a></span>
+							</div>
 						</li>
 					</ul>
 				</div>
 				<div class="errormassege"></div>
-				<p class="app_form_comments">Допустимые форматы: jpeg,jpg,png,tif,gif,pdf,doc,docx,xls,xlsx,zip,rar</p>
 				<a href="#!" class="btn" data-url="<?php echo site_url() ?>/wp-admin/admin-ajax.php?action=documentsUpload">Прикрепить</a>
 			</div>
 		</div>
@@ -235,6 +248,21 @@ function documentsUpload()
 			}
 		}
 	}
+	echo json_encode($res);
+	die();
+}
+add_action('wp_ajax_documentDelete', 'documentDelete'); // wp_ajax_{ACTION HERE} 
+add_action('wp_ajax_nopriv_documentDelete', 'documentDelete');
+function documentDelete()
+{
+	$res = array('success'=> false);
+	$res['file'] = wp_delete_attachment($_POST['file'], true );
+	if($res['file']){
+		$res['success'] = true;
+		
+	}
+	$res['update'] = update_post_meta($_POST['post'], "documents", $_POST["docs"]);
+	$res['update_dd'] = $_POST["docs"];
 	echo json_encode($res);
 	die();
 }
