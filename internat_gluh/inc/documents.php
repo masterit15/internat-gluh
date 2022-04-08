@@ -146,7 +146,7 @@ function documents()
 		<?
 		// PR($custom['documents'][0]);
 		if ($custom['documents'][0]) { ?>
-			<ul class="document_list">
+			<ul id="post_document_list" class="document_list">
 				<? if (str_contains($custom['documents'][0], ',')) {
 					$attach_ids = explode(',', $custom['documents'][0]);
 					foreach ($attach_ids as $attach_id) {
@@ -162,7 +162,7 @@ function documents()
 								<span class="file_size"><?= $file['size'] ?></span>
 							</div>
 							<div class="file_action">
-								<span class="file_edit"><i class="fa fa-pencil"></i></span>
+								<span class="file_edit" data-url="<?php echo site_url() ?>/wp-admin/admin-ajax.php?action=documentEdit"><i class="fa fa-pencil"></i></span>
 								<span class="file_delete" data-url="<?php echo site_url() ?>/wp-admin/admin-ajax.php?action=documentDelete"><i class="fa fa-times"></i></span>
 								<span class="file_link"><a href="<?= $file['path'] ?>" target="_blank"><i class="fa fa-link"></i></a></span>
 							</div>
@@ -178,7 +178,7 @@ function documents()
 							<span class="file_size"><?= $file['size'] ?></span>
 						</div>
 						<div class="file_action">
-							<span class="file_edit"><i class="fa fa-pencil"></i></span>
+							<span class="file_edit" data-url="<?php echo site_url() ?>/wp-admin/admin-ajax.php?action=documentEdit"><i class="fa fa-pencil"></i></span>
 							<span class="file_delete" data-url="<?php echo site_url() ?>/wp-admin/admin-ajax.php?action=documentDelete"><i class="fa fa-times"></i></span>
 							<span class="file_link"><a href="<?= $file['path'] ?>"><i class="fa fa-link"></i></a></span>
 						</div>
@@ -189,7 +189,7 @@ function documents()
 		<div class="group">
 			<div class="form_row__photo-previews">
 				<input type="file" name="files[]" multiple id="js-photo-upload">
-				<input type="hidden" name="documents" id="documents_ids" value="<?= $custom['documents'][0] ?>">
+				<input type="hidden" name="documents" id="documents_ids" value="<?=$custom['documents'][0]?>">
 				<div class="add_photo-content">
 				<div class="progress_bar"></div>
 					<div class="add_photo-item"></div>
@@ -217,7 +217,7 @@ function documents()
 	</div>
 <?
 }
-// ajax action для загрузки документов
+// ajax функция добавления документа(ов)
 add_action('wp_ajax_documentsUpload', 'documentsUpload'); // wp_ajax_{ACTION HERE} 
 add_action('wp_ajax_nopriv_documentsUpload', 'documentsUpload');
 function documentsUpload()
@@ -251,18 +251,40 @@ function documentsUpload()
 	echo json_encode($res);
 	die();
 }
+
+// ajax функция редактирования названия документа
+add_action('wp_ajax_documentEdit', 'documentEdit'); // wp_ajax_{ACTION HERE} 
+add_action('wp_ajax_nopriv_documentEdit', 'documentEdit');
+function documentEdit()
+{
+	$res = array('success'=> false);
+	$id = $_POST['pid'];
+	$title = $_POST['title'];
+	$attachment = array(
+			'ID' => $id,
+			'post_title' => $title,
+	);
+	// now update main post body
+	if(wp_update_post( $attachment )){
+		$res['success'] = true;
+	}
+	// die();
+	$res['pid']=$id;
+	$res['title']=$title;
+	echo wp_send_json($res);
+	exit;
+}
+// ajax функция удаления документа
 add_action('wp_ajax_documentDelete', 'documentDelete'); // wp_ajax_{ACTION HERE} 
 add_action('wp_ajax_nopriv_documentDelete', 'documentDelete');
 function documentDelete()
 {
 	$res = array('success'=> false);
-	$res['file'] = wp_delete_attachment($_POST['file'], true );
-	if($res['file']){
+	if(wp_delete_attachment($_POST['fileId'], true )){
 		$res['success'] = true;
-		
+		$res['update_docs'] = update_post_meta($_POST['post'], "documents", $_POST["docs"]);
 	}
-	$res['update'] = update_post_meta($_POST['post'], "documents", $_POST["docs"]);
-	$res['update_dd'] = $_POST["docs"];
+	
 	echo json_encode($res);
 	die();
 }
@@ -276,7 +298,20 @@ function my_handle_attachment($file_handler, $post_id, $set_thu = false)
 	require_once ABSPATH . "wp-admin" . '/includes/file.php';
 	require_once ABSPATH . "wp-admin" . '/includes/media.php';
 	$attach_id = media_handle_upload($file_handler, $post_id);
-	return $attach_id;
+	$file = getFileArr($attach_id);
+	$html = '<li class="document_list_item" data-id="'.$file['id'].'" data-post="<?=$post->ID?>">
+						<div class="document_list_item_wrap">
+							<span class="file_icon">'.$file['icon'].'</span>
+							<span class="file_name"> <input type="text" name="file_name" id="file-'.$file['id'].'" value="'.$file['original_name'].'" disabled /></span>
+							<span class="file_size">'.$file['size'].'</span>
+						</div>
+						<div class="file_action">
+							<span class="file_edit" data-url="'.site_url().'/wp-admin/admin-ajax.php?action=documentEdit"><i class="fa fa-pencil"></i></span>
+							<span class="file_delete" data-url="'.site_url().'/wp-admin/admin-ajax.php?action=documentDelete"><i class="fa fa-times"></i></span>
+							<span class="file_link"><a href="'.$file['path'].'"><i class="fa fa-link"></i></a></span>
+						</div>
+					</li>';
+	return array("file"=>$attach_id,"html"=>$html);
 }
 // создаем свой шорткод для вывода на страницах - записях
 add_shortcode('documents', 'documents_shortcode');

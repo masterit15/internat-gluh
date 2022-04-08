@@ -71,7 +71,7 @@ function gallery_field_video()
 		<div class="one_colimn">
 			<div class="fields">
 				<div class="video_input">
-					<input id="video-0" placeholder="Ссылка на видео" type="text" name="video" />
+					<input id="video-0" placeholder="Ссылка видео c youtube" type="text" name="video" />
 				</div>
 				<span class="add_video">Добавить</span>
 			</div>

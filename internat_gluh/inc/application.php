@@ -49,12 +49,15 @@ function save_application_field() {
 	global $post;
 	if ($post) {
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {return $post->ID;}
-		update_post_meta($post_id, "application_name", $_POST['userFio']);
-		update_post_meta($post_id, "application_phone", $_POST['userPhone']);
-		update_post_meta($post_id, "application_email", $_POST['userEmail']);
+		update_post_meta($post_id, "application_name", $_POST['name']);
+		update_post_meta($post_id, "application_phone", $_POST['phone']);
+		update_post_meta($post_id, "application_email", $_POST['email']);
+		update_post_meta($post_id, "application_age", $_POST['age']);
 		update_post_meta($post_id, "application_specialist", $_POST['specialist']);
-		update_post_meta($post_id, "application_specialist_cat", $_POST['specialistsCat']);
+		update_post_meta($post_id, "application_service_type", $_POST['service_type']);
 		update_post_meta($post_id, "application_specialist_shedule", $_POST['specialistShedule']);
+		
+		
 	}
 }
 //Дополнительные поля продукта html
@@ -68,46 +71,42 @@ function application_field() {
 		<div class="application_fields">
 			<div class="group">
 				<label>ФИО:</label>
-					<?if ($custom['application_name']) {?>
-						<input class="application_fields_name" name="name" type="text" value="<?=$custom['application_name'][0]?>">
-					<?} else {?>
-						<input class="application_fields_name" name="name" type="text">
-					<?}?>
+				<input disabled class="application_fields_name" name="name" type="text" <?if ($custom['application_name']) {?>value="<?=$custom['application_name'][0]?>"<?}?>>
+			</div>
+			<div class="group">
+				<label>Возраст ребенка:</label>
+				<input disabled class="application_fields_name" name="age" type="number" <?if ($custom['application_age']) {?>value="<?=$custom['application_age'][0]?>"<?}?>>
+			</div>
+			<div class="group">
+			<label>Вид оказания услуг:</label>
+					<?
+					$type = 'Вид оказания услуг';
+					switch ($custom['application_service_type'][0]) {
+						case 'full-time':
+							$type = 'Очная';
+							break;
+						case 'remote':
+							$type = 'Дистанционная';
+							break;
+					}
+					?>
+					<input disabled class="application_fields_service_type" name="service_type" type="text" <?if ($custom['application_service_type']) {?>value="<?=$type?>"<?}?>>
 			</div>
 			<div class="group">
 				<label>Телефон:</label>
-					<?if ($custom['application_phone']) {?>
-						<input class="application_fields_phone" name="phone" type="text" value="<?=$custom['application_phone'][0]?>">
-					<?} else {?>
-						<input class="application_fields_phone" name="phone" type="text">
-					<?}?>
+				<input disabled class="application_fields_phone" name="phone" type="text"  <?if ($custom['application_phone']) {?>value="<?=$custom['application_phone'][0]?>"<?}?>>
 			</div>
 			<div class="group">
 				<label>Е-почта:</label>
-					<?if ($custom['application_email']) {?>
-						<input class="application_fields_userEmail" name="userEmail" type="text" value="<?=$custom['application_email'][0]?>">
-					<?} else {?>
-						<input class="application_fields_userEmail" name="userEmail" type="text">
-					<?}?>
+				<input disabled class="application_fields_userEmail" name="email" type="text" <?if ($custom['application_email']) {?>value="<?=$custom['application_email'][0]?>"<?}?>>
 			</div>
 			<div class="group">
 				<label>Специалист:</label>
-					<?if ($custom['application_specialist']) {?>
-						<input class="application_fields_specialist" name="specialist" type="text" value="<?=$spec->post_title?>">
-					<?} else {?>
-						<input class="application_fields_specialist" name="specialist" type="text">
-					<?}?>
+				<input disabled class="application_fields_specialist" name="specialist" type="text" <?if ($custom['application_specialist']) {?>value="<?=$spec->post_title?>"<?}?>>
 			</div>
 		</div>
-
-	<?if ($custom['application_specialist_shedule']) {?>
-    <textarea id="application_specialist_shedule" name="specialistShedule" cols="50" rows="10"><?=$custom['application_specialist_shedule'][0]?></textarea>
-  <?} else {?>
-    <textarea id="application_specialist_shedule" name="specialistShedule" cols="50" rows="10"></textarea>
-  <?}?>
-	<?if ($specCustom['specialists_shedule'][0]) {?>
-    <textarea id="specialists_field" name="specialists_shedule" id="" cols="50" rows="10"><?=$specCustom['specialists_shedule'][0]?></textarea>
-  <?}?>
+    <textarea id="application_specialist_shedule" name="specialistShedule" cols="50" rows="10"><?if ($custom['application_specialist_shedule']) {?><?=$custom['application_specialist_shedule'][0]?><?}?></textarea>
+    <textarea id="specialists_field" name="specialists_shedule" id="" cols="50" rows="10"><?if ($specCustom['specialists_shedule'][0]) {?><?=$specCustom['specialists_shedule'][0]?><?}?></textarea>
 	<?sheduleTable(explode(' ', $post->post_date)[0]);?>
 	</div>
 <?
@@ -243,7 +242,9 @@ function applicationHandler(){
 				'specialistShedule' => $_POST['specialistShedule'],
 				'specialistSheduleImg' => $_POST['specialistSheduleImg'],
 				'specialistSheduleCheck' => $_POST['specialistSheduleCheck'],
+				'specialistsServiceType' => $_POST['specialistsServiceType'],
 				'userFio' => $_POST['userFio'],
+				'userAge' => $_POST['userAge'],
 				'userText' => $_POST['userText'],
 				'userEmail' => $_POST['userEmail'],
 				'userPhone' => $_POST['userPhone'],
@@ -284,12 +285,14 @@ function applicationHandler(){
         );
         $post_id = wp_insert_post($new_post);
         $post = get_post($post_id);
-        update_post_meta($post_id, "application_name", $feed['userFio']);
-        update_post_meta($post_id, "application_phone", $feed['userPhone']);
-        update_post_meta($post_id, "application_email", $feed['userEmail']);
-        update_post_meta($post_id, "application_specialist", $feed['specialist']);
-        update_post_meta($post_id, "application_specialist_cat", $feed['specialistsCat']);
-        update_post_meta($post_id, "application_specialist_shedule", $feed['specialistShedule']);
+				update_post_meta($post_id, "application_name", $feed['userFio']);
+				update_post_meta($post_id, "application_phone", $feed['userPhone']);
+				update_post_meta($post_id, "application_email", $feed['userEmail']);
+				update_post_meta($post_id, "application_age", $feed['userAge']);
+				update_post_meta($post_id, "application_specialist", $feed['specialist']);
+				update_post_meta($post_id, "application_specialist_cat", $feed['specialistsCat']);
+				update_post_meta($post_id, "application_service_type", $feed['specialistsServiceType']);
+				update_post_meta($post_id, "application_specialist_shedule", $feed['specialistShedule']);
 				// обновляем график специалиста
 				$applicationShedule = get_post_custom($post_id);
 				$applicationShedule = json_decode($applicationShedule["application_specialist_shedule"][0], true);
@@ -344,6 +347,8 @@ function sendEmail($feed, $post){
 	$headers= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
 	$message =  '<strong>ФИО:</strong> '. $feed['userFio'] .'<br><hr>'.
+							'<strong>Возраст ребенка:</strong> ' . $feed['userAge'] . '<br><hr>' .
+							'<strong>Вид оказания услуги:</strong> ' . $feed['specialistsServiceType'] . '<br><hr>' .
 							'<strong>Телефон:</strong> ' . $feed['userPhone'] . '<br><hr>' .
 							'<strong>E-почта:</strong> ' . $feed['userEmail'] . '<br><hr>'.
 							'<strong>Текст:</strong> ' . $feed['userText'] . '<br><hr>'.

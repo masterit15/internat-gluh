@@ -1,10 +1,9 @@
+
 $(function () {
     $('.delete_video').one('click', function () {
         let vId = $(this).data('video-id')
         let videos = $('input[name="videos"]').val() != '' ? $('input[name="videos"]').val().split(',') : []
-        console.log('bef', vId);
         videos = videos.filter(vd => vd != vId)
-        console.log('aff', videos);
         $('input[name="videos"]').val(videos.join(','))
         $(`.video[data-video-id="${vId}"]`).remove()
     })
@@ -104,9 +103,9 @@ $(function () {
                 $(addInput).trigger('click');
             })
 
-            var maxFileSize = fileSize * 1024 * 1024; 
-            var queue = {};
+            var maxFileSize = fileSize * 1024 * 1024;
             var imagesList = $(imgList);
+            var queue = {}
             var filelist = $('.file_list').children().length;
             var itemPreviewTemplate = imagesList.find('.document_list_item').detach();
             var fileTypeArr = [
@@ -252,6 +251,7 @@ $(function () {
             // Очистить все файлы
             function resetFiles() {
                 $(addInput)[0].value = "";
+                uploader.files = ''
                 limitDisplay();
             }
             if (reset) {
@@ -263,38 +263,6 @@ $(function () {
             return queue
         }
         uploaderImg('.add_photo-item', '#js-photo-upload', '#uploadImagesList', false, false, 9999, 10000);
-        // function getFileIcon(f){
-        //     console.log(f);
-        //     let fileType = f.split('.').pop().toLowerCase()
-        //     let icon = 'fa-file'
-        //     switch (fileType) {
-        //         case 'xls':
-        //             icon = 'fa-file-excel-o'
-        //             break;
-        //         case 'xlsx':
-        //             icon = 'fa-file-excel-o'
-        //             break;
-        //         case 'rar':
-        //             icon = 'fa-file-archive-o'
-        //             break;
-        //         case 'zip':
-        //             icon = 'fa-file-archive-o'
-        //             break;
-        //         case 'docx':
-        //             icon = 'fa-file-word-o'
-        //             break;
-        //         case 'doc':
-        //             icon = 'fa-file-word-o'
-        //             break;
-        //         case 'pdf':
-        //             icon = 'fa-file-pdf-o'
-        //             break;
-        //         default:
-        //             icon = 'fa-file'
-        //             break;
-        //     }
-        //     return `<i class="fa ${icon}"></i>`
-        // }
         $('.btn').on('click', function () {
             var formData = new FormData()
             $.each(uploader.files, function (key, input) {
@@ -308,34 +276,43 @@ $(function () {
                 processData: false,
                 data: formData,
                 dataType: 'json',
-                xhr: function() {
-                var xhr = new window.XMLHttpRequest();
-                xhr.upload.addEventListener("progress", function(evt) {
-                    if (evt.lengthComputable) {
-                    var percentComplete = evt.loaded / evt.total;
-                    percentComplete = parseInt(percentComplete * 100);
-                    $('.progress_bar').fadeIn()
-                    $('.progress_bar').removeClass('done')
-                    $('.progress_bar').css({'width': `${percentComplete}%`})
-                    if (percentComplete === 100) {
-                        $('.progress_bar').addClass('done')
-                        $('.progress_bar').fadeOut()
-                    }
-                    }
-                }, false);
-                return xhr;
+                xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            percentComplete = parseInt(percentComplete * 100);
+                            $('.progress_bar').fadeIn()
+                            $('.progress_bar').removeClass('done')
+                            $('.progress_bar').css({ 'width': `${percentComplete}%` })
+                            if (percentComplete === 100) {
+                                $('.progress_bar').addClass('done')
+                                $('.progress_bar').fadeOut()
+                            }
+                        }
+                    }, false);
+                    return xhr;
                 },
                 success: function (res) {
+                    let files = []
+                    res.files.forEach(f => {
+                        files.push(f.file)
+                        $('#post_document_list').append(f.html)
+                        $('#uploadImagesList').html('')
+                    })
                     if (res.success) {
                         if ($('#documents_ids').val() != '') {
                             let val = $('#documents_ids').val().split(',')
-                            let filesIds = res.files.concat(val)
+                            let filesIds = files.concat(val)
                             $('#documents_ids').val(filesIds.join(","))
                         } else {
-                            $('#documents_ids').val(res.files.join(","))
+                            $('#documents_ids').val(files.join(","))
                         }
-
+                        toast(time = 5000, title = 'Загрузка документов', variable = 'warning', description = `Документ(ы) был(и) успешно загружен(ы)!`)
                     }
+                },
+                error: function (err) {
+                    toast(time = 3000, title = 'Ошибка запроса!', variable = 'warning', description = err)
                 }
             })
         })
@@ -492,11 +469,15 @@ $(function () {
                             $('.documents_wrap').html(res)
                         },
                         error: function (err) {
-                            // mainToast(5000, "error", 'Ошибка загрузки!', err)
+                            toast(time = 3000, title = 'Ошибка запроса!', variable = 'warning', description = err)
                             console.error(err);
                         }
                     });
                 }
+            },
+            error: function (err) {
+                toast(time = 3000, title = 'Ошибка запроса!', variable = 'warning', description = err)
+                console.error(err);
             }
         })
 
@@ -504,15 +485,38 @@ $(function () {
 
     $('.file_edit').on('click', function () {
         var parent = $(this).parent().parent('li')
-        if(!$(this).hasClass('edit')){
+        if (!$(this).hasClass('edit')) {
             $(this).addClass('edit')
             $(this).find('.fa').removeClass('fa-pencil')
             $(this).find('.fa').addClass('fa-floppy-o')
             $(parent).find('.file_name input').prop('disabled', false)
-            $('.file_name input').on('change', function(){
-                console.log($(this).val());
+            $('.edit').one('click', function () {
+                let val = $(parent).find('.file_name input').val()
+                $.ajax({
+                    type: "POST",
+                    url: $(this).data('url'),
+                    data: { pid: $(parent).data('id'), title: val },
+                    beforeSend: function () {
+                        // NProgress.start();
+                    },
+                    complete: function () {
+                        // NProgress.done();
+                    },
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.success) {
+                            toast(time = 3000, title = 'Обновление документа', variable = 'success', description = `Файл успешно обновлен!`)
+                        } else {
+                            toast(time = 3000, title = 'Обновление документа', variable = 'warning', description = `Файл не обновлен, попробуйте еще раз!`)
+                        }
+                    },
+                    error: function (err) {
+                        toast(time = 3000, title = 'Ошибка запроса!', variable = 'warning', description = err)
+                        console.error(err);
+                    }
+                });
             })
-        }else{
+        } else {
             $(this).removeClass('edit')
             $(this).find('.fa').removeClass('fa-floppy-o')
             $(this).find('.fa').addClass('fa-pencil')
@@ -521,13 +525,14 @@ $(function () {
 
     })
     $('.file_delete').on('click', function () {
-        var parent = $(this).parent().parent('li')
-        var files = $('#documents_ids').val().length > 0 ? $('#documents_ids').val().split(',') : []
-        files = files.filter(f=>Number(f) != Number($(parent).data('id')))
+        const parent = $(this).parent().parent('li')
+        let files = $('#documents_ids').val().length > 0 ? $('#documents_ids').val().split(',') : []
+        index = files.findIndex(f => f == $(parent).data('id'))
+        files.splice(index, 1)
         $.ajax({
             type: "POST",
             url: $(this).data('url'),
-            data: {post: $(parent).data('post'), file: $(parent).data('id'), docs: files.join(',')},
+            data: { post: $(parent).data('post'), fileId: $(parent).data('id'), docs: files.join(',') },
             beforeSend: function () {
                 // NProgress.start();
             },
@@ -535,18 +540,17 @@ $(function () {
                 // NProgress.done();
             },
             success: function (res) {
-                console.log(res);
                 $(parent).remove()
-                // $('.documents_wrap').html(res)
+                $('#documents_ids').val(files.join(','))
             },
             error: function (err) {
-                // mainToast(5000, "error", 'Ошибка загрузки!', err)
+                toast(time = 3000, title = 'Ошибка запроса!', variable = 'warning', description = err)
                 console.error(err);
             }
         });
     })
     var specialistsData = $('textarea#specialists_field').length > 0 && $('textarea#specialists_field').val().length > 0 ? JSON.parse($('textarea#specialists_field').val()) : []
-    var application_specialist_shedule = $('textarea#application_specialist_shedule').length > 0 && $('textarea#application_specialist_shedule').val().length > 0 ?JSON.parse($('textarea#application_specialist_shedule').val()) : []
+    var application_specialist_shedule = $('textarea#application_specialist_shedule').length > 0 && $('textarea#application_specialist_shedule').val().length > 0 ? JSON.parse($('textarea#application_specialist_shedule').val()) : []
     var specialists_shedule = specialistsData
     var specialistLock = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M80 192V144C80 64.47 144.5 0 224 0C303.5 0 368 64.47 368 144V192H384C419.3 192 448 220.7 448 256V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V256C0 220.7 28.65 192 64 192H80zM144 192H304V144C304 99.82 268.2 64 224 64C179.8 64 144 99.82 144 144V192z"/></svg>`
     var specialistCheck = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4zm323-128.4l-27.8-28.1c-4.6-4.7-12.1-4.7-16.8-.1l-104.8 104-45.5-45.8c-4.6-4.7-12.1-4.7-16.8-.1l-28.1 27.9c-4.7 4.6-4.7 12.1-.1 16.8l81.7 82.3c4.6 4.7 12.1 4.7 16.8.1l141.3-140.2c4.6-4.7 4.7-12.2.1-16.8z"/></svg>`
@@ -559,28 +563,48 @@ $(function () {
             let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
             $(td)
                 .addClass('active')
-                .html(`${specialistTime}${weekdayText} / ${time}:00`)
+                .html(`${specialistTime}${weekdayText}/${time}`)
         });
     }
     if ($('textarea#application_specialist_shedule').length > 0) {
         application_specialist_shedule.forEach(ss => {
             let weekdayText = `${$(`.weekday[data-weekday="${$(`.day[data-id="${ss.id}"]`).data('weekday')}"]`).text()}`;
             let time = $(`.day[data-id="${ss.id}"]`).data('time');
-            if(ss.book){
+            if (ss.book) {
                 $(`.day[data-id="${ss.id}"]`)
-                .addClass('active')
-                .addClass('book')
-                .attr('data-book', true)
-                .html(`${specialistLock}${weekdayText}/${time}:00`)
-            }else{
+                    .addClass('active')
+                    .addClass('book')
+                    .attr('data-book', true)
+                    .html(`${specialistLock}${weekdayText}/${time}`)
+            } else {
                 $(`.day[data-id="${ss.id}"]`)
-                .addClass('active')
-                .addClass('check')
-                // .attr('data-book', true)
-                .html(`${specialistCheck}${weekdayText}/${time}:00`)
+                    .addClass('active')
+                    .addClass('check')
+                    // .attr('data-book', true)
+                    .html(`${specialistCheck}${weekdayText}/${time}`)
             }
         });
     }
+
+    $('.removeall').on('click', function () {
+        $('.day').html('')
+        $('.day').removeClass('active')
+    })
+    $('.checkall').on('click', function () {
+        $('.day').addClass('active')
+        let day = [...$('.day')]
+        day.forEach(td => {
+            let id = $(td).data('id')
+            let time = $(td).data('time')
+            let book = $(td).data('book')
+            let weekday = $(td).data('weekday')
+            let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
+            let weekdatefull = $(`.weekday[data-weekday="${weekday}"]`).data('weekdatefull')
+            $(td).html(`${specialistTime}${weekdayText} / ${time}`)
+            specialists_shedule.push({ id, book, weekday, time, weekdatefull })
+            $('textarea#specialists_field').val(JSON.stringify(specialists_shedule))
+        })
+    })
     $('.day').on('click', function () {
         if (!$(this).data('book')) {
             $(this).toggleClass('active')
@@ -591,8 +615,8 @@ $(function () {
                 let weekday = $(this).data('weekday')
                 let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
                 let weekdatefull = $(`.weekday[data-weekday="${weekday}"]`).data('weekdatefull')
-                $(this).html(`${specialistTime}${weekdayText} / ${time}:00`)
-                specialists_shedule.push({id, book, weekday, time, weekdatefull})
+                $(this).html(`${specialistTime}${weekdayText} / ${time}`)
+                specialists_shedule.push({ id, book, weekday, time, weekdatefull })
                 $('textarea#specialists_field').val(JSON.stringify(specialists_shedule))
             } else {
                 $(this).html(``)
@@ -601,4 +625,30 @@ $(function () {
             }
         }
     })
+    const body = document.querySelector('body')
+    body.insertAdjacentHTML('beforeend', `<ul class="toast_wrap"></ul>`)
+    const ul = document.querySelector('.toast_wrap')
+    function toast(time = 5000, title, variable, description) {
+        let id = $('.toast_wrap').children().length
+        const li = `<li class="toast_item ${variable}" data-id="${id}">
+                        <div class="toast_item_head">
+                            <h3>${title}</h3>
+                            <span class="toast_item_close"><i class="fa fa-times"></i></span>
+                        </div>
+                        <p>${description}</>
+                    </li>`
+        // $('.toast_wrap').append(li)
+        ul.insertAdjacentHTML('beforeend', li)
+        setTimeout(() => {
+            $(`li.toast_item[data-id="${id}"]`).addClass('show')
+        }, 0)
+        $(`li.toast_item[data-id="${id}"] .toast_item_close`).on('click', function () {
+            $(this).parent().parent().remove()
+        })
+        setTimeout(() => {
+            $(`li.toast_item[data-id="${id}"]`).removeClass('show')
+            $(`li.toast_item[data-id="${id}"]`).fadeOut(100)
+            $(`li.toast_item[data-id="${id}"]`).remove()
+        }, time)
+    }
 })

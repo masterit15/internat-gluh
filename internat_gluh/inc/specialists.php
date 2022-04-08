@@ -66,6 +66,7 @@ function save_specialists() {
 		update_post_meta($post->ID, "specialists_shedule", $_POST["specialists_shedule"]);
 		update_post_meta($post->ID, "specialists_shedule_book", $_POST["specialists_shedule_book"]);
 		update_post_meta($post->ID, "specialists_email", $_POST["specialists_email"]);
+		update_post_meta($post->ID, "specialists_city", $_POST["specialists_city"]);
 	}
 }
 //Дополнительные поля продукта html
@@ -75,15 +76,17 @@ function specialists_field() {
 	$shedule    = $custom["specialists_shedule"][0];
 	$sheduleBook    = $custom["specialists_shedule_book"][0];
 	$email    = $custom["specialists_email"][0];
+	$city    = $custom["specialists_city"][0];
 	?>
+  <div class="application_fields">
   <div class="group">
-    <?if ($email) {?>
-      <label for="specialists_email">Е-почта специалиста</label>
-      <input type="email" name="specialists_email" id="specialists_email" placeholder="Е-почта специалиста" value="<?=$email?>">
-    <?} else {?>
-      <label for="specialists_email">Е-почта специалиста</label>
-      <input type="email" name="specialists_email" id="specialists_email" placeholder="Е-почта специалиста" value="<?=$email?>">
-    <?}?>
+    <label for="specialists_email">Е-почта специалиста:</label>
+    <input type="email" name="specialists_email" id="specialists_email" placeholder="Е-почта специалиста" <?if($email){?>value="<?=$email?>"<?}?>>
+  </div>
+  <div class="group">
+    <label for="specialists_email">Город:</label>
+    <input type="text" name="specialists_city" id="specialists_city" placeholder="Город" <?if($city){?>value="<?=$city?>"<?}?>>
+  </div>
   </div>
   <?if ($shedule) {?>
     <textarea id="specialists_field" name="specialists_shedule" id="" cols="50" rows="10"><?=$shedule?></textarea>
@@ -95,6 +98,10 @@ function specialists_field() {
   <?} else {?>
     <textarea id="application_specialist_shedule" name="specialists_shedule_book" id="" cols="50" rows="10"></textarea>
   <?}?>
+  <div class="shedule_action">
+    <div class="checkall">отметить все</div>
+    <div class="removeall">очистить все</div>
+  </div>
   <?sheduleTable();
 }
 function getPostCount($specialist)
@@ -179,7 +186,19 @@ function sheduleTable($d='monday this week'){
   // return date('Y-m-d', $start)."/".date('Y-m-d', strtotime('next sunday', $start));
   $date = strtotime(date('Y-m-d', $start));
   $weekday = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
-  $times = [9,10,11,12,13,14,15,16,17,18];
+  $times = [
+    '9:00','9:30',
+    '10:00','10:30',
+    '11:00','11:30',
+    '12:00','12:30',
+    '13:00','13:30',
+    '14:00','14:30',
+    '15:00','15:30',
+    '16:00','16:30',
+    '17:00','17:30',
+    '18:00','18:30',
+    '19:00','19:30'
+  ];
   $weekArr = [];
   for($i = 0;$i < 7;$i++) {
     $weekArr[$i]['weekday'] = $weekday[$i];
@@ -199,7 +218,7 @@ function sheduleTable($d='monday this week'){
   echo      '</tr>';
               foreach($times as $t){
                 echo '<tr>
-                        <td class="time">'.$t.':00</td>';
+                        <td class="time">'.$t.'</td>';
                         $i = 1;
                         foreach($weekArr as $week){
                           echo '<td class="day" data-weekday="'.$i.'" data-time="'.$t.'" data-book="false" data-id="'.$week['weekdatefull'].'-'.$t.'"></td>';

@@ -275,7 +275,7 @@ window.onload = () => {
         });
     }
     let specialistSheduleImg = ''
-    function getFormEl(el, getel = null, param, reset = false) {
+    function getFormEl(el, param, reset = false) {
         $.ajax({
             type: "POST",
             url: $(el).data('action'),
@@ -285,14 +285,7 @@ window.onload = () => {
             },
             complete: function () {},
             success: function (res) {
-                $(getel).remove()
-                $('.application_wrap').find('.shedule').remove()
-                if (reset) {
-                    getFormEl($(el), '#specialists')
-                    
-                }
-                $(el).after(res)
-                $('.loader').fadeOut(200)
+                $('.specialists_shedule').html(res)
                 $('#specialists').on('change', function () {
                     let val = $(this).val()
                     if(val !== '#'){
@@ -300,7 +293,7 @@ window.onload = () => {
                     }else{
                         $(this).removeClass('valid')
                     }
-                    getFormEl($(this), '.shedule', { specialist: val })
+                    getFormEl($(this), { specialist: val })
                 })
                 var specialistsData = $('textarea#specialists_field').length > 0 && $('textarea#specialists_field').val().length > 0 ? JSON.parse($('textarea#specialists_field').val()) : []
                 var application_specialist_shedule = $('textarea#application_specialist_shedule').length > 0 && $('textarea#application_specialist_shedule').val().length > 0 ?JSON.parse($('textarea#application_specialist_shedule').val()) : []
@@ -316,11 +309,11 @@ window.onload = () => {
                             .addClass('active')
                             .addClass('book')
                             .attr('data-book', true)
-                            .html(`${specialistLock}${$(td).data('time')}:00`)
+                            .html(`${specialistLock}${$(td).data('time')}`)
                         }else{
                             $(td)
                             .addClass('active')
-                            .html(`${specialistTime}${$(td).data('time')}:00`)
+                            .html(`${specialistTime}${$(td).data('time')}`)
                         }
                         
                     });
@@ -328,7 +321,6 @@ window.onload = () => {
                 if ($('textarea#application_specialist_shedule').length > 0) {
                     application_specialist_shedule.forEach(ss => {
                         const td = $(`.day[data-id="${ss.id}"]`)
-                        console.log(ss);
                         let weekdayText = `${$(`.weekday[data-weekday="${$(`.day[data-id="${ss.id}"]`).data('weekday')}"]`).text()}`;
                         let time = $(`.day[data-id="${ss.id}"]`).data('time');
                         if(ss.book){
@@ -336,13 +328,13 @@ window.onload = () => {
                             .addClass('active')
                             .addClass('book')
                             .attr('data-book', true)
-                            .html(`${specialistLock}${time}:00`)
+                            .html(`${specialistLock}${time}`)
                         }else{
                             $(`.day[data-id="${ss.id}"]`)
                             .addClass('active')
                             .addClass('check')
                             // .attr('data-book', true)
-                            .html(`${specialistCheck}${time}:00`)
+                            .html(`${specialistCheck}${time}`)
                         }
                         
                     });
@@ -358,27 +350,23 @@ window.onload = () => {
                         let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
                         let weekdatefull = $(`.weekday[data-weekday="${weekday}"]`).data('weekdatefull')
                         if ($(this).hasClass('check')) {
-                            $(this).html(`${specialistCheck}${time}:00`)
+                            $(this).html(`${specialistCheck}${time}`)
                             specialists_shedule_book.push({id, book, time, weekdatefull})
                             $('#application_specialist_shedule').val(JSON.stringify(specialists_shedule_book))
                         } else {
-                            $(this).html(`${specialistTime}${time}:00`)
+                            $(this).html(`${specialistTime}${time}`)
                             specialists_shedule_book = specialists_shedule_book.filter(sh => sh.id != $(this).data('id'))
                             $('#application_specialist_shedule').val(JSON.stringify(specialists_shedule_book))
                         }
-                    
                         html2canvas(document.querySelector(".shedule"), {logging: false}).then(function(canvas) {
                             var ctx = canvas.getContext('2d');
                             ctx.fillRect(50,50,600,400);
                             specialistSheduleImg = canvas.toDataURL()
-                            
-                            // let img = new Image()
-                            // img.src = specialistSheduleImg
-                            // $('body').before(img)
                             $('.loader').fadeOut(200)
                         });
                     }
                 })
+                $('.loader').fadeOut(200)
             },
             error: function (err) {
                 // mainToast(5000, "error", 'Ошибка загрузки!', err)
@@ -388,20 +376,47 @@ window.onload = () => {
     }
     $('#specialists_cat').on('change', function () {
         let val = $(this).val()
-        
-        getFormEl($(this), '#specialists', { specialistscat: val }, val == '#' ? true : false)
+        $.ajax({
+            type: "POST",
+            url: $(this).data('action'),
+            data: { specialistscat: val },
+            beforeSend: function () {
+                $('.loader').css({"display":"flex"})
+            },
+            complete: function () {},
+            success: function (res) {
+                $('#specialists_select').html(res)
+                $('.loader').fadeOut(200)
+                $('#specialists').on('change', function () {
+                    let val = $(this).val()
+                    if(val !== '#'){
+                        $(this).addClass('valid')
+                    }else{
+                        $(this).removeClass('valid')
+                    }
+                    getFormEl($(this), { specialist: val })
+                })
+            },
+            error: function (err) {
+                // mainToast(5000, "error", 'Ошибка загрузки!', err)
+                console.error(err);
+            }
+        });
     })
     $('#specialists').on('change', function () {
         let val = $(this).val()
-        getFormEl($(this), '.shedule', { specialist: val })
+        $('.shedule').remove()
+        getFormEl($(this), { specialist: val })
     })
     $('#specialists, #specialists_cat').on('change', function () {
         let val = $(this).val()
         if(val !== '#'){
             $(this).addClass('valid')
+            $('.specialists_shedule').html('')
         }else{
             $(this).removeClass('valid')
         }
+        
     })
     // $("#phone").mask("+7 (999) 999-99-99", {
     //     placeholder: "+7 (999) 999-99-99",
@@ -424,9 +439,11 @@ window.onload = () => {
         e.preventDefault()
         let specialist = $(e.target).find('#specialists').val()
         let specialistsCat = $(e.target).find('#specialists_cat').val()
+        let specialistsServiceType = $(e.target).find('#service_type').val()
         let specialistEmail = $(e.target).find('#specialists_email').val() ?? ''
         let specialistShedule = $(e.target).find('#application_specialist_shedule').val()
         let userFio = $(e.target).find('#fio').val()
+        let userAge = $(e.target).find('#age').val()
         let userText = $(e.target).find('#text').val()
         let userEmail = $(e.target).find('#email').val()
         let userPhone = $(e.target).find('#phone').val()
@@ -436,7 +453,9 @@ window.onload = () => {
             specialistEmail,
             specialistShedule,
             specialistSheduleImg,
+            specialistsServiceType,
             userFio,
+            userAge,
             userText,
             userEmail,
             userPhone,
@@ -454,7 +473,7 @@ window.onload = () => {
             success: function (res) {
                 let result = JSON.parse(res)
                 console.log(result);
-                // $('.application_wrap').html(result.message)
+                $('.application_wrap').html(result.message)
                 $('.loader').fadeOut(200)
             },
             error: function (err) {

@@ -1,23 +1,34 @@
 #specialists_field, #specialists_field_shedule,#application_specialist_shedule
   display: none 
 .specialists
+  &_shedule
+    display: block
+    margin-bottom: 50px
   &_filter
     display: flex
     flex-wrap: wrap
     justify-content: space-between
-    gap: 30px
+    gap: 20px
+    &_item
+      width: 100%
+      max-width: 320px
   &_fields
     display: flex
-    // flex-direction: column
+    // width: 320px
     justify-content: space-between
     align-items: center
     flex-wrap: wrap
-    gap: 30px
-    .fields_group:nth-child(1),
-    .fields_group:nth-child(4),
-      max-width: 100%
-      input
+    gap: 40px
+    .fields_group
+      width: 320px
+      &:nth-child(5)
+        width: 100%
         max-width: 100%
+    // .fields_group:nth-child(1),
+    // .fields_group:nth-child(4),
+    //   width: 50%
+    //   input
+    //     max-width: 100%
 .shedule
   width: 100%
 .loader

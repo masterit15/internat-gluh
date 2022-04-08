@@ -101,7 +101,7 @@
 </div><!-- #page -->
 <?php wp_footer(); ?>
 <ul class="mobile_nav">
-	<li class="mobile_nav_item add" aria-label="отправить заявку"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></li>
+	<li class="mobile_nav_item add" aria-label="отправить заявку"><a href="/proekt-sovremennaya-shkola/#app_form"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></a></li>
 	<li class="mobile_nav_item specversion bt_widget-vi-on" aria-label="версия для слабовидящих">
 		<i class="fa fa-eye" aria-hidden="true"></i>
 		<!-- <i class="fa fa-low-vision" aria-hidden="true"></i> -->

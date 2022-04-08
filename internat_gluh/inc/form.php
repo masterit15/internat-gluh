@@ -8,7 +8,7 @@ function specialistsSelect(){
     'post_status' => 'publish',
     'posts_per_page' => -1,
   );
-  if($_POST['specialistscat'] != ''){
+  if($_POST['specialistscat'] != '' && $_POST['specialistscat'] != '#'){
     $arg['tax_query'][] = array(
           'taxonomy' => 'specialists-cat',   // taxonomy name
           'field' => 'id',           // term_id, slug or name
@@ -52,6 +52,9 @@ function specialistShedule(){
   <?} else {?>
     <textarea id="application_specialist_shedule" name="specialists_shedule_book" id="" cols="50" rows="10"></textarea>
   <?}?>
+  <span><b>Желаемая дата оказания услуги</b><span><br>
+  <span>Расписание специалиста: <?=$post->post_title?></span>
+  <hr>
   <?sheduleTable()?>
   </div>
   <?
