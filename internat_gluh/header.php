@@ -58,7 +58,7 @@
 						<? } ?>
 					</div>
 					<div class="top_item">
-						<button class="btn add">Написать</button>
+						<a href="/proekt-sovremennaya-shkola/" class="btn add">Записаться на консультацию</a>
 						<div class="specversion"><?php dynamic_sidebar('specvarsion-1'); ?></div>
 						<div class="mobile_menu_btn">
 							<span></span>

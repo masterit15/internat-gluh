@@ -63,7 +63,7 @@ $customizer->add_control('soc_fac', array(
   'type' => 'text',
 ));
 $customizer->add_setting('soc_vk', 
-  array('default' => '')
+  array('default' => 'https://vk.com/centre_help')
 );
 $customizer->add_control('soc_vk', array(
   'label' => 'Ссылка на вконтакте',
@@ -71,7 +71,7 @@ $customizer->add_control('soc_vk', array(
   'type' => 'text',
 ));
 $customizer->add_setting('soc_inst', 
-  array('default' => '')
+  array('default' => 'https://www.instagram.com/accounts/login/?next=/gboy_kroc/')
 );
 $customizer->add_control('soc_inst', array(
   'label' => 'Ссылка на инстаграм',
@@ -83,6 +83,14 @@ $customizer->add_setting('soc_ok',
 );
 $customizer->add_control('soc_ok', array(
   'label' => 'Ссылка на одноклассники',
+  'section' => 'section_soc',
+  'type' => 'text',
+));
+$customizer->add_setting('soc_tg', 
+  array('default' => 'https://t.me/centre_help')
+);
+$customizer->add_control('soc_tg', array(
+  'label' => 'Ссылка на telegram',
   'section' => 'section_soc',
   'type' => 'text',
 ));
