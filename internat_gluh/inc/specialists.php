@@ -181,6 +181,7 @@ function getWeekAndDateApp(){
 }
 
 function sheduleTable($d='monday this week'){
+  global $post;
   $ts = strtotime($d);
   $start = (date('w', $ts) == 1) ? $ts : strtotime('last monday', $ts);
   // return date('Y-m-d', $start)."/".date('Y-m-d', strtotime('next sunday', $start));
@@ -206,7 +207,8 @@ function sheduleTable($d='monday this week'){
     $weekArr[$i]['weekdatefull'] = date("d.m.Y", $date);
     $date =  strtotime('+1 day', $date);
   } 
-  echo '<table class="specialist_shedule">
+  $spc = get_post_type($post->ID) == 'specialists' ? "specialists" : "";
+  echo '<table class="specialist_shedule '.$spc.'">
           <tbody>
             <tr>
               <td class="weekday">Время</td>';

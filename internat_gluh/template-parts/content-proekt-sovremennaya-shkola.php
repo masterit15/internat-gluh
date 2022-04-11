@@ -20,9 +20,11 @@
 
 		<form action="<? site_url() ?>/wp-admin/admin-ajax.php?action=application" class="application">
 			<div class="loader" id="loader-4">
-				<span></span>
-				<span></span>
-				<span></span>
+				<div class="loader_wrap">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
 			</div>
 			<div class="application_wrap">
 				<!-- <span class="close"><i class="fa fa-times"></i></span> -->

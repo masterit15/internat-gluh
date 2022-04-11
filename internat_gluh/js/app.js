@@ -110,10 +110,10 @@ window.onload = () => {
             }
         },
     });
-    $('.add').on('click', function () {
-        $('.application').addClass('active')
-        $('body').css({ 'position': 'fixed' })
-    })
+    // $('.add').on('click', function () {
+    //     $('.application').addClass('active')
+    //     $('body').css({ 'position': 'fixed' })
+    // })
     $('.search').on('click', function () {
         $('.search_popup').addClass('active')
         $('body').css({ 'position': 'fixed' })
@@ -281,7 +281,7 @@ window.onload = () => {
             url: $(el).data('action'),
             data: param,
             beforeSend: function () {
-                $('.loader').css({"display":"flex"})
+                $('.loader').show()
             },
             complete: function () {},
             success: function (res) {
@@ -340,7 +340,7 @@ window.onload = () => {
                     });
                 }
                 $('.day.active').on('click', function () {
-                    $('.loader').css({"display":"flex"})
+                    $('.loader').show()
                     if (!$(this).data('book')) {
                         $(this).toggleClass('check')
                         let id = $(this).data('id')
@@ -358,15 +358,17 @@ window.onload = () => {
                             specialists_shedule_book = specialists_shedule_book.filter(sh => sh.id != $(this).data('id'))
                             $('#application_specialist_shedule').val(JSON.stringify(specialists_shedule_book))
                         }
-                        html2canvas(document.querySelector(".shedule"), {logging: false}).then(function(canvas) {
-                            var ctx = canvas.getContext('2d');
-                            ctx.fillRect(50,50,600,400);
-                            specialistSheduleImg = canvas.toDataURL()
-                            $('.loader').fadeOut(200)
-                        });
+                        setTimeout(()=>{
+                            html2canvas(document.querySelector(".shedule"), {logging: false}).then(function(canvas) {
+                                var ctx = canvas.getContext('2d');
+                                ctx.fillRect(50,50,600,400);
+                                specialistSheduleImg = canvas.toDataURL()
+                                $('.loader').fadeOut(100)
+                            });
+                        },0)
                     }
                 })
-                $('.loader').fadeOut(200)
+                $('.loader').fadeOut(100)
             },
             error: function (err) {
                 // mainToast(5000, "error", 'Ошибка загрузки!', err)
@@ -381,12 +383,12 @@ window.onload = () => {
             url: $(this).data('action'),
             data: { specialistscat: val },
             beforeSend: function () {
-                $('.loader').css({"display":"flex"})
+                $('.loader').show()
             },
             complete: function () {},
             success: function (res) {
                 $('#specialists_select').html(res)
-                $('.loader').fadeOut(200)
+                
                 $('#specialists').on('change', function () {
                     let val = $(this).val()
                     if(val !== '#'){
@@ -396,6 +398,7 @@ window.onload = () => {
                     }
                     getFormEl($(this), { specialist: val })
                 })
+                $('.loader').fadeOut(100)
             },
             error: function (err) {
                 // mainToast(5000, "error", 'Ошибка загрузки!', err)
@@ -465,7 +468,7 @@ window.onload = () => {
             url: $(this).attr('action'),
             data: data,
             beforeSend: function () {
-                $('.loader').css({"display":"flex"})
+                $('.loader').show()
             },
             complete: function () {
                 // NProgress.done();
@@ -474,7 +477,7 @@ window.onload = () => {
                 let result = JSON.parse(res)
                 console.log(result);
                 $('.application_wrap').html(result.message)
-                $('.loader').fadeOut(200)
+                $('.loader').fadeOut(100)
             },
             error: function (err) {
                 // mainToast(5000, "error", 'Ошибка загрузки!', err)
@@ -483,5 +486,52 @@ window.onload = () => {
         });
     
     })
-
+    // to top
+    window.addEventListener("scroll", function () {
+        if (window.pageYOffset >= 300) {
+          document.querySelector('#toTop').classList.add('active')
+        } else {
+          document.querySelector('#toTop').classList.remove('active')
+        }
+      }, false);
+      
+      document.querySelector('#toTop').addEventListener('click', () => {
+        document.querySelector('#toTop').classList.add('animation')
+        doScrolling('.top', 1200).then(() => {
+          document.querySelector('#toTop').classList.remove('animation')
+        })
+      })
+      document.querySelector('.add').addEventListener('click', () => {
+        doScrolling('#app_form', 1200).then(() => {
+          
+        })
+      })
+      function doScrolling(element, duration) {
+        return new Promise((resolve, reject) => {
+          const getElementY = (query) => {
+            return window.pageYOffset + document.querySelector(query)?.getBoundingClientRect().top
+          }
+          let startingY = window.pageYOffset
+          let elementY = getElementY(element)
+          let targetY = document.body.scrollHeight - elementY < window.innerHeight ? document.body.scrollHeight - window.innerHeight : elementY
+          let diff = targetY - startingY
+          let easing = function (t) { return t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1 }
+          let start
+          if (!diff) return
+          window.requestAnimationFrame(function step(timestamp) {
+            if (!start) start = timestamp
+            let time = timestamp - start
+            let percent = Math.min(time / duration, 1)
+            percent = easing(percent)
+            if (percent == 1) {
+              resolve(percent)
+            }
+            window.scrollTo(0, startingY + diff * percent)
+            if (time < duration) {
+      
+              window.requestAnimationFrame(step)
+            }
+          })
+        })
+      }
 }

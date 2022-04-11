@@ -37,6 +37,7 @@ function specialistShedule(){
 	$shedule    = $custom["specialists_shedule"][0];
   $sheduleBook    = $custom["specialists_shedule_book"][0];
 	$email    = $custom["specialists_email"][0];
+	$city    = $custom["specialists_city"][0];
   ?>
   <div class="shedule">
   <?if ($shedule) {?>
@@ -53,7 +54,8 @@ function specialistShedule(){
     <textarea id="application_specialist_shedule" name="specialists_shedule_book" id="" cols="50" rows="10"></textarea>
   <?}?>
   <span><b>Желаемая дата оказания услуги</b><span><br>
-  <span>Расписание специалиста: <?=$post->post_title?></span>
+  <span>Расписание специалиста: <?=$post->post_title?></span><br>
+  <span>Адрес: <?=$city?></span>
   <hr>
   <?sheduleTable()?>
   </div>

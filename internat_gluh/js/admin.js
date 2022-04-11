@@ -585,10 +585,11 @@ $(function () {
             }
         });
     }
-
+    
     $('.removeall').on('click', function () {
         $('.day').html('')
         $('.day').removeClass('active')
+        $('textarea#specialists_field').val('')
     })
     $('.checkall').on('click', function () {
         $('.day').addClass('active')
@@ -600,11 +601,36 @@ $(function () {
             let weekday = $(td).data('weekday')
             let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
             let weekdatefull = $(`.weekday[data-weekday="${weekday}"]`).data('weekdatefull')
-            $(td).html(`${specialistTime}${weekdayText} / ${time}`)
+            $(td).html(`${specialistTime}${weekdayText} - ${time}`)
             specialists_shedule.push({ id, book, weekday, time, weekdatefull })
             $('textarea#specialists_field').val(JSON.stringify(specialists_shedule))
         })
     })
+    $(".specialist_shedule.specialists").selectable({
+        filter: "td",
+        stop: function (event, ui) {
+            $('.day.ui-selected').each(function () {
+                if (!$(this).data('book')) {
+                    $(this).toggleClass('active')
+                    if ($(this).hasClass('active')) {
+                        let id = $(this).data('id')
+                        let time = $(this).data('time')
+                        let book = $(this).data('book')
+                        let weekday = $(this).data('weekday')
+                        let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
+                        let weekdatefull = $(`.weekday[data-weekday="${weekday}"]`).data('weekdatefull')
+                        $(this).html(`${specialistTime}${weekdayText} - ${time}`)
+                        specialists_shedule.push({ id, book, weekday, time, weekdatefull })
+                        $('textarea#specialists_field').val(JSON.stringify(specialists_shedule))
+                    } else {
+                        $(this).html(``)
+                        specialists_shedule = specialists_shedule.filter(sh => sh.id != $(this).data('id'))
+                        $('textarea#specialists_field').val(JSON.stringify(specialists_shedule))
+                    }
+                }
+            })
+        }
+    });
     $('.day').on('click', function () {
         if (!$(this).data('book')) {
             $(this).toggleClass('active')
@@ -615,7 +641,7 @@ $(function () {
                 let weekday = $(this).data('weekday')
                 let weekdayText = `${$(`.weekday[data-weekday="${weekday}"]`).text()}`
                 let weekdatefull = $(`.weekday[data-weekday="${weekday}"]`).data('weekdatefull')
-                $(this).html(`${specialistTime}${weekdayText} / ${time}`)
+                $(this).html(`${specialistTime}${weekdayText} - ${time}`)
                 specialists_shedule.push({ id, book, weekday, time, weekdatefull })
                 $('textarea#specialists_field').val(JSON.stringify(specialists_shedule))
             } else {

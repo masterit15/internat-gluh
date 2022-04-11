@@ -966,6 +966,7 @@
     border-collapse: collapse;
     border-bottom: 1px solid #ddd;
     text-align: center;
+    position: relative;
     
 }
 .specialist_shedule .weekday {
@@ -979,14 +980,17 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 .specialist_shedule .day {
+    width: 177px;
     font-size: 1rem;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
     color: rgb(38, 112, 57);
-    padding: 0 10px;
-    text-align: right;
+    padding: 0 0px 0px 40px;
     
+}
+.specialist_shedule .day.ui-selecting{
+    background-color: rgba(93, 255, 134, 0.349);
 }
 .shedule_action{
     display: flex;
@@ -996,10 +1000,11 @@
 .checkall{
     cursor: pointer;
     margin: 20px;
+    padding: 0 20px;
     border-radius: 10px;
-    width: 150px;
+    width: max-content;
     height: 45px;
-    background-color: rgb(70, 219, 107);
+    background-color: #63a84e;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1010,10 +1015,11 @@
 .removeall{
     cursor: pointer;
     margin: 20px;
+    padding: 0 20px;
     border-radius: 10px;
-    width: 150px;
+    width: max-content;
     height: 45px;
-    background-color: #a54242;
+    background-color: #a73f3f;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1150,4 +1156,7 @@
 }
 .toast_item.error .toast_item_head{
     border-color: #c0392b;
+}
+.ui-selectable-helper{
+    border: 2px solid #2ecc71;
 }

@@ -228,6 +228,7 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 function admin_style() {
 	wp_enqueue_style('admin-styles-fontsAwesome', get_template_directory_uri().'/libs/fontawesome/font-awesome.min.css');
 	wp_enqueue_style('admin-styles-air-datepicker', get_template_directory_uri().'/libs/air-datepicker/air-datepicker.css');
+	wp_enqueue_style('admin-styles-jquery-ui', get_template_directory_uri().'/libs/jquery/jquery-ui.min.css');
 	wp_enqueue_style('admin-styles', get_template_directory_uri().'/admin.css');
 }
 add_action('admin_enqueue_scripts', 'admin_style');
@@ -236,6 +237,7 @@ function admin_js() {
   global $post;
 	if ($post) {
     wp_enqueue_script( 'admin-script-jquery-script', get_template_directory_uri() . '/libs/jquery/jquery.min.js');
+    wp_enqueue_script( 'admin-script-jquery-ui-script', get_template_directory_uri() . '/libs/jquery/jquery-ui.min.js');
     wp_enqueue_script( 'admin-script-air-datepicker', get_template_directory_uri() . '/libs/air-datepicker/air-datepicker.js');
     wp_enqueue_script( 'admin-script', get_template_directory_uri() . '/js/admin.js' );
   }
