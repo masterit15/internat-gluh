@@ -10,6 +10,7 @@
 ?>
 <div class="content" id="post-<?php the_ID(); ?>">
 	<?php the_title( '<h2 class="page_title title">', '</h2>' ); ?>
+    <?php if( function_exists('kama_breadcrumbs') ) kama_breadcrumbs(); ?>
 <?php 
 $current_page = !empty($_GET['paged']) ? $_GET['paged'] : 1;
 $reviews = new WP_Query(
