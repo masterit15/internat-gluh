@@ -215,6 +215,7 @@ require get_template_directory() . '/inc/form.php';
 require get_template_directory() . '/inc/application.php';
 require get_template_directory() . '/inc/gallery.php';
 require get_template_directory() . '/inc/specialists.php';
+require get_template_directory() . '/inc/breadcrumbs.php';
 require get_template_directory() . '/inc/documents_filter.php';
 require get_template_directory() . '/inc/documents_filter_admin.php';
 

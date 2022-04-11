@@ -13,6 +13,7 @@
   <div class="content_wrap" id="post-<?php the_ID(); ?>">
     <main id="main" class="content">
       <?php the_title('<h2 class="page_title title">', '</h2>'); ?>
+      <?php if( function_exists('kama_breadcrumbs') ) kama_breadcrumbs(); ?>
       <form id="filter" data-url="<?php echo site_url() ?>/wp-admin/admin-ajax.php?action=docfilters">
         <div class="fields_group">
           <input type="text" name="name" id="f_name">

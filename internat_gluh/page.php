@@ -19,7 +19,7 @@ get_header();
 	<?get_sidebar();?>
 
 	<main id="main" class="site-main">
-
+	
 		<?php
 		while ( have_posts() ) :
 			the_post();
