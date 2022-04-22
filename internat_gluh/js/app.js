@@ -477,6 +477,10 @@ window.onload = () => {
                 let result = JSON.parse(res)
                 console.log(result);
                 $('.application_wrap').html(result.message)
+                $('.message.success a').on('click', function(){
+                    console.log($(this));
+                    document.location.reload();
+                })
                 $('.loader').fadeOut(100)
             },
             error: function (err) {
