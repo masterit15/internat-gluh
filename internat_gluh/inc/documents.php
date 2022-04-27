@@ -89,7 +89,6 @@ function formatBytes($bytes, $precision = 2)
 function getFileArr($fileid)
 {
 	$fileArr = pathinfo(wp_get_attachment_url($fileid));
-
 	$file['path'] = $fileArr["dirname"] . '/' . $fileArr["basename"];
 	$file['size'] = formatBytes(filesize(get_attached_file($fileid)));
 	$file['original_name'] = get_the_title($fileid);
@@ -144,7 +143,6 @@ function documents()
 ?>
 	<div class="documents">
 		<?
-		// PR($custom['documents'][0]);
 		if ($custom['documents'][0]) { ?>
 			<ul id="post_document_list" class="document_list">
 				<? if (str_contains($custom['documents'][0], ',')) {
@@ -198,7 +196,7 @@ function documents()
 							<div class="document_list_item_wrap">
 							<span class="img-wrap file_icon"></span>
 							<span class="file_name"></span>
-							<span class="file_size">476.05KB</span>
+							<span class="file_size">0KB</span>
 							</div>
 							<div class="file_action">
 							<span class="file_edit"><i class="fa fa-pencil"></i></span>

@@ -1,38 +1,96 @@
 
 $(function () {
-    $('.delete_video').one('click', function () {
+    $('.delete_video').on('click', function () {
         let vId = $(this).data('video-id')
-        let videos = $('input[name="videos"]').val() != '' ? $('input[name="videos"]').val().split(',') : []
-        videos = videos.filter(vd => vd != vId)
-        $('input[name="videos"]').val(videos.join(','))
-        $(`.video[data-video-id="${vId}"]`).remove()
+        if($(this).hasClass('youtube')){
+            let video_youtube = $('input[name="video_youtube"]').val() != '' ? $('input[name="video_youtube"]').val().split(',') : []
+            video_youtube = video_youtube.filter(vd => vd != vId)
+            $('input[name="video_youtube"]').val(video_youtube.join(','))
+            $(`.video[data-video-id="${vId}"]`).remove()
+        }else{
+            let video_rutube = $('input[name="video_rutube"]').val() != '' ? $('input[name="video_rutube"]').val().split(',') : []
+            video_rutube = video_rutube.filter(vd => vd != vId)
+            $('input[name="video_rutube"]').val(video_rutube.join(','))
+            $(`.video[data-video-id="${vId}"]`).remove()
+        }
     })
     $('.video_input input').on('change', function () {
         let that = $(this)
         let value = $(this).val()
-        let coint = $(this).parent('.fields').children().length
-        // <iframe src="https://www.youtube.com/embed/${value}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        if (value.length > 0) {
+        if (value.length > 0 && value.length < 25) {
             $('.add_video').addClass('enable')
             $('.add_video.enable').one('click', function () {
-                let videos = $('input[name="videos"]').val() != '' ? $('input[name="videos"]').val().split(',') : []
-                videos.push(value)
-                console.log(videos.join(','));
-                $('input[name="videos"]').val(videos.join(','))
-                $('.two_colimn').append(`<div class="video">
-                <div class="video_input">
-                <input type="text" value="${value}" name="video-${coint++}"/>
-                </div>
-                <div class="video_frame">
-                <img src="https://img.youtube.com/vi/${value}/0.jpg"/>
-                </div><span class="delete_video" data-videoId="${value}">Удалить</span></div>`)
+                let video_youtube = $('input[name="video_youtube"]').val() != '' ? $('input[name="video_youtube"]').val().split(',') : []
+                video_youtube.push(value)
+                $('input[name="video_youtube"]').val(video_youtube.join(','))
+                $.post($(this).data('url'), { vid: value }, function(data) {  
+                    let res = JSON.parse(data)
+                    if(res.success){
+                        let html = `<div class="video" data-video-id="${value}">
+                                        <div class="video_frame">
+                                            <img src="${res.preview}"/>
+                                        </div>
+                                        <p class="video_title">${res.title}</p>
+                                        <span class="delete_video youtube" data-video-id="${value}"><i class="fa fa-times"></i></span>
+                                    </div>`
+                        $('.two_colimn').append(html) 
+                        $('.delete_video').one('click', function () {
+                            let vId = $(this).data('video-id')
+                            if($(this).hasClass('youtube')){
+                                let video_youtube = $('input[name="video_youtube"]').val() != '' ? $('input[name="video_youtube"]').val().split(',') : []
+                                video_youtube = video_youtube.filter(vd => vd != vId)
+                                $('input[name="video_youtube"]').val(video_youtube.join(','))
+                                $(`.video[data-video-id="${vId}"]`).remove()
+                            }else{
+                                let video_rutube = $('input[name="video_rutube"]').val() != '' ? $('input[name="video_rutube"]').val().split(',') : []
+                                video_rutube = video_rutube.filter(vd => vd != vId)
+                                $('input[name="video_rutube"]').val(video_rutube.join(','))
+                                $(`.video[data-video-id="${vId}"]`).remove()
+                            }
+                        }) 
+                    }
+                });
+            })
+        }else if (value.length > 0 && value.length > 25){
+            $('.add_video').addClass('enable')
+            $('.add_video.enable').one('click', function () {
+                let video_rutube = $('input[name="video_rutube"]').val() != '' ? $('input[name="video_rutube"]').val().split(',') : []
+                video_rutube.push(value)
+                $('input[name="video_rutube"]').val(video_rutube.join(','))
+                $.post($(this).data('url'), { vid: value }, function(data) {  
+                    let res = JSON.parse(data)
+                    if(res.success){
+                        let html = `<div class="video" data-video-id="${value}">
+                                        <div class="video_frame">
+                                            <img src="${res.preview}"/>
+                                        </div>
+                                        <p class="video_title">${res.title}</p>
+                                        <span class="delete_video rutube" data-video-id="${value}"><i class="fa fa-times"></i></span>
+                                    </div>`
+                        $('.two_colimn').append(html) 
+                        $('.delete_video').one('click', function () {
+                            let vId = $(this).data('video-id')
+                            if($(this).hasClass('youtube')){
+                                let video_youtube = $('input[name="video_youtube"]').val() != '' ? $('input[name="video_youtube"]').val().split(',') : []
+                                video_youtube = video_youtube.filter(vd => vd != vId)
+                                $('input[name="video_youtube"]').val(video_youtube.join(','))
+                                $(`.video[data-video-id="${vId}"]`).remove()
+                            }else{
+                                let video_rutube = $('input[name="video_rutube"]').val() != '' ? $('input[name="video_rutube"]').val().split(',') : []
+                                video_rutube = video_rutube.filter(vd => vd != vId)
+                                $('input[name="video_rutube"]').val(video_rutube.join(','))
+                                $(`.video[data-video-id="${vId}"]`).remove()
+                            }
+                        }) 
+                    }
+                });
                 $(that).val('')
                 $('.add_video').removeClass('enable')
             })
         } else {
             $('.add_video').removeClass('enable')
         }
-
+        
     })
     Array.prototype.unique = function () {
         var a = [];
@@ -219,7 +277,8 @@ $(function () {
                         itemPreview.find('.img-wrap').append(`<i class="fa ${icon}"></i>`);
                         imagesList.append(itemPreview);
                     }
-                    itemPreview.find('.file_name').append(`<input type="text" value="${file.name.split('.').shift().toLowerCase()}" name="doc_name_${imagesList.children().length}" disabled/>`)
+                    itemPreview.find('.file_size').text(formatBytes(file.size))
+                    itemPreview.find('.file_name').append(`<input type="text" value="${file.name.split('.').shift()}" name="doc_name_${imagesList.children().length}" disabled/>`)
                     $('.file_edit').on('click', function () {
                         $(input).prop('disabled', false)
                     })
@@ -263,6 +322,24 @@ $(function () {
             return queue
         }
         uploaderImg('.add_photo-item', '#js-photo-upload', '#uploadImagesList', false, false, 9999, 10000);
+        function formatBytes(bytes)
+            {
+                if (bytes >= 1073741824) {
+                    bytes = new Intl.NumberFormat('ru-RU').format(bytes / 1073741824)+'GB';
+                } else if (bytes >= 1048576) {
+                    bytes = new Intl.NumberFormat('ru-RU').format(bytes / 1048576)+'MB';
+                } else if (bytes >= 1024) {
+                    bytes = new Intl.NumberFormat('ru-RU').format(bytes / 1024)+'KB';
+                } else if (bytes > 1) {
+                    bytes = bytes +'байты';
+                } else if (bytes == 1) {
+                    bytes = bytes +'байт';
+                } else {
+                    bytes = '0байтов';
+                }
+
+                return bytes;
+            }
         $('.btn').on('click', function () {
             var formData = new FormData()
             $.each(uploader.files, function (key, input) {

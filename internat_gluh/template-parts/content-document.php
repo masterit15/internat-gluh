@@ -56,7 +56,6 @@
           $query->the_post();
           $custom = get_post_custom($post->ID);
           $filesId = explode(',', $custom['documents'][0]);
-          if (count($filesId) > 1) {
       ?>
             <div class="folder">
               <div class="folder-summary js_toggle-folder">
@@ -90,7 +89,7 @@
                       <div class="folder-item__icon"><?= $file['icon']; ?></div>
                       <div class="folder-item__details">
                         <div class="folder-item__details__name">
-                          <?= $file['desc'] ? $file['desc'] : $file['name']; ?>
+                          <?= $file['desc'] ? $file['desc'] : $file['original_name']; ?>
                         </div>
                       </div>
                       <div class="folder-item__size"><?= $file['size']; ?></div>
@@ -112,26 +111,7 @@
                 <? } ?>
               </ul>
             </div>
-          <? } else {
-            $file = getFileArr($filesId[0]);
-          ?>
-            <div class="doc_item item" title='<?= the_title() ?>' data-id="<?= $file['id']; ?>">
-              <a href="<?= $file['path'] ?>" <? if ($file['type'] != 'pdf') { ?>download<? } ?>>
-                <span class="doc_icon">
-                  <?= $file['icon'] ?>
-                </span>
-                <div class="doc_detail">
-                  <div class="doc_title">
-                    <?= $file['name']; ?>
-                  </div>
-                  <span class="doc_date">
-                    <? the_date() ?>
-                  </span>
-                </div>
-                <span class="doc_size"><?= $file['size'] ?></span>
-              </a>
-            </div>
-      <? } // if(count($filesId) > 1)
+      <?
         }
       }
       ?>

@@ -65,35 +65,58 @@ function gallery_field_video()
 {
 	global $post;
 	$custom = get_post_custom($post->ID);
-	$video  = array_key_exists('gallery', $custom) ? $custom["gallery"][0] : '';
+	$videoYoutube  = array_key_exists('video_youtube', $custom) ? $custom["video_youtube"][0] : '';
+	$videoRutube  = array_key_exists('video_rutube', $custom) ? $custom["video_rutube"][0] : '';
 ?>
 	<div class="field_wrap">
 		<div class="one_colimn">
-			<div class="fields">
+			<div class="video_fields">
 				<div class="video_input">
-					<input id="video-0" placeholder="Ссылка видео c youtube" type="text" name="video" />
+					<input id="video-0" placeholder="Ссылка видео c youtube, rutube" type="text" name="video" />
 				</div>
-				<span class="add_video">Добавить</span>
+				<span class="add_video" data-url="<?php echo site_url() ?>/wp-admin/admin-ajax.php?action=getVideoPreview">Добавить</span>
 			</div>
-			<input type="hidden" name="videos" <? if ($video != '') { ?>value="<?= $video ?>" <? } ?> />
+			<input type="hidden" name="video_youtube" <? if ($videoYoutube != '') { ?>value="<?= $videoYoutube ?>" <? } ?> />
+			<input type="hidden" name="video_rutube" <? if ($videoRutube != '') { ?>value="<?= $videoRutube ?>" <? } ?> />
 		</div>
 		<div class="two_colimn">
 			<?
-			$videoArr = explode(',', $video);
+			$videoArr = explode(',', $videoYoutube);
 			if (count($videoArr) > 0) {
 				foreach ($videoArr as $key => $vd) {
+					if($vd){
+				$json = file_get_contents('https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v='.$vd.'&format=json');
+				$videoInfo = json_decode($json, true);
 			?>
-					<? if ($video != '') { ?>
+					<? if ($videoYoutube != '') { ?>
 						<div class="video" data-video-id="<?= $vd ?>">
-							<div class="video_input">
-								<input type="text" value="<?= $vd ?>" name="video-<?= $key ?>" />
-							</div>
-							<div class="video_frame">
-								<img src="https://img.youtube.com/vi/<?= $vd ?>/0.jpg" />
-							</div>
-							<span class="delete_video" data-video-id="<?= $vd ?>">Удалить</span>
+								<div class="video_frame">
+										<img src="<?=$videoInfo['thumbnail_url']?>"/>
+								</div>
+								<p class="video_title"><?=$videoInfo['title']?></p>
+								<span class="delete_video youtube" data-video-id="<?= $vd ?>"><i class="fa fa-times"></i></span>
 						</div>
 			<? }
+			}
+				}
+			} ?>
+			<?
+			$videoArr = explode(',', $videoRutube);
+			if (count($videoArr) > 0) {
+				foreach ($videoArr as $key => $vd) {
+					if($vd){
+				$url = file_get_contents('http://rutube.ru/api/video/'.$vd.'?format=json');
+				$videoInfo = json_decode($url, true);
+			?>
+					<? if ($videoRutube != '') { ?>
+						<div class="video" data-video-id="<?= $vd ?>">
+							<div class="video_frame">
+								<img src="<?=$videoInfo['thumbnail_url']?>"/>
+							</div>
+							<p class="video_title"><?=$videoInfo['title']?></p>
+							<span class="delete_video ruutube" data-video-id="<?= $vd ?>"><i class="fa fa-times"></i></span>
+						</div>
+			<? }}
 				}
 			} ?>
 		</div>
@@ -108,7 +131,8 @@ function save_gallery_field()
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 			return $post->ID;
 		}
-		update_post_meta($post->ID, "gallery", $_POST["videos"]);
+		update_post_meta($post->ID, "video_youtube", $_POST["video_youtube"]);
+		update_post_meta($post->ID, "video_rutube", $_POST["video_rutube"]);
 	}
 }
 
@@ -138,7 +162,8 @@ function single_gallery($p, $count = 1000000000000000000){
 	$array = explode(",", $ids[1]);
 	$i = 0;
 	$custom = get_post_custom($p->ID);
-	$video    = explode(',', $custom["gallery"][0]);
+	$videoYoutube    = explode(',', $custom["video_youtube"][0]);
+	$videoRutube    = explode(',', $custom["video_rutube"][0]);
 	$elArr = array();
 	foreach ($array as $key => $id) {
 		$i++;
@@ -149,11 +174,26 @@ function single_gallery($p, $count = 1000000000000000000){
 			}
 		}
 	}
-	foreach ($video as $key => $vd) {
+	foreach ($videoYoutube as $key => $vd) {
 		$i++;
 		if ($vd != '') {
+			$json = file_get_contents('https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v='.$vd.'&format=json');
+			$videoInfo = json_decode($json, true);
 			if ($count >= $i) {
-				echo '<div class="gallery_item"><a title="' . $p->post_title . '" class="popup-youtube" href="http://www.youtube.com/watch?v=' . $vd . '"><div class="gallery_item_media videobg" style="background-image: url(https://img.youtube.com/vi/' . $vd . '/0.jpg)"></div><i class="fa fa-play-circle"></i></a></div>';
+				echo '<div class="gallery_item"><a title="' . $videoInfo['title'] . '" class="popup-video" href="http://www.youtube.com/watch?v=' . $vd . '">
+				<div class="gallery_item_media videobg" style="background-image: url('.$videoInfo['thumbnail_url'].')"></div><i class="fa fa-play-circle"></i></a></div>';
+			}
+		}
+	}
+	$videoInfo = array();
+	foreach ($videoRutube as $key => $vd) {
+		$i++;
+		if ($vd != '') {
+			$url = file_get_contents('http://rutube.ru/api/video/'.$vd.'?format=json');
+			$videoInfo = json_decode($url, true);
+			if ($count >= $i) {
+				echo '<div class="gallery_item"><a title="' . $videoInfo['title'] . '" class="popup-video" href="https://rutube.ru/pl/?pl_id&pl_type&pl_video=' . $vd . '">
+				<div class="gallery_item_media videobg" style="background-image: url('.$videoInfo['thumbnail_url'].')"></div><i class="fa fa-play-circle"></i></a></div>';
 			}
 		}
 	}

@@ -78,18 +78,23 @@
 		</li>
 		<?}?>
 		<?if(get_theme_mod('soc_inst')){?>
-		<li>
+		<!-- <li>
 			<a href="<?= get_theme_mod('soc_inst') ?>" target="_black"><img src="<?=TURI?>/images/dist/im.svg" alt=""></a>
-		</li>
+		</li> -->
 		<?}?>
 		<?if(get_theme_mod('soc_fac')){?>
-		<li>
+		<!-- <li>
 			<a href="<?= get_theme_mod('soc_fac') ?>" target="_black"><img src="<?=TURI?>/images/dist/fb.svg" alt=""></a>
-		</li>
+		</li> -->
 		<?}?>
 		<?if(get_theme_mod('soc_ok')){?>
 		<li>
 			<a href="<?= get_theme_mod('soc_ok') ?>" target="_black"><img src="<?=TURI?>/images/dist/ok.svg" alt=""></a>
+		</li>
+		<?}?>
+		<?if(get_theme_mod('soc_tg')){?>
+		<li>
+			<a href="<?= get_theme_mod('soc_tg') ?>" target="_black"><img src="<?=TURI?>/images/dist/tg.svg" alt=""></a>
 		</li>
 		<?}?>
 	</ul>

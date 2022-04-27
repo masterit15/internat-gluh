@@ -725,6 +725,7 @@ textarea {
 .posts-navigation .nav-links,
 .post-navigation .nav-links {
 	display: flex;
+	margin: 20px 0;
 }
 
 .comment-navigation .nav-previous,

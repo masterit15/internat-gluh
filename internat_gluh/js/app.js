@@ -31,8 +31,8 @@ window.onload = () => {
         $(".js_toggle-folder").not(this).each(function () {
             $(this).parent().removeClass("active");
             $(this).removeClass("active");
-            $(this).find('.fa-folder').css({ 'opacity': 0 })
-            $(this).find('.fa-folder-open').css({ 'opacity': 1 })
+            $(this).find('.fa-folder-open').css({ 'opacity': 0 })
+            $(this).find('.fa-folder').css({ 'opacity': 1 })
             top = $(this).innerHeight()
         });
         $(this).parent().toggleClass("active");
@@ -102,7 +102,7 @@ window.onload = () => {
         },
         callbacks: {
             elementParse: function (item) {
-                if ($(item.el).hasClass('popup-youtube')) {
+                if ($(item.el).hasClass('popup-video')) {
                     item.type = 'iframe';
                 } else {
                     item.type = 'image';

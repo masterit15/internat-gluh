@@ -797,17 +797,36 @@
 .fields .video {
     margin-bottom: 15px;
 }
-
-.video {
+.video_fields{
     display: flex;
     justify-content: flex-start;
+    gap: 30px;
+}
+.video {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
+    width: 100%;
 }
-
+.video_input{
+    width: 320px;
+}
+.video_input input{
+    width: 100%;
+}
+.video_title{
+    width: 100%;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    max-width: 75%; 
+    height: 1.2em; 
+    white-space: nowrap;
+}
 .video_frame {
     position: relative;
-    width: 80px;
+    width: 130px;
     height: 80px;
     display: flex;
     justify-content: center;
@@ -821,7 +840,6 @@
 }
 
 .add_video {
-    margin-top: 20px;
     width: 80px;
     height: 32px;
     background-color: #eee;
@@ -839,14 +857,15 @@
 
 .delete_video {
     cursor: pointer;
-    width: 80px;
-    height: 32px;
-    background-color: #f3757a;
+    width: 30px;
+    height: 30px;
     display: flex;
-    color: #fff;
     justify-content: center;
     align-items: center;
+    border: 2px solid #e74c3c;
+    color: #e74c3c;
     border-radius: 5px;
+    text-decoration: none;
 }
 
 #filter {
