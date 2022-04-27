@@ -214,6 +214,7 @@ require get_template_directory() . '/inc/slider.php';
 require get_template_directory() . '/inc/form.php';
 require get_template_directory() . '/inc/videoPrewiew.php';
 require get_template_directory() . '/inc/application.php';
+require get_template_directory() . '/inc/distance_education.php';
 require get_template_directory() . '/inc/gallery.php';
 require get_template_directory() . '/inc/specialists.php';
 require get_template_directory() . '/inc/breadcrumbs.php';

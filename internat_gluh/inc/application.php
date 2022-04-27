@@ -310,7 +310,7 @@ function applicationHandler(){
             $res['success'] = true;
             $res['message'] = '<div class="message success">
 																	<i class="fa fa-check-circle-o"></i>
-                                  <h3 class="label">Ваша заявка принята. Мы свяжемся с Вами в ближайшее время</h3>
+                                  <h3 class="label">Ваша заявка принята.</h3>
                                   <a href="#!">Закрыть</a>
                               </div>';
             $res['chaptcha'] = $is_valid;
@@ -342,7 +342,7 @@ die();
 // функция отправки оповещения на Е-почту
 function sendEmail($feed, $post){
 	$postHref = site_url ().'/wp-admin/post.php?post='.$post->ID.'&action=edit';
-	$to = $feed['specialistEmail'] != '' ? $feed['specialistEmail'].',internat123@mon.alania.gov.ru' : 'internat123@mon.alania.gov.ru'; //обратите внимание на запятую
+	$to = $feed['specialistEmail'] != '' ? $feed['specialistEmail'].',kroc-proekt@yandex.ru' : 'kroc-proekt@yandex.ru'; //обратите внимание на запятую
 	$subject = "Сообщение из формы сайта";
 	$headers= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-type: text/html; charset=iso-8859-1\r\n";

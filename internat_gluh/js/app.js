@@ -440,6 +440,7 @@ window.onload = () => {
       });
     $('.application').on('submit', function(e){
         e.preventDefault()
+        let captcha = $(e.target).find('#captcha').val()
         let specialist = $(e.target).find('#specialists').val()
         let specialistsCat = $(e.target).find('#specialists_cat').val()
         let specialistsServiceType = $(e.target).find('#service_type').val()
@@ -462,6 +463,50 @@ window.onload = () => {
             userText,
             userEmail,
             userPhone,
+            captcha
+        }
+        $.ajax({
+            type: "POST",
+            url: $(this).attr('action'),
+            data: data,
+            beforeSend: function () {
+                $('.loader').show()
+            },
+            complete: function () {
+                // NProgress.done();
+            },
+            success: function (res) {
+                let result = JSON.parse(res)
+                console.log(result);
+                $('.application_wrap').html(result.message)
+                $('.message.success a').on('click', function(){
+                    console.log($(this));
+                    document.location.reload();
+                })
+                $('.loader').fadeOut(100)
+            },
+            error: function (err) {
+                // mainToast(5000, "error", 'Ошибка загрузки!', err)
+                console.error(err);
+            }
+        });
+    
+    })
+    $('.distance_education').on('submit', function(e){
+        e.preventDefault()
+        let captcha = $(e.target).find('#captcha').val()
+        let userFio = $(e.target).find('#fio').val()
+        let userClass = $(e.target).find('#class').val()
+        let userText = $(e.target).find('#text').val()
+        let userEmail = $(e.target).find('#email').val()
+        let userPhone = $(e.target).find('#phone').val()
+        let data = {
+            userFio,
+            userClass,
+            userText,
+            userEmail,
+            userPhone,
+            captcha
         }
         $.ajax({
             type: "POST",
