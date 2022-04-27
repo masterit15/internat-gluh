@@ -254,7 +254,7 @@ function applicationHandler(){
                       '<strong>E-почта:</strong> ' . $feed['userEmail'] . '<br>'.
                       '<strong>Текст:</strong> ' . $feed['userText'] . '<br>';
 
-      if($feed['userFio'] and $feed['userEmail'] and $feed['userPhone']) {
+      if($feed['userFio'] and $feed['userAge']) {
 				$args = array(
 					'post_type' => 'application'
 				);
@@ -311,7 +311,7 @@ function applicationHandler(){
             $res['message'] = '<div class="message success">
 																	<i class="fa fa-check-circle-o"></i>
                                   <h3 class="label">Ваша заявка принята. Мы свяжемся с Вами в ближайшее время</h3>
-                                  <a href="/">Закрыть</a>
+                                  <a href="#!">Закрыть</a>
                               </div>';
             $res['chaptcha'] = $is_valid;
             // $res['sendEmail'] = sendEmail($feed, $post);
@@ -320,7 +320,7 @@ function applicationHandler(){
             $res['message'] = '<div class="message success">
 																	<i class="fa fa-exclamation-triangle"></i>
                                   <h3 class="label">Возникла ошибка, сообщение не доставлено! Попробуйте отправить еще раз.</h3>
-                                  <a href="/">Закрыть</a>
+                                  <a href="#!">Закрыть</a>
                               </div>';
             $res['chaptcha'] = $is_valid;
           }
@@ -329,7 +329,7 @@ function applicationHandler(){
       $res['message'] = '<div class="message success">
 														<i class="fa fa-exclamation"></i>
                             <h3 class="label">Извините, но Вы не прошли каптчу.</h3>
-                            <a href="/">Закрыть</a>
+                            <a href="#!">Закрыть</a>
                         </div>';
       $res['chaptcha'] = $is_valid;
     }
